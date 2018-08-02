@@ -9,7 +9,7 @@ class Database {
     public function connect() {
         extract($this->db_config);
         try {
-            $this->conn = new PDO($db.":host=".$host.";dbname=".$dbname.";port=".$port.";charset=".$charset, $username, $password);
+            $this->conn = new PDO($db.":host=".$host.";dbname=".$dbname.";port=".$port, $username, $password);
             return $this->conn;
         } catch (PDOException $e) {
             exit("connected error:".$e->getMessage()); 

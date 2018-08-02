@@ -3,4 +3,19 @@ $secondary-color: rgb(241, 246, 255);
 
 @mixin transp{
     background-color: rgba($color: $secondary-color, $alpha: .4);
+    width: 85%;
+    padding: 1.7rem;
+}
+
+@mixin fieldUnderline{
+    border-top-style: none;
+    border-left-style: none;
+    border-right-style: none;
+    background-color: transparent;
+    border-bottom: 3px solid yellow;
+    width: 100%;
+    margin-bottom: 1.7rem;
+    padding: 1rem 0;
+    color:white;
+    font-size: 1.7rem;
 }

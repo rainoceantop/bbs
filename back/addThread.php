@@ -1,6 +1,5 @@
 <?php
 require 'database/database.php';
-
 $thread = array();
 $thread['title'] = $_POST['thread_title'];
 $thread['body'] = $_POST['thread_body'];

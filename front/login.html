@@ -24,12 +24,11 @@
         </ul>
     </header>
     <main>
-        <section class="create-content">
-            <form action="../back/addThread.php" method="POST">
-                <input class="title-field" type="text" name="thread_title">
-                <textarea class="body-field" name="thread_body"></textarea>
-                <input type="hidden" value="admin" name="thread_head">
-                <input class="submit-button" type="submit">
+        <section class="login-content">
+            <form action="../back/loginHandler.php" method="POST">
+                <input class="login-username" type="text" name="username">
+                <input class="login-password" type="password" name="password">
+                <button class="login-button" type="button">登录</button>
             </form>
         </section>
     </main>
@@ -42,5 +41,7 @@
         </div>
     </footer>
 </body>
+<script src="js/axios.min.js"></script>
+<script src="js/login.js"></script>
 
 </html>

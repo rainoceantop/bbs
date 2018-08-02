@@ -18,7 +18,7 @@ header{
         display: inline;
         color: $secondary-color;
         font-weight: bold;
-        padding: 15px 20px;
+        padding: 1rem 1.2rem;
         &:hover{
             cursor: pointer;
             color: yellow;
@@ -32,21 +32,19 @@ header{
 
 // body style
 main{
-    min-height: calc(100vh - 3.5rem - 50px);
-    padding: 15px 30px;
+    min-height: calc(100vh - 8rem);
+    padding: 1rem 2rem;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     .content{
         @include transp;
-        width: 85%;
-        padding: 15px;
         .thread{
-            padding: 5px;
-            height: 80px;
-            max-height: 80px;
-            margin: 15px;
+            padding: .3rem;
+            height: 5rem;
+            max-height: 5rem;
+            margin: 1rem;
             display: flex;
             flex-direction: row;
             justify-content: flex-start;
@@ -55,9 +53,9 @@ main{
                 background: lighten($color: rgba($secondary-color, .4), $amount: 2)
             }
             img{
-                width: 70px;
-                height: 70px;
-                border-radius: 40px;
+                width: 4.2rem;
+                height: 4.2rem;
+                border-radius: 2.5rem;
             }
             .info{
                 color: $primary-color;
@@ -66,7 +64,7 @@ main{
                 flex-direction: column;
                 align-items: flex-start;
                 justify-content: space-around;
-                margin-left: 15px;
+                margin-left: 1rem;
                 .thread-title{
                     text-decoration: none;
                     &:hover{
@@ -75,9 +73,9 @@ main{
                 }
                 .thread-footer{
                     color: $secondary-color;
-                    font-size: 13px;
+                    font-size: .9rem;
                     span{
-                        margin-right:10px; 
+                        margin-right: .7rem; 
                     }
                 }
             }
@@ -88,7 +86,7 @@ main{
 // footer style
 footer{
     background-color: $primary-color;
-    height: 50px;
+    height: 3rem;
     display: flex;
     flex-wrap: wrap;
     flex-direction: column;
@@ -101,15 +99,13 @@ footer{
 
 .post-content{
     @include transp;
-    width: 85%;
-    padding: 25px;
     .post-header{
         color: $primary-color;
-        margin-bottom: 25px;
+        margin-bottom: 1.6rem;
         .post-title{
-            font-size: 35px;
+            font-size: 2rem;
             font-weight: bold;
-            margin-bottom: 15px;
+            margin-bottom: 1rem;
         }
         .post-info{
             color: $secondary-color;
@@ -118,15 +114,15 @@ footer{
     }
     .post-body{
         border-top: 1px solid $primary-color;
-        padding: 15px 25px;
+        padding: 1rem 1.6rem;
         color: darken($color: $primary-color, $amount: 15);
-        font-size: 25px;
+        font-size: 1.7rem;
     }
     .post-footer{
         border-top: 1px solid $primary-color;
-        padding-top: 15px;
+        padding-top: 1rem;
         text-align: center;
-        font-size: 25px;
+        font-size: 1.7rem;
         display: flex;
         flex-direction: row;
         justify-content: space-between;
@@ -138,41 +134,37 @@ footer{
             }
         }
         img {
-            width: 50px;
-            height: 50px;
-            border-radius: 40px;
+            width: 3rem;
+            height: 3rem;
+            border-radius: 3rem;
         }
     }
 }
 
 .create-content{
     @include transp;
-    width: 85%;
-    padding: 25px;
     form{
-        padding: 15px;
+        padding: 1rem;
         .title-field, .body-field{
-            border-top-style: none;
-            border-left-style: none;
-            border-right-style: none;
-            background-color: transparent;
-            border-bottom: 3px solid yellow;
-            width: 100%;
-            margin-bottom: 25px;
-            padding: 15px 0;
-            color:white;
-            font-size: 25px;
+            @include fieldUnderline;
         }
         .body-field{
-            font-size: 18px;
-            min-height: 250px;
+            font-size: 1.1rem;
+            min-height: 18rem;
         }
         .submit-button{
             background-color: transparent;
-            padding: 15px;
-            font-size: 15px;
+            padding: 1rem;
+            font-size: 1rem;
             font-weight: bold;
             cursor: pointer;
         }
+    }
+}
+
+.login-content{
+    @include transp;
+    .login-username, .login-password{
+        @include fieldUnderline;
     }
 }
