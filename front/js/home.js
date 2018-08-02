@@ -9,7 +9,7 @@ axios.get('../back/getThread.php')
                 <img src="${response.data[i].avatar}" alt="">
             </div>
             <div class="info">
-                <a href="detail.html" class="thread-title">${response.data[i].thread_title}</a>
+                <a href="detail.html?id=${response.data[i].thread_id}&sc=sda" class="thread-title">${response.data[i].thread_title}</a>
                 <div class="thread-footer">
                     <span class="head-name">
                     ${response.data[i].thread_head}

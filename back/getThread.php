@@ -4,6 +4,12 @@ require 'database/database.php';
 $pdo = new Database();
 $conn = $pdo->connect();
 $sql = 'select * from threads';
+$single = isset($_GET['id']);
+
+if($single){
+    $sql = 'select * from threads where id ='.$_GET['id'];
+}
+
 $stmt = $conn->prepare($sql);
 $stmt->execute();
 
@@ -26,12 +32,18 @@ $resp = array();
 $data = array();
 
 while($row = $stmt->fetch()) {
+    $data['thread_id'] = $row['id'];
     $data['avatar'] = $user_avatar[array_rand($user_avatar)];
     $data['thread_title'] = $row['thread_title'];
     $data['thread_head'] = $row['thread_head'];
     $data['posted_time'] = $row['thread_created_at'];
-    $data['replied_user'] = $replied_user[array_rand($replied_user)];
-    $data['replied_time'] = '2018-07-05 15:12:04';
+    if($single){
+        $data['thread_body'] = $row['thread_body'];
+        $data['views'] = random_int(1, 200000);
+    } else {
+        $data['replied_user'] = $replied_user[array_rand($replied_user)];
+        $data['replied_time'] = '2018-07-05 15:12:04';
+    }
     array_push($resp, $data);
 }
 
