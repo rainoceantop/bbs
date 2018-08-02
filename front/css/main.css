@@ -1,0 +1,141 @@
+* {
+  margin: 0;
+  padding: 0; }
+
+body {
+  background: #444; }
+
+header {
+  background-color: #444;
+  width: 100%;
+  line-height: 3.5rem;
+  text-align: center; }
+  header .option {
+    list-style: none;
+    display: inline;
+    color: #f1f6ff;
+    font-weight: bold;
+    padding: 15px 20px; }
+    header .option:hover {
+      cursor: pointer;
+      color: yellow; }
+    header .option.active {
+      color: yellow; }
+
+main {
+  min-height: calc(100vh - 3.5rem - 50px);
+  padding: 15px 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center; }
+  main .content {
+    background-color: rgba(241, 246, 255, 0.4);
+    width: 85%;
+    padding: 15px; }
+    main .content .thread {
+      padding: 5px;
+      height: 80px;
+      max-height: 80px;
+      margin: 15px;
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-start;
+      flex-wrap: nowrap; }
+      main .content .thread:hover {
+        background: rgba(251, 253, 255, 0.4); }
+      main .content .thread img {
+        width: 70px;
+        height: 70px;
+        border-radius: 40px; }
+      main .content .thread .info {
+        color: #444;
+        font-weight: bold;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: space-around;
+        margin-left: 15px; }
+        main .content .thread .info .thread-title {
+          text-decoration: none; }
+          main .content .thread .info .thread-title:hover {
+            text-decoration: underline; }
+        main .content .thread .info .thread-footer {
+          color: #f1f6ff;
+          font-size: 13px; }
+          main .content .thread .info .thread-footer span {
+            margin-right: 10px; }
+
+footer {
+  background-color: #444;
+  height: 50px;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center; }
+  footer div {
+    color: #f1f6ff; }
+
+.post-content {
+  background-color: rgba(241, 246, 255, 0.4);
+  width: 85%;
+  padding: 25px; }
+  .post-content .post-header {
+    color: #444;
+    margin-bottom: 25px; }
+    .post-content .post-header .post-title {
+      font-size: 35px;
+      font-weight: bold;
+      margin-bottom: 15px; }
+    .post-content .post-header .post-info {
+      color: #f1f6ff; }
+  .post-content .post-body {
+    border-top: 1px solid #444;
+    padding: 15px 25px;
+    color: #1e1e1e;
+    font-size: 25px; }
+  .post-content .post-footer {
+    border-top: 1px solid #444;
+    padding-top: 15px;
+    text-align: center;
+    font-size: 25px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between; }
+    .post-content .post-footer .like {
+      align-self: center;
+      cursor: pointer; }
+      .post-content .post-footer .like:hover {
+        color: yellow; }
+    .post-content .post-footer img {
+      width: 50px;
+      height: 50px;
+      border-radius: 40px; }
+
+.create-content {
+  background-color: rgba(241, 246, 255, 0.4);
+  width: 85%;
+  padding: 25px; }
+  .create-content form {
+    padding: 15px; }
+    .create-content form .title-field, .create-content form .body-field {
+      border-top-style: none;
+      border-left-style: none;
+      border-right-style: none;
+      background-color: transparent;
+      border-bottom: 3px solid yellow;
+      width: 100%;
+      margin-bottom: 25px;
+      padding: 15px 0;
+      color: white;
+      font-size: 25px; }
+    .create-content form .body-field {
+      font-size: 18px;
+      min-height: 250px; }
+    .create-content form .submit-button {
+      background-color: transparent;
+      padding: 15px;
+      font-size: 15px;
+      font-weight: bold;
+      cursor: pointer; }
