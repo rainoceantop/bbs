@@ -21,6 +21,13 @@ header {
       color: yellow; }
     header .option.active {
       color: yellow; }
+    header .option a {
+      text-decoration: none;
+      color: #f1f6ff; }
+  header .user-in {
+    display: ''; }
+  header .user-out {
+    display: none; }
 
 main {
   min-height: calc(100vh - 8rem);
@@ -65,6 +72,101 @@ main {
           font-size: .9rem; }
           main .content .thread .info .thread-footer span {
             margin-right: .7rem; }
+  main .post-content {
+    background-color: rgba(241, 246, 255, 0.4);
+    width: 85%;
+    padding: 1.7rem; }
+    main .post-content .post-header {
+      color: #444;
+      margin-bottom: 1.6rem; }
+      main .post-content .post-header .post-title {
+        font-size: 2rem;
+        font-weight: bold;
+        margin-bottom: 1rem; }
+      main .post-content .post-header .post-info {
+        color: #f1f6ff; }
+    main .post-content .post-body {
+      border-top: 1px solid #444;
+      padding: 1rem 1.6rem;
+      color: #1e1e1e;
+      font-size: 1.7rem; }
+    main .post-content .post-footer {
+      border-top: 1px solid #444;
+      padding-top: 1rem;
+      text-align: center;
+      font-size: 1.7rem;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between; }
+      main .post-content .post-footer .like {
+        align-self: center;
+        cursor: pointer; }
+        main .post-content .post-footer .like:hover {
+          color: yellow; }
+      main .post-content .post-footer img {
+        width: 3rem;
+        height: 3rem;
+        border-radius: 3rem; }
+  main .create-content {
+    background-color: rgba(241, 246, 255, 0.4);
+    width: 85%;
+    padding: 1.7rem; }
+    main .create-content form {
+      padding: 1rem; }
+      main .create-content form .title-field, main .create-content form .body-field {
+        border-top-style: none;
+        border-left-style: none;
+        border-right-style: none;
+        background-color: transparent;
+        border-bottom: 3px solid yellow;
+        width: 100%;
+        margin-bottom: 1.7rem;
+        padding: 1rem 0;
+        color: white;
+        font-size: 1.7rem; }
+      main .create-content form .body-field {
+        font-size: 1.1rem;
+        min-height: 18rem;
+        resize: vertical; }
+      main .create-content form .submit-button {
+        background-color: transparent;
+        padding: 1rem;
+        font-size: 1rem;
+        font-weight: bold;
+        cursor: pointer; }
+    main .create-content .show-markdown-content-area {
+      color: #f1f6ff;
+      word-break: break-all;
+      word-wrap: break-word;
+      font-size: 1.1rem;
+      padding: 1rem; }
+    main .create-content .create-button {
+      text-decoration: none;
+      color: #f1f6ff;
+      font-size: 1.3rem;
+      background-color: #444;
+      padding: .5rem 1rem;
+      border-radius: 1rem; }
+      main .create-content .create-button:hover {
+        background-color: #5e5e5e; }
+      main .create-content .create-button:link, main .create-content .create-buttonvisited {
+        text-decoration: none;
+        outline: none; }
+  main .login-content {
+    background-color: rgba(241, 246, 255, 0.4);
+    width: 85%;
+    padding: 1.7rem; }
+    main .login-content .login-username, main .login-content .login-password {
+      border-top-style: none;
+      border-left-style: none;
+      border-right-style: none;
+      background-color: transparent;
+      border-bottom: 3px solid yellow;
+      width: 100%;
+      margin-bottom: 1.7rem;
+      padding: 1rem 0;
+      color: white;
+      font-size: 1.7rem; }
 
 footer {
   background-color: #444;
@@ -76,82 +178,3 @@ footer {
   justify-content: center; }
   footer div {
     color: #f1f6ff; }
-
-.post-content {
-  background-color: rgba(241, 246, 255, 0.4);
-  width: 85%;
-  padding: 1.7rem; }
-  .post-content .post-header {
-    color: #444;
-    margin-bottom: 1.6rem; }
-    .post-content .post-header .post-title {
-      font-size: 2rem;
-      font-weight: bold;
-      margin-bottom: 1rem; }
-    .post-content .post-header .post-info {
-      color: #f1f6ff; }
-  .post-content .post-body {
-    border-top: 1px solid #444;
-    padding: 1rem 1.6rem;
-    color: #1e1e1e;
-    font-size: 1.7rem; }
-  .post-content .post-footer {
-    border-top: 1px solid #444;
-    padding-top: 1rem;
-    text-align: center;
-    font-size: 1.7rem;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between; }
-    .post-content .post-footer .like {
-      align-self: center;
-      cursor: pointer; }
-      .post-content .post-footer .like:hover {
-        color: yellow; }
-    .post-content .post-footer img {
-      width: 3rem;
-      height: 3rem;
-      border-radius: 3rem; }
-
-.create-content {
-  background-color: rgba(241, 246, 255, 0.4);
-  width: 85%;
-  padding: 1.7rem; }
-  .create-content form {
-    padding: 1rem; }
-    .create-content form .title-field, .create-content form .body-field {
-      border-top-style: none;
-      border-left-style: none;
-      border-right-style: none;
-      background-color: transparent;
-      border-bottom: 3px solid yellow;
-      width: 100%;
-      margin-bottom: 1.7rem;
-      padding: 1rem 0;
-      color: white;
-      font-size: 1.7rem; }
-    .create-content form .body-field {
-      font-size: 1.1rem;
-      min-height: 18rem; }
-    .create-content form .submit-button {
-      background-color: transparent;
-      padding: 1rem;
-      font-size: 1rem;
-      font-weight: bold;
-      cursor: pointer; }
-
-.login-content {
-  background-color: rgba(241, 246, 255, 0.4);
-  width: 85%;
-  padding: 1.7rem; }
-  .login-content .login-username, .login-content .login-password {
-    border-top-style: none;
-    border-left-style: none;
-    border-right-style: none;
-    background-color: transparent;
-    border-bottom: 3px solid yellow;
-    width: 100%;
-    margin-bottom: 1.7rem;
-    padding: 1rem 0;
-    color: white;
-    font-size: 1.7rem; }

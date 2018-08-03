@@ -1,9 +1,13 @@
 <?php
 require 'database/database.php';
 $thread = array();
-$thread['title'] = $_POST['thread_title'];
-$thread['body'] = $_POST['thread_body'];
-$thread['head'] = $_POST['thread_head'];
+$data = file_get_contents('php://input');
+$data = json_decode($data, TRUE);
+
+
+$thread['title'] = $data['thread_title'];
+$thread['body'] = $data['thread_body'];
+$thread['head'] = $data['thread_head'];
 
 
 $pdo = new Database();
@@ -16,7 +20,7 @@ $stmt->bindParam(':body', $thread['body']);
 $stmt->bindParam(':head', $thread['head']);
 try {
     $stmt->execute();
-    header('location:../front/home.html');
+    echo $conn->lastInsertId();
 } catch(PDOException $e) {
     exit('insert error:'.$e->getMessage());
 }

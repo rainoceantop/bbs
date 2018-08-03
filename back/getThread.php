@@ -1,4 +1,5 @@
 <?php
+session_start();
 require 'database/database.php';
 
 $pdo = new Database();
@@ -30,23 +31,25 @@ $replied_user = array(
 
 $resp = array();
 $data = array();
+$info = array();
+$check = array('is_login' => FALSE);
 
 while($row = $stmt->fetch()) {
-    $data['thread_id'] = $row['id'];
-    $data['avatar'] = $user_avatar[array_rand($user_avatar)];
-    $data['thread_title'] = $row['thread_title'];
-    $data['thread_head'] = $row['thread_head'];
-    $data['posted_time'] = $row['thread_created_at'];
+    $info['thread_id'] = $row['id'];
+    $info['avatar'] = $user_avatar[array_rand($user_avatar)];
+    $info['thread_title'] = $row['thread_title'];
+    $info['thread_head'] = $row['thread_head'];
+    $info['posted_time'] = $row['thread_created_at'];
     if($single){
-        $data['thread_body'] = $row['thread_body'];
-        $data['views'] = random_int(1, 200000);
+        $info['thread_body'] = $row['thread_body'];
+        $info['views'] = random_int(1, 200000);
     } else {
-        $data['replied_user'] = $replied_user[array_rand($replied_user)];
-        $data['replied_time'] = '2018-07-05 15:12:04';
+        $info['replied_user'] = $replied_user[array_rand($replied_user)];
+        $info['replied_time'] = '2018-07-05 15:12:04';
     }
-    array_push($resp, $data);
+    array_push($data, $info);
 }
-
+array_push($resp, $data);
 $resp_data = json_encode($resp, JSON_UNESCAPED_UNICODE);
 
 echo $resp_data;

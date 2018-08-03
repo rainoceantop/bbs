@@ -14,13 +14,16 @@
 <body>
     <header>
         <ul class="nav">
-            <li class="option">Home</li>
-            <li class="option active">Publish</li>
-            <li class="option">Install</li>
-            <li class="option">Bug</li>
-            <li class="option">Plugin</li>
-            <li class="option">Template</li>
-            <li class="option">Web</li>
+            <li class="option active">
+                <a href="home.html">首页</a>
+            </li>
+            <li class="option">
+                <a href="create.html">创建</a>
+            </li>
+            <li class="option log-in">
+                <a href="login.html">登录</a>
+            </li>
+            <li class="option user user-out"></li>
         </ul>
     </header>
     <main>
@@ -28,9 +31,11 @@
             <form action="../back/addThread.php" method="POST">
                 <input class="title-field" type="text" name="thread_title">
                 <textarea class="body-field" name="thread_body"></textarea>
-                <input type="hidden" value="admin" name="thread_head">
-                <input class="submit-button" type="submit">
+                <input class="thread-head" type="hidden" value="admin" name="thread_head">
             </form>
+            <div class="show-markdown-content-area">
+            </div>
+            <a href="#!" class="create-button">登录</a>
         </section>
     </main>
     <footer>
@@ -42,5 +47,9 @@
         </div>
     </footer>
 </body>
+<script src="../node_modules/axios/dist/axios.min.js"></script>
+<script src="../node_modules/showdown/dist/showdown.min.js"></script>
+<script src="js/_common/header.js"></script>
+<script src="js/create.js"></script>
 
 </html>

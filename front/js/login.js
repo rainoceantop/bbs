@@ -1,14 +1,35 @@
+const header = document.querySelector('header')
+axios.get('_part/header.html')
+    .then(response => {
+        header.innerHTML = response.data
+    })
+    .catch(error => {
+        console.log(error)
+    })
 
-let loginBtn = document.querySelector('.login-button')
+
+
+
+const loginContent = document.querySelector('.login-content')
+const loginBtn = document.querySelector('.login-button')
 loginBtn.addEventListener('click', function () {
-    let username = document.querySelector('.login-username')
-    let password = document.querySelector('.login-password')
+    const username = document.querySelector('.login-username')
+    const password = document.querySelector('.login-password')
+
     axios.post('../back/loginHandler.php', {
-        username: 'helloworld',
-        password: '123456'
+        username: username.value,
+        password: password.value
     })
         .then(response => {
-            console.log(response.data)
+            if (response.data == 'SUCCESS') {
+                loginContent.innerHTML = '登录成功'
+                setTimeout(function () {
+                    window.location.href = 'home.html'
+                }, 200)
+            } else {
+                console.log('失败')
+            }
+            console.log(response)
         })
         .catch(error => {
             console.log(error)

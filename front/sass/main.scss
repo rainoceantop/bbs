@@ -8,11 +8,12 @@ body{
     background: $primary-color;
 }
 
-// navbar style
+// 导航栏样式
 header{
     background-color: $primary-color;
     width: 100%;
     line-height: 3.5rem;
+    text-align: center;
     .option{
         list-style: none;
         display: inline;
@@ -26,8 +27,17 @@ header{
         &.active{
             color:yellow;
         }
+        a{
+            text-decoration: none;
+            color: $secondary-color;
+        }
     }
-    text-align: center;
+    .user-in{
+        display: '';
+    }
+    .user-out{
+        display: none;
+    }
 }
 
 // body style
@@ -38,6 +48,7 @@ main{
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    // 首页样式
     .content{
         @include transp;
         .thread{
@@ -81,9 +92,105 @@ main{
             }
         }
     }
+    // 帖子内容样式
+    .post-content{
+        @include transp;
+        .post-header{
+            color: $primary-color;
+            margin-bottom: 1.6rem;
+            .post-title{
+                font-size: 2rem;
+                font-weight: bold;
+                margin-bottom: 1rem;
+            }
+            .post-info{
+                color: $secondary-color;
+            }
+            
+        }
+        .post-body{
+            border-top: 1px solid $primary-color;
+            padding: 1rem 1.6rem;
+            color: darken($color: $primary-color, $amount: 15);
+            font-size: 1.7rem;
+        }
+        .post-footer{
+            border-top: 1px solid $primary-color;
+            padding-top: 1rem;
+            text-align: center;
+            font-size: 1.7rem;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            .like{
+                align-self: center;
+                cursor: pointer;
+                &:hover{
+                    color: yellow;
+                }
+            }
+            img {
+                width: 3rem;
+                height: 3rem;
+                border-radius: 3rem;
+            }
+        }
+    }
+    // 帖子创建页样式
+    .create-content{
+        @include transp;
+        form{
+            padding: 1rem;
+            .title-field, .body-field{
+                @include fieldUnderline;
+            }
+            .body-field{
+                font-size: 1.1rem;
+                min-height: 18rem;
+                resize: vertical;
+            }
+            .submit-button{
+                background-color: transparent;
+                padding: 1rem;
+                font-size: 1rem;
+                font-weight: bold;
+                cursor: pointer;
+            }
+        }
+        .show-markdown-content-area{
+            color: $secondary-color;
+            word-break: break-all;
+            word-wrap: break-word;
+            font-size: 1.1rem;
+            padding: 1rem;
+        }
+        .create-button{
+            text-decoration: none;
+            color: $secondary-color;
+            font-size: 1.3rem;
+            background-color: $primary-color;
+            padding: .5rem 1rem;
+            border-radius: 1rem;
+            &:hover{
+                background-color: lighten($color: $primary-color, $amount: 10)
+            }
+            &:link,
+            &visited{
+                text-decoration: none;
+                outline: none;
+            }
+        }
+    }
+    // e登录页样式
+    .login-content{
+        @include transp;
+        .login-username, .login-password{
+            @include fieldUnderline;
+        }
+    }
 }
 
-// footer style
+// 页脚样式
 footer{
     background-color: $primary-color;
     height: 3rem;
@@ -97,74 +204,6 @@ footer{
     }
 }
 
-.post-content{
-    @include transp;
-    .post-header{
-        color: $primary-color;
-        margin-bottom: 1.6rem;
-        .post-title{
-            font-size: 2rem;
-            font-weight: bold;
-            margin-bottom: 1rem;
-        }
-        .post-info{
-            color: $secondary-color;
-        }
-        
-    }
-    .post-body{
-        border-top: 1px solid $primary-color;
-        padding: 1rem 1.6rem;
-        color: darken($color: $primary-color, $amount: 15);
-        font-size: 1.7rem;
-    }
-    .post-footer{
-        border-top: 1px solid $primary-color;
-        padding-top: 1rem;
-        text-align: center;
-        font-size: 1.7rem;
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        .like{
-            align-self: center;
-            cursor: pointer;
-            &:hover{
-                color: yellow;
-            }
-        }
-        img {
-            width: 3rem;
-            height: 3rem;
-            border-radius: 3rem;
-        }
-    }
-}
 
-.create-content{
-    @include transp;
-    form{
-        padding: 1rem;
-        .title-field, .body-field{
-            @include fieldUnderline;
-        }
-        .body-field{
-            font-size: 1.1rem;
-            min-height: 18rem;
-        }
-        .submit-button{
-            background-color: transparent;
-            padding: 1rem;
-            font-size: 1rem;
-            font-weight: bold;
-            cursor: pointer;
-        }
-    }
-}
 
-.login-content{
-    @include transp;
-    .login-username, .login-password{
-        @include fieldUnderline;
-    }
-}
+
