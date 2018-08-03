@@ -5,18 +5,19 @@ const headField = document.querySelector('.thread-head')
 const showContent = document.querySelector('.show-markdown-content-area')
 const createButton = document.querySelector('.create-button')
 
+let converter = new showdown.Converter()
 
 bodyField.addEventListener('input', function () {
-    let converter = new showdown.Converter(),
-        html = converter.makeHtml(this.value);
+    let html = converter.makeHtml(this.value)
     showContent.innerHTML = html
 })
 
 createButton.addEventListener('click', function (e) {
     e.preventDefault()
+    let html = converter.makeHtml(bodyField.value)
     let params = {
         thread_title: titleField.value,
-        thread_body: bodyField.value,
+        thread_body: html,
         thread_head: headField.value
     }
     axios.post('../back/addThread.php', params)
