@@ -1,7 +1,17 @@
+let uri = window.location.search
+let params = new URLSearchParams(uri)
 
-axios.get('../back/model/thread/getThread.php?for=getHomeThreads')
+//获取该板块的名称
+axios.get('../back/model/forum/getForum.php?for=getForumNameById&id=' + params.get('forum'))
     .then(response => {
-        console.log(response.data)
+        const location = document.querySelector('.location')
+        location.innerHTML = `<a href='home.html'>首页</a> / <span>${response.data[1]}</span>`
+    })
+
+
+//获取该板块的帖子
+axios.get('../back/model/thread/getThread.php?for=getForumThreads&id=' + params.get('forum'))
+    .then(response => {
         const content = document.querySelector('.content')
         for (let i in response.data[0]) {
             content.innerHTML +=
@@ -34,4 +44,6 @@ axios.get('../back/model/thread/getThread.php?for=getHomeThreads')
                 `
         }
     })
-    .catch(error => console.log(error))
+    .catch(error => {
+        console.log(error)
+    })

@@ -1,6 +1,6 @@
 <?php
 session_start();
-require 'database/database.php';
+require '../database/database.php';
 
 
 $pdo = new Database();

@@ -16,14 +16,14 @@ header {
     color: #f1f6ff;
     font-weight: bold;
     padding: 1rem 1.2rem; }
-    header .option:hover {
-      cursor: pointer;
-      color: yellow; }
-    header .option.active {
-      color: yellow; }
     header .option a {
       text-decoration: none;
       color: #f1f6ff; }
+      header .option a:hover {
+        cursor: pointer;
+        color: yellow; }
+      header .option a.active {
+        color: yellow; }
   header .user-in {
     display: ''; }
   header .user-out {
@@ -36,6 +36,11 @@ main {
   flex-direction: column;
   justify-content: center;
   align-items: center; }
+  main .location {
+    background-color: rgba(241, 246, 255, 0.4);
+    width: 85%;
+    padding: 1.7rem;
+    margin-bottom: 1rem; }
   main .content {
     background-color: rgba(241, 246, 255, 0.4);
     width: 85%;

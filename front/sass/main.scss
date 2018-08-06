@@ -20,16 +20,16 @@ header{
         color: $secondary-color;
         font-weight: bold;
         padding: 1rem 1.2rem;
-        &:hover{
-            cursor: pointer;
-            color: yellow;
-        }
-        &.active{
-            color:yellow;
-        }
         a{
             text-decoration: none;
             color: $secondary-color;
+            &:hover{
+                cursor: pointer;
+                color: yellow;
+            }
+            &.active{
+                color:yellow;
+            }
         }
     }
     .user-in{
@@ -48,6 +48,11 @@ main{
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    //位置样式
+    .location{
+        @include transp;
+        margin-bottom: 1rem;
+    }
     // 首页样式
     .content{
         @include transp;

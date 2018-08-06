@@ -1,13 +1,12 @@
-const header = document.querySelector('header')
-axios.get('_part/header.html')
+//判断是否已经登录，如果已经登录跳转至首页
+axios.get('../back/handler/loginHandler.php?log=2')
     .then(response => {
-        header.innerHTML = response.data
+        if (response.data.is_login)
+            window.location.href = 'home.html'
     })
     .catch(error => {
         console.log(error)
     })
-
-
 
 
 const loginContent = document.querySelector('.login-content')
@@ -16,7 +15,7 @@ loginBtn.addEventListener('click', function () {
     const username = document.querySelector('.login-username')
     const password = document.querySelector('.login-password')
 
-    axios.post('../back/loginHandler.php', {
+    axios.post('../back/handler/loginHandler.php', {
         username: username.value,
         password: password.value
     })
