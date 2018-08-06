@@ -1,6 +1,8 @@
 
 const titleField = document.querySelector('.title-field')
 const forumField = document.querySelector('#forum-options')
+const tagGroupField = document.querySelector('.tag-group-options')
+const tagField = document.querySelector('.tag-options')
 const bodyField = document.querySelector('.body-field')
 const headField = document.querySelector('.thread-head')
 const showContent = document.querySelector('.show-markdown-content-area')
@@ -18,13 +20,15 @@ axios.get('../back/model/forum/getForum.php?for=getForumName')
         console.log(error)
     })
 
+//监听板块改变，获取该板块下的标签组
+forumField.addEventListener('change', getTagGroups)
+//监听标签组变化，获取该标签组下的标签
+tagGroupField.addEventListener('change', getTags(this.value))
+
 
 //监听文本输入域
 let converter = new showdown.Converter()
-bodyField.addEventListener('input', function () {
-    let html = converter.makeHtml(this.value)
-    showContent.innerHTML = html
-})
+bodyField.addEventListener('input', showMarkdownStyle)
 
 //监听thread发表按钮
 createButton.addEventListener('click', function (e) {
@@ -44,3 +48,44 @@ createButton.addEventListener('click', function (e) {
             console.log(error)
         })
 })
+
+//显示markdown转换后的样式
+function showMarkdownStyle() {
+    let html = converter.makeHtml(this.value)
+    showContent.innerHTML = html
+}
+
+//获取标签组
+function getTagGroups() {
+    axios.get('../back/model/tag/getTag.php?for=getTagGroups&id=' + this.value)
+        .then(response => {
+            let data = response.data
+            console.log(data)
+            let html = ''
+            for (let i in data) {
+                html += `<option value='${data[i].tag_group_id}'>${data[i].tag_group_name}</option>`
+            }
+            tagGroupField.innerHTML = html
+        })
+        .catch(error => {
+            console.log(error)
+        })
+}
+
+//获取标签
+function getTags(tag_group_id) {
+    axios.get('../back/model/tag/getTag.php?for=getTags&tag_group_id=' + tag_group_id)
+        .then(response => {
+            let data = response.data
+            console.log(data)
+            let html = ''
+            for (let i in data) {
+                html += `<option value='${data[i].tag_id}'>${data[i].tag_name}</option>`
+            }
+            tagField.innerHTML = html
+
+        })
+        .catch(error => {
+            console.log(error)
+        })
+}
