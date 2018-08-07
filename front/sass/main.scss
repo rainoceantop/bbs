@@ -107,6 +107,7 @@ main{
                 font-size: 2rem;
                 font-weight: bold;
                 margin-bottom: 1rem;
+
             }
             .post-info{
                 color: $secondary-color;
@@ -194,7 +195,16 @@ main{
         }
     }
 }
-
+.tag-field{
+    font-size: 1rem;
+    padding: .3rem 1rem;
+    .tag{
+        background-color: $primary-color;
+        color: $secondary-color;
+        padding: .3rem 1rem;
+        margin-right: 1rem;
+    }
+}
 // 页脚样式
 footer{
     background-color: $primary-color;

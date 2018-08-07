@@ -12,6 +12,10 @@ axios.get('../back/model/thread/getThread.php?for=getThreadDetail&id=' + id)
         console.log(response.data)
         let data = response.data[0][0]
 
+        let tagHtml = ''
+        for (let j = 0; j < data.tags.length; j++) {
+            tagHtml += `<span class="tag">${data.tags[j]}</span>`
+        }
         //获取板块名
         axios.get('../back/model/forum/getForum.php?for=getForumNameById&id=' + data.forum_id)
             .then(response => {
@@ -28,7 +32,7 @@ axios.get('../back/model/thread/getThread.php?for=getThreadDetail&id=' + id)
             `
             <div class="post-header">
             <div class="post-title">
-                ${data.thread_title}
+                ${data.thread_title} <span class="tag-field">${tagHtml}</span>
             </div>
             <div class="post-info">
                 ${data.thread_head} &sdot; ${data.posted_time} &sdot;
@@ -47,6 +51,7 @@ axios.get('../back/model/thread/getThread.php?for=getThreadDetail&id=' + id)
                 </div>
             </div>
             `
+
     })
     .catch(error => {
         console.log(error)

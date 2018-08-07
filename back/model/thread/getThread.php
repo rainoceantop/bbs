@@ -2,6 +2,7 @@
 session_start();
 require '../../database/database.php';
 
+
 $pdo = new Database();
 $conn = $pdo->connect();
 $symbol = $_GET['for'];
@@ -23,32 +24,21 @@ switch($symbol){
 
 //获取首页帖子
 function getHomeThreads($conn){
-    $sql = 'select * from threads';
-    $stmt = $conn->prepare($sql);
-    $stmt->execute();
-    fetch_data($stmt, 'threads');
+    getThreads($conn, NULL, 'homeThreads');
 }
 
 //获取forum页帖子
 function getForumThreads($conn, $forum_id){
-    $sql = 'select * from threads where forum_id = :forum_id';
-    $stmt = $conn->prepare($sql);
-    $stmt->bindParam(':forum_id', $forum_id);
-    $stmt->execute();
-    fetch_data($stmt, 'threads');
+    getThreads($conn, $forum_id, 'forumThreads');
 }
 
 //获取帖子详情
 function getThreadDetail($conn, $thread_id){
-    $sql = 'select * from threads where id = :thread_id';
-    $stmt = $conn->prepare($sql);
-    $stmt->bindParam(':thread_id', $thread_id);
-    $stmt->execute();
-    fetch_data($stmt, 'detail');
+    getThreads($conn, $thread_id, 'threadDetail');
 }
 
-//获取数据
-function fetch_data($stmt, $symbol){
+function getThreads($conn, $param, $symbol){
+
     $resp = array();
     $data = array();
     $info = array();
@@ -67,23 +57,52 @@ function fetch_data($stmt, $symbol){
         '周树人',
         'David'
     );
-    while($row = $stmt->fetch()) {
-        $info['thread_id'] = $row['id'];
-        $info['forum_id'] = $row['forum_id'];
-        $info['avatar'] = $user_avatar[array_rand($user_avatar)];
-        $info['thread_title'] = $row['thread_title'];
-        $info['thread_head'] = $row['thread_head'];
-        $info['posted_time'] = $row['thread_created_at'];
-        if($symbol == 'detail'){
-            $info['thread_body'] = $row['thread_body'];
-            $info['views'] = random_int(1, 200000);
-        } else {
-            $info['replied_user'] = $replied_user[array_rand($replied_user)];
-            $info['replied_time'] = '2018-07-05 15:12:04';
+    try{
+        $conn -> beginTransaction();
+        if($symbol == 'homeThreads'){
+            $sql = 'select * from threads';
+            $stmt = $conn->prepare($sql);
+        } else if($symbol == 'forumThreads'){
+            $sql = 'select * from threads where forum_id = :forum_id';
+            $stmt = $conn->prepare($sql);
+            $stmt->bindParam(':forum_id', $param);
+        } else if($symbol == 'threadDetail'){
+            $sql = 'select * from threads where threads.id = :thread_id;';
+            $stmt = $conn->prepare($sql);
+            $stmt->bindParam(':thread_id', $param);
         }
-        array_push($data, $info);
+        $stmt->execute();
+        while($row = $stmt->fetch()) {
+            $info['thread_id'] = $row['id'];
+            $info['forum_id'] = $row['forum_id'];
+            $info['avatar'] = $user_avatar[array_rand($user_avatar)];
+            $info['thread_title'] = $row['thread_title'];
+            $info['thread_head'] = $row['thread_head'];
+            $info['posted_time'] = $row['thread_created_at'];
+            if($symbol == 'threadDetail'){
+                $info['thread_body'] = $row['thread_body'];
+                $info['views'] = random_int(1, 200000);
+            } else {
+                $info['replied_user'] = $replied_user[array_rand($replied_user)];
+                $info['replied_time'] = '2018-07-05 15:12:04';
+            }
+    
+            $sql = 'select tag_name from tags, thread_tag_ref ttr where ttr.thread_id = :thread_id and tags.id = ttr.tag_id;';
+            $s = $conn->prepare($sql);
+            $s->bindParam(':thread_id', $row['id']);
+            $s->execute();
+            $info['tags'] = array();
+            while($row = $s->fetch()){
+                array_push($info['tags'], $row[0]);
+            }
+            array_push($data, $info);
+        }
+        $conn->commit();
+        array_push($resp, $data);
+        echo json_encode($resp, JSON_UNESCAPED_UNICODE);
+    } catch(PDOException $e){
+        $conn->rollBack();
+        echo '出错：'.$e->getMessage();
     }
-    array_push($resp, $data);
-    echo json_encode($resp, JSON_UNESCAPED_UNICODE);
 }
 

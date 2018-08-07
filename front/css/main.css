@@ -173,6 +173,15 @@ main {
       color: white;
       font-size: 1.7rem; }
 
+.tag-field {
+  font-size: 1rem;
+  padding: .3rem 1rem; }
+  .tag-field .tag {
+    background-color: #444;
+    color: #f1f6ff;
+    padding: .3rem 1rem;
+    margin-right: 1rem; }
+
 footer {
   background-color: #444;
   height: 3rem;
