@@ -38,6 +38,66 @@ header{
     .user-out{
         display: none;
     }
+    .profile-btn{
+        position: absolute;
+        z-index: 2;
+        right: 2rem;
+        top: 2rem;
+        @include easeOut;
+        &:hover{
+            cursor: pointer;
+        }
+        .btn-line{
+            width: 2rem;
+            height: .2rem;
+            background-color: $secondary-color;
+            margin-bottom: .4rem;
+        }
+        &.close{
+            transform: rotate(180deg);
+            .btn-line{
+            //第一条线                
+            &:nth-child(1){
+                transform: rotate(45deg) translate(5px, 5px);
+            } 
+            //第二条线                
+            &:nth-child(2){
+                opacity: 0;
+            }
+            //第三条线                
+            &:nth-child(3){
+                transform: rotate(-45deg) translate(8px, -8px);
+            }
+            }
+        }
+    }
+    .profile{
+        position: absolute;
+        z-index: 2;
+        opacity: .9;
+        visibility: hidden;
+        width: 100%;
+        &.show{
+            visibility: visible;
+        }
+        &-branding,
+        &-nav{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            float: left;
+            width: 50%;
+            height: 100vh;
+            overflow: hidden;
+        }
+        &-branding{
+            background-color: lighten($color: $primary-color, $amount: 15);
+        }
+        &-nav{
+            background-color: lighten($color: $primary-color, $amount: 50);
+        }
+    }
 }
 
 // body style
@@ -192,6 +252,29 @@ main{
         @include transp;
         .login-username, .login-password{
             @include fieldUnderline;
+        }
+    }
+    //profile样式
+    .profile-content{
+        @include transp;
+        display: flex;
+        flex-flow: row wrap;
+        justify-content: center;
+        align-items: center;
+        .profile-list{
+            background-color: lighten($color: $secondary-color, $amount: .5);
+            width: 20rem;
+            height: 30rem;
+            margin-right: 3rem;
+            img{
+                width: 7rem;
+                height: 7rem;
+            }
+        }
+        .list-content{
+            background-color: lighten($color: $secondary-color, $amount: .5);
+            width: 50rem;
+            height: 30rem;
         }
     }
 }

@@ -1,12 +1,14 @@
 //判断是否已经登录，如果已经登录跳转至首页
-axios.get('../back/handler/loginHandler.php?log=2')
-    .then(response => {
-        if (response.data.is_login)
-            window.location.href = 'home.html'
-    })
-    .catch(error => {
-        console.log(error)
-    })
+!function () {
+    axios.get('../back/handler/loginHandler.php?log=2')
+        .then(response => {
+            if (response.data.is_login)
+                window.location.href = 'home.html'
+        })
+        .catch(error => {
+            console.log(error)
+        })
+}()
 
 
 const loginContent = document.querySelector('.login-content')

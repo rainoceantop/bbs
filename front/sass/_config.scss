@@ -19,3 +19,7 @@ $secondary-color: rgb(241, 246, 255);
     color:white;
     font-size: 1.7rem;
 }
+
+@mixin easeOut{
+    transition: all 0.5s ease-out;
+}

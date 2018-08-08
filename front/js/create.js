@@ -1,9 +1,7 @@
-
 const titleField = document.querySelector('.title-field')
 const forumField = document.querySelector('#forums')
 const tagField = document.querySelector('.tags-area')
 const bodyField = document.querySelector('.body-field')
-const headField = document.querySelector('.thread-head')
 const showContent = document.querySelector('.show-markdown-content-area')
 const createButton = document.querySelector('.create-button')
 
@@ -20,12 +18,14 @@ axios.get('../back/model/forum/getForum.php?for=getForumName')
     })
 
 
+
 //监听文本输入域
 let converter = new showdown.Converter()
 bodyField.addEventListener('input', showMarkdownStyle)
 
 //监听thread发表按钮
 createButton.addEventListener('click', postThread)
+
 
 //发表文章
 function postThread(e) {
@@ -36,22 +36,33 @@ function postThread(e) {
     tagsArr.forEach(item => {
         tags.push(item.value)
     })
-
-    let html = converter.makeHtml(bodyField.value)
-    let params = {
-        thread_title: titleField.value,
-        forum_id: forumField.value,
-        thread_body: html,
-        thread_head: headField.value,
-        tags: tags
-    }
-    axios.post('../back/model/thread/addThread.php', params)
+    //获取用户登录信息
+    axios.get('../back/handler/loginHandler.php?log=2')
         .then(response => {
-            window.location.href = `detail.html?id=${response.data}`
+            if (response.data.is_login) {
+                let html = converter.makeHtml(bodyField.value)
+                let params = {
+                    thread_title: titleField.value,
+                    forum_id: forumField.value,
+                    thread_body: html,
+                    thread_head: response.data.user,
+                    user_id: response.data.id,
+                    tags: tags
+                }
+                axios.post('../back/model/thread/addThread.php', params)
+                    .then(response => {
+                        window.location.href = `detail.html?id=${response.data}`
+                    })
+                    .catch(error => {
+                        console.log(error)
+                    })
+            }
         })
         .catch(error => {
             console.log(error)
         })
+
+
 }
 
 //显示markdown转换后的样式

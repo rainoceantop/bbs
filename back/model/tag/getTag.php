@@ -16,36 +16,8 @@ switch($symbol){
         $thread_id = $_GET['thread_id'];
         getThreadTags($conn, $thread_id);
         break;
-    case 'getTagGroupsByForumId':
-        $forum_id = $_GET['id'];
-        getTagGroups($conn, $forum_id);
-        break;
-    case 'getTagsByTagGroupsId':
-        $tag_group_id = $_GET['tag_group_id'];
-        getTags($conn, $tag_group_id);
-        break;
 }
 
-
-//获取标签组
-function getTagGroupsByForumId($conn, $forum_id){
-    $sql = 'select id, forum_id, tag_group_name from tag_groups where forum_id = :forum_id';
-    $stmt = $conn -> prepare($sql);
-    $stmt->bindParam(':forum_id', $forum_id);
-    $stmt->execute();
-    fetch_data($stmt, 'groups');
-}
-
-
-
-//根据标签组id获取标签
-function getTagsByTagGroupsId($conn, $tag_group_id){
-    $sql = 'select id, forum_id, tag_group_id, tag_name from tags where tag_group_id = :tag_group_id';
-    $stmt = $conn -> prepare($sql);
-    $stmt->bindParam(':tag_group_id', $tag_group_id);
-    $stmt->execute();
-    fetch_data($stmt, 'tags');
-}
 
 //获取所有标签组
 function getTagGroups($conn){

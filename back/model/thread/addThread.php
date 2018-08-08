@@ -9,6 +9,7 @@ $thread['forum_id'] = $data['forum_id'];
 $thread['title'] = $data['thread_title'];
 $thread['body'] = $data['thread_body'];
 $thread['head'] = $data['thread_head'];
+$thread['head_id'] = $data['user_id'];
 $tags = $data['tags'];
 
 
@@ -17,7 +18,7 @@ $conn = $pdo->connect();
 
 
 
-$thread_sql = 'insert into threads(forum_id, thread_title, thread_body, thread_head) value(:forum, :title, :body, :head);';
+$thread_sql = 'insert into threads(forum_id, thread_title, thread_body, thread_head, head_id) value(:forum, :title, :body, :head, :user_id);';
 $tag_sql = 'insert into thread_tag_ref values(:thread_id, :tag_id)';
 
 try {
@@ -30,6 +31,7 @@ $stmt->bindParam(':forum', $thread['forum_id']);
 $stmt->bindParam(':title', $thread['title']);
 $stmt->bindParam(':body', $thread['body']);
 $stmt->bindParam(':head', $thread['head']);
+$stmt->bindParam(':user_id', $thread['head_id']);
 $stmt->execute();
 //取出返回标签id，给thread_tag_ref
 $thread_id = $conn->lastInsertId();

@@ -29,7 +29,7 @@ function login($conn){
     $password = $data['password'];
     $message = '';
     
-    $sql = 'select username, password, name from users where username=:username limit 1';
+    $sql = 'select id, username, password, name from users where username=:username limit 1';
     $stmt = $conn->prepare($sql);
     $stmt->bindParam(':username', $username);
     try{
@@ -38,7 +38,14 @@ function login($conn){
             $info = $stmt->fetch();
             if($info['password'] == $password){
                 $message = 'SUCCESS';
+                $_SESSION['id'] = $info['id'];
                 $_SESSION['user'] = $info['name'];
+                
+                //更新最后登录时间
+                $sql = 'update users set last_online = now() where users.id = :user_id';
+                $s = $conn->prepare($sql);
+                $s->bindParam(':user_id', $info['id']);
+                $s->execute();
             } else {
                 $message = 'ERROR';
             }
@@ -60,6 +67,7 @@ function checkLog(){
     $info = array();
     if(isset($_SESSION['user'])){
         $info['is_login'] = TRUE;
+        $info['id'] = $_SESSION['id'];
         $info['user'] = $_SESSION['user'];
     }
     else{
