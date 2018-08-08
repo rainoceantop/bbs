@@ -73,9 +73,11 @@ header{
     }
     .profile{
         position: absolute;
-        z-index: 2;
+        z-index: 1;
         opacity: .9;
         visibility: hidden;
+        left: 0;
+        top: 0;
         width: 100%;
         &.show{
             visibility: visible;
@@ -93,11 +95,34 @@ header{
         }
         &-branding{
             background-color: lighten($color: $primary-color, $amount: 15);
+            transform: translate3d(0, 100%, 0);
+            @include easeOut;
+            &.show{
+                transform: translate3d(0, 0, 0);
+            }
         }
         &-nav{
             background-color: lighten($color: $primary-color, $amount: 50);
+            transform: translate3d(0, -100%, 0);
+            @include easeOut;
+            &.show{
+                transform: translate3d(0, 0, 0);
+            }
+                .nav-item{
+                    transform: translate3d(600px, 0, 0);
+                    @include easeOut;
+                    &.show{
+                        transform: translate3d(0, 0, 0);
+                    }
+                }
+                @for $x from 1 through 4 {
+                    .nav-item:nth-child(#{$x}){
+                        transition-delay: $x * .1s;
+                    }
+                }
         }
     }
+
 }
 
 // body style

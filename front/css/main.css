@@ -51,9 +51,11 @@ header {
         transform: rotate(-45deg) translate(8px, -8px); }
   header .profile {
     position: absolute;
-    z-index: 2;
+    z-index: 1;
     opacity: .9;
     visibility: hidden;
+    left: 0;
+    top: 0;
     width: 100%; }
     header .profile.show {
       visibility: visible; }
@@ -67,9 +69,30 @@ header {
       height: 100vh;
       overflow: hidden; }
     header .profile-branding {
-      background-color: #6a6a6a; }
+      background-color: #6a6a6a;
+      transform: translate3d(0, 100%, 0);
+      transition: all 0.5s ease-out; }
+      header .profile-branding.show {
+        transform: translate3d(0, 0, 0); }
     header .profile-nav {
-      background-color: #c4c4c4; }
+      background-color: #c4c4c4;
+      transform: translate3d(0, -100%, 0);
+      transition: all 0.5s ease-out; }
+      header .profile-nav.show {
+        transform: translate3d(0, 0, 0); }
+      header .profile-nav .nav-item {
+        transform: translate3d(600px, 0, 0);
+        transition: all 0.5s ease-out; }
+        header .profile-nav .nav-item.show {
+          transform: translate3d(0, 0, 0); }
+      header .profile-nav .nav-item:nth-child(1) {
+        transition-delay: 0.1s; }
+      header .profile-nav .nav-item:nth-child(2) {
+        transition-delay: 0.2s; }
+      header .profile-nav .nav-item:nth-child(3) {
+        transition-delay: 0.3s; }
+      header .profile-nav .nav-item:nth-child(4) {
+        transition-delay: 0.4s; }
 
 main {
   min-height: calc(100vh - 8rem);

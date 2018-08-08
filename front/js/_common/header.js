@@ -25,6 +25,10 @@ axios.get('_part/header.html')
         //用户profile按钮
         const menuBtn = document.querySelector('.profile-btn')
         const profile = document.querySelector('.profile')
+        const profileBranding = document.querySelector('.profile-branding')
+        const profileNav = document.querySelector('.profile-nav')
+        const profileItems = document.querySelector('.profile-items')
+        const navItems = document.querySelectorAll('.nav-item')
 
         menuBtn.addEventListener('click', toggleMenu)
         let showMenu = false
@@ -32,10 +36,19 @@ axios.get('_part/header.html')
             if (!showMenu) {
                 menuBtn.classList.add('close')
                 profile.classList.add('show')
+                profileBranding.classList.add('show')
+                profileNav.classList.add('show')
+                profileItems.classList.add('show')
+                navItems.forEach(item => item.classList.add('show'))
                 showMenu = true
             } else {
                 menuBtn.classList.remove('close')
                 profile.classList.remove('show')
+                profile.classList.remove('show')
+                profileBranding.classList.remove('show')
+                profileNav.classList.remove('show')
+                profileItems.classList.remove('show')
+                navItems.forEach(item => item.classList.remove('show'))
                 showMenu = false
             }
         }
