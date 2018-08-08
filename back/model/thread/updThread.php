@@ -11,8 +11,3 @@ $stmt->bindValue(':title', 'Hello world');
 $stmt->bindValue(':body', 'foo bar foo bar little star');
 $stmt->bindValue(':reason', 'test this update');
 $stmt->execute();
-
-$a = 0;
-echo empty($a);
-!empty($a) AND $a = 2;
-echo $a;

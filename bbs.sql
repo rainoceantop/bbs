@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Aug 07, 2018 at 11:47 AM
+-- Generation Time: Aug 08, 2018 at 11:24 AM
 -- Server version: 10.1.34-MariaDB
 -- PHP Version: 7.2.7
 
@@ -126,25 +126,22 @@ CREATE TABLE `threads` (
   `thread_title` varchar(150) NOT NULL,
   `thread_body` text NOT NULL,
   `thread_head` varchar(50) NOT NULL,
+  `head_id` int(10) UNSIGNED NOT NULL,
   `thread_created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `thread_is_filed` enum('0','1') NOT NULL DEFAULT '0'
+  `thread_is_filed` enum('0','1') NOT NULL DEFAULT '0',
+  `updated_reason` varchar(100) NOT NULL DEFAULT 'none'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `threads`
 --
 
-INSERT INTO `threads` (`id`, `forum_id`, `thread_title`, `thread_body`, `thread_head`, `thread_created_at`, `updated_at`, `thread_is_filed`) VALUES
-(46, 1, '反对是否但是', '<p>范德萨发</p>', 'admin', '2018-08-06 13:54:53', '2018-08-06 13:54:53', '0'),
-(47, 1, 'vcva', '<p>反对是否</p>', 'admin', '2018-08-06 13:55:14', '2018-08-06 13:55:14', '0'),
-(48, 9, 'sfsdfsdf', '<p>规范大概地方规范的</p>', 'admin', '2018-08-06 14:40:18', '2018-08-06 14:40:18', '0'),
-(49, 6, '不的大股东风格', '<p>风格的风格的</p>', 'admin', '2018-08-06 14:45:31', '2018-08-06 14:45:31', '0'),
-(50, 3, 'fdsfd', '<p>dsfsfdsffsfsfs</p>', 'admin', '2018-08-07 13:21:34', '2018-08-07 13:21:34', '0'),
-(51, 3, 'fdsbvc', '<p>fdsfdsbvc</p>', 'admin', '2018-08-07 13:38:54', '2018-08-07 13:38:54', '0'),
-(52, 3, '反对是否', '<p>fdsfsfs</p>', 'admin', '2018-08-07 15:19:28', '2018-08-07 15:19:28', '0'),
-(53, 7, '反对是否', '<p>fdsfsfsvxvcx</p>', 'admin', '2018-08-07 15:20:38', '2018-08-07 15:20:38', '0'),
-(54, 7, 'tertert', '<p>tetertetet</p>', 'admin', '2018-08-07 17:04:04', '2018-08-07 17:04:04', '0');
+INSERT INTO `threads` (`id`, `forum_id`, `thread_title`, `thread_body`, `thread_head`, `head_id`, `thread_created_at`, `updated_at`, `thread_is_filed`, `updated_reason`) VALUES
+(56, 1, 'Hello world', 'foo bar foo bar little star', '乌托邦', 3, '2018-08-08 14:39:01', '2018-08-08 16:59:23', '0', 'test this update'),
+(57, 1, '反对是否', '<p>fsdfsf</p>', '乌托邦', 3, '2018-08-08 14:49:55', '2018-08-08 14:49:55', '0', 'none'),
+(58, 1, 'gfdgfdgdf', '<p>gdfgdgfdg</p>', '乌托邦', 3, '2018-08-08 15:16:23', '2018-08-08 15:16:23', '0', 'none'),
+(59, 3, 'fdsfdsf', '<p>fdsfsdf</p>', '你好', 4, '2018-08-08 15:25:14', '2018-08-08 15:25:14', '0', 'none');
 
 -- --------------------------------------------------------
 
@@ -162,12 +159,8 @@ CREATE TABLE `thread_tag_ref` (
 --
 
 INSERT INTO `thread_tag_ref` (`thread_id`, `tag_id`) VALUES
-(51, 1),
-(51, 3),
-(52, 2),
-(52, 5),
-(53, 4),
-(54, 4);
+(59, 1),
+(59, 3);
 
 -- --------------------------------------------------------
 
@@ -180,15 +173,18 @@ CREATE TABLE `users` (
   `username` varchar(50) NOT NULL,
   `password` varchar(150) NOT NULL,
   `name` varchar(50) NOT NULL,
-  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
+  `avatar` varchar(300) NOT NULL DEFAULT 'imgs/1.jpg',
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `last_online` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `username`, `password`, `name`, `created_at`) VALUES
-(1, 'helloworld', '123456', 'david', '2018-08-02 17:00:07');
+INSERT INTO `users` (`id`, `username`, `password`, `name`, `avatar`, `created_at`, `last_online`) VALUES
+(3, 'superAdmin', '123456', '乌托邦', 'imgs/3.jpg', '2018-08-08 13:20:13', '2018-08-08 16:04:48'),
+(4, 'hello', '123456', '你好', 'imgs/1.jpg', '2018-08-08 15:24:44', '2018-08-08 10:01:02');
 
 --
 -- Indexes for dumped tables
@@ -226,7 +222,8 @@ ALTER TABLE `tag_groups`
 --
 ALTER TABLE `threads`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `thread_forum_fk` (`forum_id`);
+  ADD KEY `thread_forum_fk` (`forum_id`),
+  ADD KEY `thread_user_fk` (`head_id`);
 
 --
 -- Indexes for table `thread_tag_ref`
@@ -275,13 +272,13 @@ ALTER TABLE `tag_groups`
 -- AUTO_INCREMENT for table `threads`
 --
 ALTER TABLE `threads`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Constraints for dumped tables
@@ -310,7 +307,8 @@ ALTER TABLE `tag_groups`
 -- Constraints for table `threads`
 --
 ALTER TABLE `threads`
-  ADD CONSTRAINT `thread_forum_fk` FOREIGN KEY (`forum_id`) REFERENCES `forums` (`id`);
+  ADD CONSTRAINT `thread_forum_fk` FOREIGN KEY (`forum_id`) REFERENCES `forums` (`id`),
+  ADD CONSTRAINT `thread_user_fk` FOREIGN KEY (`head_id`) REFERENCES `users` (`id`);
 
 --
 -- Constraints for table `thread_tag_ref`

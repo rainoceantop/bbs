@@ -47,7 +47,6 @@ function getUserThreads($conn, $user_id){
 }
 
 function getThreads($conn, $param, $symbol){
-
     $resp = array();
     $data = array();
     $info = array();
