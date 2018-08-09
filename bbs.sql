@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Aug 08, 2018 at 11:24 AM
+-- Generation Time: Aug 09, 2018 at 11:43 AM
 -- Server version: 10.1.34-MariaDB
 -- PHP Version: 7.2.7
 
@@ -32,22 +32,6 @@ CREATE TABLE `forums` (
   `id` int(10) UNSIGNED NOT NULL,
   `forum_name` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `forums`
---
-
-INSERT INTO `forums` (`id`, `forum_name`) VALUES
-(1, '程序发布'),
-(2, '安装'),
-(3, 'BUG'),
-(4, '插件'),
-(5, '模板'),
-(6, 'WEB开发'),
-(7, 'PHP'),
-(8, '测试'),
-(9, '灌水'),
-(10, 'IP查询');
 
 -- --------------------------------------------------------
 
@@ -78,18 +62,6 @@ CREATE TABLE `tags` (
   `tag_name` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Dumping data for table `tags`
---
-
-INSERT INTO `tags` (`id`, `forum_id`, `tag_group_id`, `tag_name`) VALUES
-(1, 3, 1, 'nerver'),
-(2, 3, 1, 'give up'),
-(3, 3, 2, '侠盗勇士'),
-(4, 7, 4, 'QQ飞车'),
-(5, 3, 2, 'hello'),
-(6, 3, 2, 'world');
-
 -- --------------------------------------------------------
 
 --
@@ -101,18 +73,6 @@ CREATE TABLE `tag_groups` (
   `forum_id` int(10) UNSIGNED NOT NULL,
   `tag_group_name` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `tag_groups`
---
-
-INSERT INTO `tag_groups` (`id`, `forum_id`, `tag_group_name`) VALUES
-(1, 3, '高山上'),
-(2, 3, '雨林里'),
-(3, 5, '屋檐下'),
-(4, 7, '天际边'),
-(5, 2, '追风少年'),
-(6, 1, 'test');
 
 -- --------------------------------------------------------
 
@@ -133,16 +93,6 @@ CREATE TABLE `threads` (
   `updated_reason` varchar(100) NOT NULL DEFAULT 'none'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Dumping data for table `threads`
---
-
-INSERT INTO `threads` (`id`, `forum_id`, `thread_title`, `thread_body`, `thread_head`, `head_id`, `thread_created_at`, `updated_at`, `thread_is_filed`, `updated_reason`) VALUES
-(56, 1, 'Hello world', 'foo bar foo bar little star', '乌托邦', 3, '2018-08-08 14:39:01', '2018-08-08 16:59:23', '0', 'test this update'),
-(57, 1, '反对是否', '<p>fsdfsf</p>', '乌托邦', 3, '2018-08-08 14:49:55', '2018-08-08 14:49:55', '0', 'none'),
-(58, 1, 'gfdgfdgdf', '<p>gdfgdgfdg</p>', '乌托邦', 3, '2018-08-08 15:16:23', '2018-08-08 15:16:23', '0', 'none'),
-(59, 3, 'fdsfdsf', '<p>fdsfsdf</p>', '你好', 4, '2018-08-08 15:25:14', '2018-08-08 15:25:14', '0', 'none');
-
 -- --------------------------------------------------------
 
 --
@@ -153,14 +103,6 @@ CREATE TABLE `thread_tag_ref` (
   `thread_id` int(10) UNSIGNED NOT NULL,
   `tag_id` int(10) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `thread_tag_ref`
---
-
-INSERT INTO `thread_tag_ref` (`thread_id`, `tag_id`) VALUES
-(59, 1),
-(59, 3);
 
 -- --------------------------------------------------------
 
@@ -183,8 +125,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `username`, `password`, `name`, `avatar`, `created_at`, `last_online`) VALUES
-(3, 'superAdmin', '123456', '乌托邦', 'imgs/3.jpg', '2018-08-08 13:20:13', '2018-08-08 16:04:48'),
-(4, 'hello', '123456', '你好', 'imgs/1.jpg', '2018-08-08 15:24:44', '2018-08-08 10:01:02');
+(3, 'superAdmin', '123456', '乌托邦', 'imgs/3.jpg', '2018-08-08 13:20:13', '2018-08-09 10:46:31');
 
 --
 -- Indexes for dumped tables
@@ -208,14 +149,15 @@ ALTER TABLE `replies`
 --
 ALTER TABLE `tags`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `tag_forum_fk` (`forum_id`),
-  ADD KEY `tag_group_fk` (`tag_group_id`);
+  ADD KEY `ft_fk` (`forum_id`),
+  ADD KEY `ttg_fk` (`tag_group_id`);
 
 --
 -- Indexes for table `tag_groups`
 --
 ALTER TABLE `tag_groups`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `forum_tag_group_fk` (`forum_id`);
 
 --
 -- Indexes for table `threads`
@@ -229,8 +171,8 @@ ALTER TABLE `threads`
 -- Indexes for table `thread_tag_ref`
 --
 ALTER TABLE `thread_tag_ref`
-  ADD KEY `t_id_fk` (`thread_id`),
-  ADD KEY `tag_id_fk` (`tag_id`);
+  ADD KEY `tag_id_fk` (`tag_id`),
+  ADD KEY `t_id_fk` (`thread_id`);
 
 --
 -- Indexes for table `users`
@@ -248,7 +190,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `forums`
 --
 ALTER TABLE `forums`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 
 --
 -- AUTO_INCREMENT for table `replies`
@@ -260,19 +202,19 @@ ALTER TABLE `replies`
 -- AUTO_INCREMENT for table `tags`
 --
 ALTER TABLE `tags`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `tag_groups`
 --
 ALTER TABLE `tag_groups`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `threads`
 --
 ALTER TABLE `threads`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
 
 --
 -- AUTO_INCREMENT for table `users`
@@ -294,28 +236,28 @@ ALTER TABLE `replies`
 -- Constraints for table `tags`
 --
 ALTER TABLE `tags`
-  ADD CONSTRAINT `tag_forum_fk` FOREIGN KEY (`forum_id`) REFERENCES `forums` (`id`),
-  ADD CONSTRAINT `tag_group_fk` FOREIGN KEY (`tag_group_id`) REFERENCES `tag_groups` (`id`);
+  ADD CONSTRAINT `ft_fk` FOREIGN KEY (`forum_id`) REFERENCES `tag_groups` (`forum_id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `tags_ibfk_2` FOREIGN KEY (`tag_group_id`) REFERENCES `tag_groups` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `ttg_fk` FOREIGN KEY (`tag_group_id`) REFERENCES `tag_groups` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `tag_groups`
 --
 ALTER TABLE `tag_groups`
-  ADD CONSTRAINT `tag_groups_forum_fk` FOREIGN KEY (`id`) REFERENCES `forums` (`id`);
+  ADD CONSTRAINT `forum_tag_group_fk` FOREIGN KEY (`forum_id`) REFERENCES `forums` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `threads`
 --
 ALTER TABLE `threads`
-  ADD CONSTRAINT `thread_forum_fk` FOREIGN KEY (`forum_id`) REFERENCES `forums` (`id`),
-  ADD CONSTRAINT `thread_user_fk` FOREIGN KEY (`head_id`) REFERENCES `users` (`id`);
+  ADD CONSTRAINT `thread_forum_fk` FOREIGN KEY (`forum_id`) REFERENCES `forums` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `thread_user_fk` FOREIGN KEY (`head_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `thread_tag_ref`
 --
 ALTER TABLE `thread_tag_ref`
-  ADD CONSTRAINT `t_id_fk` FOREIGN KEY (`thread_id`) REFERENCES `threads` (`id`),
-  ADD CONSTRAINT `tag_id_fk` FOREIGN KEY (`tag_id`) REFERENCES `tags` (`id`);
+  ADD CONSTRAINT `t_id_fk` FOREIGN KEY (`thread_id`) REFERENCES `threads` (`id`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
