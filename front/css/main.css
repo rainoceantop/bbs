@@ -28,28 +28,29 @@ header {
     display: ''; }
   header .user-out {
     display: none; }
-  header .profile-btn {
+  header .menu-btn {
     position: absolute;
     z-index: 2;
     right: 2rem;
     top: 2rem;
     transition: all 0.5s ease-out; }
-    header .profile-btn:hover {
+    header .menu-btn:hover {
       cursor: pointer; }
-    header .profile-btn .btn-line {
+    header .menu-btn .btn-line {
       width: 2rem;
       height: .2rem;
       background-color: #f1f6ff;
-      margin-bottom: .4rem; }
-    header .profile-btn.close {
+      margin-bottom: .4rem;
+      transition: all 0.5s ease-out; }
+    header .menu-btn.close {
       transform: rotate(180deg); }
-      header .profile-btn.close .btn-line:nth-child(1) {
+      header .menu-btn.close .btn-line:nth-child(1) {
         transform: rotate(45deg) translate(5px, 5px); }
-      header .profile-btn.close .btn-line:nth-child(2) {
+      header .menu-btn.close .btn-line:nth-child(2) {
         opacity: 0; }
-      header .profile-btn.close .btn-line:nth-child(3) {
+      header .menu-btn.close .btn-line:nth-child(3) {
         transform: rotate(-45deg) translate(8px, -8px); }
-  header .profile {
+  header .menu {
     position: absolute;
     z-index: 1;
     opacity: .9;
@@ -57,9 +58,9 @@ header {
     left: 0;
     top: 0;
     width: 100%; }
-    header .profile.show {
+    header .menu.show {
       visibility: visible; }
-    header .profile-branding, header .profile-nav {
+    header .menu-branding, header .menu-nav {
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -68,30 +69,33 @@ header {
       width: 50%;
       height: 100vh;
       overflow: hidden; }
-    header .profile-branding {
-      background-color: #6a6a6a;
+    header .menu-branding {
+      background-color: #2b2b2b;
       transform: translate3d(0, 100%, 0);
       transition: all 0.5s ease-out; }
-      header .profile-branding.show {
+      header .menu-branding.show {
         transform: translate3d(0, 0, 0); }
-    header .profile-nav {
-      background-color: #c4c4c4;
+    header .menu-nav {
+      background-color: #373737;
       transform: translate3d(0, -100%, 0);
       transition: all 0.5s ease-out; }
-      header .profile-nav.show {
+      header .menu-nav.show {
         transform: translate3d(0, 0, 0); }
-      header .profile-nav .nav-item {
+      header .menu-nav .menu-item {
         transform: translate3d(600px, 0, 0);
+        list-style: none;
         transition: all 0.5s ease-out; }
-        header .profile-nav .nav-item.show {
+        header .menu-nav .menu-item a:visited, header .menu-nav .menu-item a:link {
+          color: #f1f6ff; }
+        header .menu-nav .menu-item.show {
           transform: translate3d(0, 0, 0); }
-      header .profile-nav .nav-item:nth-child(1) {
+      header .menu-nav .menu-item:nth-child(1) {
         transition-delay: 0.1s; }
-      header .profile-nav .nav-item:nth-child(2) {
+      header .menu-nav .menu-item:nth-child(2) {
         transition-delay: 0.2s; }
-      header .profile-nav .nav-item:nth-child(3) {
+      header .menu-nav .menu-item:nth-child(3) {
         transition-delay: 0.3s; }
-      header .profile-nav .nav-item:nth-child(4) {
+      header .menu-nav .menu-item:nth-child(4) {
         transition-delay: 0.4s; }
 
 main {
@@ -238,25 +242,179 @@ main {
       color: white;
       font-size: 1.7rem; }
   main .profile-content {
-    background-color: rgba(241, 246, 255, 0.4);
     width: 85%;
-    padding: 1.7rem;
     display: flex;
     flex-flow: row wrap;
-    justify-content: center;
-    align-items: center; }
+    justify-content: space-between;
+    text-align: center; }
     main .profile-content .profile-list {
-      background-color: #f4f8ff;
-      width: 20rem;
+      background-color: rgba(241, 246, 255, 0.4);
+      width: 85%;
+      padding: 1.7rem;
+      width: 25%;
       height: 30rem;
-      margin-right: 3rem; }
-      main .profile-content .profile-list img {
-        width: 7rem;
-        height: 7rem; }
+      margin-right: 3rem;
+      text-align: center; }
+      main .profile-content .profile-list .profile-avatar {
+        margin-bottom: 1rem; }
+        main .profile-content .profile-list .profile-avatar img {
+          border: 1px solid #f1f6ff;
+          padding: 2px;
+          width: 10rem;
+          height: 10rem; }
+      main .profile-content .profile-list .profile-items {
+        list-style: none;
+        line-height: 2rem; }
+        main .profile-content .profile-list .profile-items .profile-item a {
+          text-decoration: none; }
+          main .profile-content .profile-list .profile-items .profile-item a:hover {
+            text-decoration: underline; }
+          main .profile-content .profile-list .profile-items .profile-item a:link, main .profile-content .profile-list .profile-items .profile-item a:visited {
+            color: #f1f6ff; }
     main .profile-content .list-content {
-      background-color: #f4f8ff;
-      width: 50rem;
+      background-color: rgba(241, 246, 255, 0.4);
+      width: 85%;
+      padding: 1.7rem;
+      width: 60%;
       height: 30rem; }
+      main .profile-content .list-content .thread {
+        padding: .3rem;
+        height: 5rem;
+        max-height: 5rem;
+        margin: 1rem;
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        flex-wrap: nowrap; }
+        main .profile-content .list-content .thread:hover {
+          background: rgba(251, 253, 255, 0.4); }
+        main .profile-content .list-content .thread img {
+          width: 4.2rem;
+          height: 4.2rem;
+          border-radius: 2.5rem; }
+        main .profile-content .list-content .thread .info {
+          color: #444;
+          font-weight: bold;
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+          justify-content: space-around;
+          margin-left: 1rem; }
+          main .profile-content .list-content .thread .info .thread-title {
+            text-decoration: none; }
+            main .profile-content .list-content .thread .info .thread-title:hover {
+              text-decoration: underline; }
+          main .profile-content .list-content .thread .info .thread-footer {
+            color: #f1f6ff;
+            font-size: .9rem; }
+            main .profile-content .list-content .thread .info .thread-footer span {
+              margin-right: .7rem; }
+      main .profile-content .list-content .forums-set-area,
+      main .profile-content .list-content .tag-groups-set-area,
+      main .profile-content .list-content .tags-set-area {
+        display: none; }
+      main .profile-content .list-content .forums-section {
+        margin-bottom: 5rem; }
+        main .profile-content .list-content .forums-section .forums-area {
+          color: #444;
+          margin-bottom: 2rem; }
+          main .profile-content .list-content .forums-section .forums-area .forum-item {
+            position: relative;
+            display: inline;
+            padding: .5rem 1rem;
+            background-color: #444;
+            color: #f1f6ff;
+            font-weight: bold;
+            margin-left: 1rem;
+            border-radius: 1rem; }
+            main .profile-content .list-content .forums-section .forums-area .forum-item .forum-display-button {
+              display: inline;
+              text-decoration: none;
+              color: #f1f6ff; }
+              main .profile-content .list-content .forums-section .forums-area .forum-item .forum-display-button:visited, main .profile-content .list-content .forums-section .forums-area .forum-item .forum-display-button:link {
+                color: #f1f6ff; }
+            main .profile-content .list-content .forums-section .forums-area .forum-item .forum-delete-button {
+              visibility: hidden;
+              background-color: #f1f6ff;
+              color: #444;
+              position: absolute;
+              right: 0;
+              bottom: 1rem;
+              width: 1rem;
+              height: 1rem;
+              padding: .1rem;
+              border-radius: 1rem; }
+              main .profile-content .list-content .forums-section .forums-area .forum-item .forum-delete-button:hover {
+                cursor: pointer;
+                background-color: red; }
+      main .profile-content .list-content .tag-groups-section {
+        margin-bottom: 5rem; }
+        main .profile-content .list-content .tag-groups-section .tag-groups-area {
+          color: #444;
+          margin-bottom: 2rem; }
+          main .profile-content .list-content .tag-groups-section .tag-groups-area .tag-groups-item {
+            position: relative;
+            display: inline;
+            padding: .5rem 1rem;
+            background-color: #444;
+            color: #f1f6ff;
+            font-weight: bold;
+            margin-left: 1rem;
+            border-radius: 1rem; }
+            main .profile-content .list-content .tag-groups-section .tag-groups-area .tag-groups-item .tag-groups-display-button {
+              display: inline;
+              text-decoration: none;
+              color: #f1f6ff; }
+              main .profile-content .list-content .tag-groups-section .tag-groups-area .tag-groups-item .tag-groups-display-button:visited, main .profile-content .list-content .tag-groups-section .tag-groups-area .tag-groups-item .tag-groups-display-button:link {
+                color: #f1f6ff; }
+            main .profile-content .list-content .tag-groups-section .tag-groups-area .tag-groups-item .tag-groups-delete-button {
+              visibility: hidden;
+              background-color: #f1f6ff;
+              color: #444;
+              position: absolute;
+              right: 0;
+              bottom: 1rem;
+              width: 1rem;
+              height: 1rem;
+              padding: .1rem;
+              border-radius: 1rem; }
+              main .profile-content .list-content .tag-groups-section .tag-groups-area .tag-groups-item .tag-groups-delete-button:hover {
+                cursor: pointer;
+                background-color: red; }
+      main .profile-content .list-content .tags-section {
+        margin-bottom: 5rem; }
+        main .profile-content .list-content .tags-section .tags-area {
+          color: #444;
+          margin-bottom: 2rem; }
+          main .profile-content .list-content .tags-section .tags-area .tags-item {
+            position: relative;
+            display: inline;
+            padding: .5rem 1rem;
+            background-color: #444;
+            color: #f1f6ff;
+            font-weight: bold;
+            margin-left: 1rem;
+            border-radius: 1rem; }
+            main .profile-content .list-content .tags-section .tags-area .tags-item .tags-display-button {
+              display: inline;
+              text-decoration: none;
+              color: #f1f6ff; }
+              main .profile-content .list-content .tags-section .tags-area .tags-item .tags-display-button:visited, main .profile-content .list-content .tags-section .tags-area .tags-item .tags-display-button:link {
+                color: #f1f6ff; }
+            main .profile-content .list-content .tags-section .tags-area .tags-item .tags-delete-button {
+              visibility: hidden;
+              background-color: #f1f6ff;
+              color: #444;
+              position: absolute;
+              right: 0;
+              bottom: 1rem;
+              width: 1rem;
+              height: 1rem;
+              padding: .1rem;
+              border-radius: 1rem; }
+              main .profile-content .list-content .tags-section .tags-area .tags-item .tags-delete-button:hover {
+                cursor: pointer;
+                background-color: red; }
 
 .tag-field {
   font-size: 1rem;

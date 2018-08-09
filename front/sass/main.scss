@@ -38,7 +38,7 @@ header{
     .user-out{
         display: none;
     }
-    .profile-btn{
+    .menu-btn{
         position: absolute;
         z-index: 2;
         right: 2rem;
@@ -52,6 +52,7 @@ header{
             height: .2rem;
             background-color: $secondary-color;
             margin-bottom: .4rem;
+            @include easeOut;
         }
         &.close{
             transform: rotate(180deg);
@@ -71,7 +72,7 @@ header{
             }
         }
     }
-    .profile{
+    .menu{
         position: absolute;
         z-index: 1;
         opacity: .9;
@@ -94,7 +95,7 @@ header{
             overflow: hidden;
         }
         &-branding{
-            background-color: lighten($color: $primary-color, $amount: 15);
+            background-color: darken($color: $primary-color, $amount: 10);
             transform: translate3d(0, 100%, 0);
             @include easeOut;
             &.show{
@@ -102,21 +103,28 @@ header{
             }
         }
         &-nav{
-            background-color: lighten($color: $primary-color, $amount: 50);
+            background-color: darken($color: $primary-color, $amount: 5);
             transform: translate3d(0, -100%, 0);
             @include easeOut;
             &.show{
                 transform: translate3d(0, 0, 0);
             }
-                .nav-item{
+                .menu-item{
                     transform: translate3d(600px, 0, 0);
+                    list-style: none;
+                    a{
+                        &:visited,
+                        &:link{
+                            color: $secondary-color;
+                        }
+                    }
                     @include easeOut;
                     &.show{
                         transform: translate3d(0, 0, 0);
                     }
                 }
                 @for $x from 1 through 4 {
-                    .nav-item:nth-child(#{$x}){
+                    .menu-item:nth-child(#{$x}){
                         transition-delay: $x * .1s;
                     }
                 }
@@ -141,46 +149,7 @@ main{
     // 首页样式
     .content{
         @include transp;
-        .thread{
-            padding: .3rem;
-            height: 5rem;
-            max-height: 5rem;
-            margin: 1rem;
-            display: flex;
-            flex-direction: row;
-            justify-content: flex-start;
-            flex-wrap: nowrap;
-            &:hover{
-                background: lighten($color: rgba($secondary-color, .4), $amount: 2)
-            }
-            img{
-                width: 4.2rem;
-                height: 4.2rem;
-                border-radius: 2.5rem;
-            }
-            .info{
-                color: $primary-color;
-                font-weight: bold;
-                display: flex;
-                flex-direction: column;
-                align-items: flex-start;
-                justify-content: space-around;
-                margin-left: 1rem;
-                .thread-title{
-                    text-decoration: none;
-                    &:hover{
-                        text-decoration: underline;
-                    }
-                }
-                .thread-footer{
-                    color: $secondary-color;
-                    font-size: .9rem;
-                    span{
-                        margin-right: .7rem; 
-                    }
-                }
-            }
-        }
+        @include threadDisplay;
     }
     // 帖子内容样式
     .post-content{
@@ -281,25 +250,184 @@ main{
     }
     //profile样式
     .profile-content{
-        @include transp;
+        width: 85%;
         display: flex;
         flex-flow: row wrap;
-        justify-content: center;
-        align-items: center;
+        justify-content: space-between;
+        text-align: center;
         .profile-list{
-            background-color: lighten($color: $secondary-color, $amount: .5);
-            width: 20rem;
+            @include transp;
+            width: 25%;
             height: 30rem;
             margin-right: 3rem;
-            img{
-                width: 7rem;
-                height: 7rem;
+            text-align: center;
+            .profile-avatar{
+                margin-bottom: 1rem;
+                img{
+                    border: 1px solid $secondary-color;
+                    padding: 2px;
+                    width: 10rem;
+                    height: 10rem;
+                }
             }
+            .profile-items{
+                list-style: none;
+                line-height: 2rem;
+                .profile-item{
+                    a{
+                        text-decoration: none;
+                        &:hover{
+                            text-decoration: underline;
+                        }
+                        &:link,
+                        &:visited{
+                            color: $secondary-color;
+                        }
+                    }
+                }
+            }
+
         }
         .list-content{
-            background-color: lighten($color: $secondary-color, $amount: .5);
-            width: 50rem;
+            @include transp;
+            width: 60%;
             height: 30rem;
+            //我的帖子页样式
+            @include threadDisplay;
+            .forums-set-area,
+            .tag-groups-set-area,
+            .tags-set-area{
+                display: none;
+            }
+            //板块标签页样式
+            .forums-section{
+                margin-bottom: 5rem;
+                .forums-area{
+                    color: $primary-color;
+                    margin-bottom: 2rem;
+                    .forum-item{
+                        position: relative;
+                        display: inline;
+                        padding: .5rem 1rem;
+                        background-color: $primary-color;
+                        color: $secondary-color;
+                        font-weight: bold;
+                        margin-left: 1rem;
+                        border-radius: 1rem;
+                    .forum-display-button{
+                            display: inline;
+                            text-decoration: none;
+                            color: $secondary-color;
+                            &:visited,
+                            &:link{
+                                color: $secondary-color;
+                            }
+                    }
+                    .forum-delete-button{
+                        visibility: hidden;
+                        background-color: $secondary-color;
+                        color: $primary-color;
+                        position: absolute;
+                        right: 0;
+                        bottom: 1rem;
+                        width: 1rem;
+                        height: 1rem;
+                        padding: .1rem;
+                        border-radius: 1rem;
+                        &:hover{
+                            cursor: pointer;
+                            background-color: red;
+                        }
+                    }
+                    }
+                }
+            }
+            //标签组标签页样式
+            .tag-groups-section{
+margin-bottom: 5rem;
+                .tag-groups-area{
+                    color: $primary-color;
+                    margin-bottom: 2rem;
+                    .tag-groups-item{
+                        position: relative;
+                        display: inline;
+                        padding: .5rem 1rem;
+                        background-color: $primary-color;
+                        color: $secondary-color;
+                        font-weight: bold;
+                        margin-left: 1rem;
+                        border-radius: 1rem;
+                    .tag-groups-display-button{
+                            display: inline;
+                            text-decoration: none;
+                            color: $secondary-color;
+                            &:visited,
+                            &:link{
+                                color: $secondary-color;
+                            }
+                    }
+                    .tag-groups-delete-button{
+                        visibility: hidden;
+                        background-color: $secondary-color;
+                        color: $primary-color;
+                        position: absolute;
+                        right: 0;
+                        bottom: 1rem;
+                        width: 1rem;
+                        height: 1rem;
+                        padding: .1rem;
+                        border-radius: 1rem;
+                        &:hover{
+                            cursor: pointer;
+                            background-color: red;
+                        }
+                    }
+                    }
+                }
+            }
+            //标签组标签页样式
+            .tags-section{
+                margin-bottom: 5rem;
+            .tags-area{
+                color: $primary-color;
+                margin-bottom: 2rem;
+                .tags-item{
+                    position: relative;
+                    display: inline;
+                    padding: .5rem 1rem;
+                    background-color: $primary-color;
+                    color: $secondary-color;
+                    font-weight: bold;
+                    margin-left: 1rem;
+                    border-radius: 1rem;
+                .tags-display-button{
+                        display: inline;
+                        text-decoration: none;
+                        color: $secondary-color;
+                        &:visited,
+                        &:link{
+                            color: $secondary-color;
+                        }
+                }
+                .tags-delete-button{
+                    visibility: hidden;
+                    background-color: $secondary-color;
+                    color: $primary-color;
+                    position: absolute;
+                    right: 0;
+                    bottom: 1rem;
+                    width: 1rem;
+                    height: 1rem;
+                    padding: .1rem;
+                    border-radius: 1rem;
+                    &:hover{
+                        cursor: pointer;
+                        background-color: red;
+                    }
+                }
+                }
+            }
+            }
         }
     }
 }

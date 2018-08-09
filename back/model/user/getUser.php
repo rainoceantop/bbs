@@ -12,10 +12,9 @@ switch($symbol){
         break;
 }
 
-
 //根据id查询用户
 function getUserById($conn, $user_id){
-    $sql = 'select name, avatar, created_at from users where id = :user_id';
+    $sql = 'select name, avatar, created_at, last_online from users where id = :user_id';
     $stmt = $conn->prepare($sql);
     $stmt->bindParam(':user_id', $user_id);
     $stmt->execute();
@@ -25,6 +24,7 @@ function getUserById($conn, $user_id){
         $info['user'] = $row['name'];
         $info['avatar'] = $row['avatar'];
         $info['created_at'] = $row['created_at'];
+        $info['last_online'] = $row['last_online'];
     }
     echo json_encode($info, JSON_UNESCAPED_UNICODE);
 }

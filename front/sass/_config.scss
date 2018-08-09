@@ -23,3 +23,47 @@ $secondary-color: rgb(241, 246, 255);
 @mixin easeOut{
     transition: all 0.5s ease-out;
 }
+
+@mixin threadDisplay {
+    
+    .thread{
+        padding: .3rem;
+        height: 5rem;
+        max-height: 5rem;
+        margin: 1rem;
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        flex-wrap: nowrap;
+        &:hover{
+            background: lighten($color: rgba($secondary-color, .4), $amount: 2)
+        }
+        img{
+            width: 4.2rem;
+            height: 4.2rem;
+            border-radius: 2.5rem;
+        }
+        .info{
+            color: $primary-color;
+            font-weight: bold;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: space-around;
+            margin-left: 1rem;
+            .thread-title{
+                text-decoration: none;
+                &:hover{
+                    text-decoration: underline;
+                }
+            }
+            .thread-footer{
+                color: $secondary-color;
+                font-size: .9rem;
+                span{
+                    margin-right: .7rem; 
+                }
+            }
+        }
+    }
+}

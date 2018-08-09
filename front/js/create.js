@@ -36,32 +36,27 @@ function postThread(e) {
     tagsArr.forEach(item => {
         tags.push(item.value)
     })
+    console.log(window.is_login)
     //获取用户登录信息
-    axios.get('../back/handler/loginHandler.php?log=2')
-        .then(response => {
-            if (response.data.is_login) {
-                let html = converter.makeHtml(bodyField.value)
-                let params = {
-                    thread_title: titleField.value,
-                    forum_id: forumField.value,
-                    thread_body: html,
-                    thread_head: response.data.user,
-                    user_id: response.data.id,
-                    tags: tags
-                }
-                axios.post('../back/model/thread/addThread.php', params)
-                    .then(response => {
-                        window.location.href = `detail.html?id=${response.data}`
-                    })
-                    .catch(error => {
-                        console.log(error)
-                    })
-            }
-        })
-        .catch(error => {
-            console.log(error)
-        })
+    if (window.is_login) {
+        let html = converter.makeHtml(bodyField.value)
+        let params = {
+            thread_title: titleField.value,
+            forum_id: forumField.value,
+            thread_body: html,
+            thread_head: window.user,
+            user_id: window.user_id,
+            tags: tags
+        }
+        axios.post('../back/model/thread/addThread.php', params)
+            .then(response => {
+                window.location.href = `detail.html?id=${response.data}`
+            })
+            .catch(error => {
+                console.log(error)
+            })
 
+    }
 
 }
 
