@@ -196,6 +196,114 @@ main{
             }
         }
     }
+    //帖子回复样式
+    .reply-content{
+        @include transp;
+        margin-top: 1rem;
+        .reply-label{
+            padding: .5rem 0;
+            border-bottom: 1px solid $secondary-color;
+        }
+        .reply-list{
+            textarea{
+                @include fieldUnderline;
+                height: 2rem;
+                resize: vertical;
+            }
+            .reply-items{
+                padding: 1rem;
+                .reply-item{
+                width: 100%;
+                display: flex;
+                flex-flow: row nowrap;
+                padding: .3rem;
+                margin-bottom: 1rem;
+                .reply-avatar{
+                    img{
+                        width: 4rem;
+                        height: 4rem;
+                        border-radius: 2rem;
+
+                    }
+                }
+                .reply-info{
+                    width: 100%;
+                    padding: 0 1rem;
+                    .reply-header{
+                        display: flex;
+                        flex-flow: row nowrap;
+                        justify-content: space-between;
+                        .user-name{
+                            color: $primary-color;
+                            font-size: 1rem;
+                            font-weight: bold;
+                            margin-right: .5rem;
+                        }
+                        .date{
+                            color: lighten($color: $primary-color, $amount: 2);
+                            font-size: .9rem;
+                        }
+                        .reply-button{
+                            &:visited,
+                            &:link{
+                                color: lighten($primary-color, 10);
+                                outline: none;
+                            }
+                            &:hover{
+                                color: $primary-color;
+                            }
+                        }
+                    }
+                    .reply-body{
+                        padding: 1rem 0;
+                        .replied-show{
+                            display: flex;
+                            flex-flow: row nowrap;
+                            align-items: center;
+                            background-color: darken($color: $secondary-color, $amount: 1);
+                            padding: .5rem;
+                            opacity: .7;
+                            margin-bottom: 1rem;
+                            .avatar{
+                                img{
+                                    width: 2rem;
+                                    height: 2rem;
+                                    border-radius: 1rem;
+                                }
+                            }
+                            .name{
+                                margin-left: .5rem;
+                                color: lighten($color: $primary-color, $amount: 10);
+                            }
+                            .info{
+                                margin-left: 1rem;
+                            }
+                        }
+                    }
+                }
+                }
+            }
+            .reply-form{
+                padding: .2rem 2rem;
+                .reply-form-submit-button{
+                    text-decoration: none;
+                    background-color: $primary-color;
+                    padding: .5rem .8rem;
+                    border-radius: .2rem;
+                    :hover{
+                        cursor: pointer;
+                    }
+                    &:link,
+                    &:visited{
+                        color: $secondary-color;
+                    }
+                }
+            }
+        }
+
+    }
+
+
     // 帖子创建页样式
     .create-content{
         @include transp;
@@ -235,7 +343,7 @@ main{
                 background-color: lighten($color: $primary-color, $amount: 10)
             }
             &:link,
-            &visited{
+            &:visited{
                 text-decoration: none;
                 outline: none;
             }
@@ -344,7 +452,7 @@ main{
             }
             //标签组标签页样式
             .tag-groups-section{
-margin-bottom: 5rem;
+                margin-bottom: 5rem;
                 .tag-groups-area{
                     color: $primary-color;
                     margin-bottom: 2rem;

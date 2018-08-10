@@ -86,6 +86,7 @@ function getThreads($conn, $param, $symbol){
             $info['thread_head'] = $row['thread_head'];
             $info['posted_time'] = $row['thread_created_at'];
             if($symbol == 'threadDetail'){
+                $info['head_id'] = $row['head_id'];
                 $info['thread_body'] = $row['thread_body'];
                 $info['views'] = random_int(1, 200000);
             } else {

@@ -17,10 +17,3 @@ class Database {
         }
     }
 }
-// $a = new Database();
-// $conn = $a->connect();
-// $stmt=$conn->prepare("select * from threads");
-// $stmt->execute();
-// while($row = $stmt->fetch()) {
-//     print_r($row);
-// }

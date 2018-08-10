@@ -56,6 +56,8 @@ function postThread(e) {
                 console.log(error)
             })
 
+    } else {
+        window.location.href = 'login.html'
     }
 
 }

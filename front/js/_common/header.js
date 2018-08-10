@@ -52,6 +52,7 @@ axios.get('_part/header.html')
         //处理登录
         const logAction = document.querySelector('.menu .menu-nav .log-action')
         const user = document.querySelector('.menu .menu-nav .user')
+        const branding = document.querySelector('.menu .menu-branding')
         setTimeout(checkLogin, 500)
         function checkLogin() {
 
@@ -62,6 +63,7 @@ axios.get('_part/header.html')
                 user.classList.add('user-in')
                 logAction.innerHTML = `<a href='#!'>注销</a>`
                 user.innerHTML = `<a href='my.html'>${window.user}</a>`
+                branding.innerHTML = `<img src="${window.user_avatar}" alt="" width="100px" height="100px" />`
                 logAction.addEventListener('click', function () {
                     axios.get('../back/handler/loginHandler.php?log=1')
                         .then(response => {

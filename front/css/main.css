@@ -181,6 +181,89 @@ main {
         width: 3rem;
         height: 3rem;
         border-radius: 3rem; }
+  main .reply-content {
+    background-color: rgba(241, 246, 255, 0.4);
+    width: 85%;
+    padding: 1.7rem;
+    margin-top: 1rem; }
+    main .reply-content .reply-label {
+      padding: .5rem 0;
+      border-bottom: 1px solid #f1f6ff; }
+    main .reply-content .reply-list textarea {
+      border-top-style: none;
+      border-left-style: none;
+      border-right-style: none;
+      background-color: transparent;
+      border-bottom: 3px solid yellow;
+      width: 100%;
+      margin-bottom: 1.7rem;
+      padding: 1rem 0;
+      color: white;
+      font-size: 1.7rem;
+      height: 2rem;
+      resize: vertical; }
+    main .reply-content .reply-list .reply-items {
+      padding: 1rem; }
+      main .reply-content .reply-list .reply-items .reply-item {
+        width: 100%;
+        display: flex;
+        flex-flow: row nowrap;
+        padding: .3rem;
+        margin-bottom: 1rem; }
+        main .reply-content .reply-list .reply-items .reply-item .reply-avatar img {
+          width: 4rem;
+          height: 4rem;
+          border-radius: 2rem; }
+        main .reply-content .reply-list .reply-items .reply-item .reply-info {
+          width: 100%;
+          padding: 0 1rem; }
+          main .reply-content .reply-list .reply-items .reply-item .reply-info .reply-header {
+            display: flex;
+            flex-flow: row nowrap;
+            justify-content: space-between; }
+            main .reply-content .reply-list .reply-items .reply-item .reply-info .reply-header .user-name {
+              color: #444;
+              font-size: 1rem;
+              font-weight: bold;
+              margin-right: .5rem; }
+            main .reply-content .reply-list .reply-items .reply-item .reply-info .reply-header .date {
+              color: #494949;
+              font-size: .9rem; }
+            main .reply-content .reply-list .reply-items .reply-item .reply-info .reply-header .reply-button:visited, main .reply-content .reply-list .reply-items .reply-item .reply-info .reply-header .reply-button:link {
+              color: #5e5e5e;
+              outline: none; }
+            main .reply-content .reply-list .reply-items .reply-item .reply-info .reply-header .reply-button:hover {
+              color: #444; }
+          main .reply-content .reply-list .reply-items .reply-item .reply-info .reply-body {
+            padding: 1rem 0; }
+            main .reply-content .reply-list .reply-items .reply-item .reply-info .reply-body .replied-show {
+              display: flex;
+              flex-flow: row nowrap;
+              align-items: center;
+              background-color: #ecf3ff;
+              padding: .5rem;
+              opacity: .7;
+              margin-bottom: 1rem; }
+              main .reply-content .reply-list .reply-items .reply-item .reply-info .reply-body .replied-show .avatar img {
+                width: 2rem;
+                height: 2rem;
+                border-radius: 1rem; }
+              main .reply-content .reply-list .reply-items .reply-item .reply-info .reply-body .replied-show .name {
+                margin-left: .5rem;
+                color: #5e5e5e; }
+              main .reply-content .reply-list .reply-items .reply-item .reply-info .reply-body .replied-show .info {
+                margin-left: 1rem; }
+    main .reply-content .reply-list .reply-form {
+      padding: .2rem 2rem; }
+      main .reply-content .reply-list .reply-form .reply-form-submit-button {
+        text-decoration: none;
+        background-color: #444;
+        padding: .5rem .8rem;
+        border-radius: .2rem; }
+        main .reply-content .reply-list .reply-form .reply-form-submit-button :hover {
+          cursor: pointer; }
+        main .reply-content .reply-list .reply-form .reply-form-submit-button:link, main .reply-content .reply-list .reply-form .reply-form-submit-button:visited {
+          color: #f1f6ff; }
   main .create-content {
     background-color: rgba(241, 246, 255, 0.4);
     width: 85%;
@@ -223,7 +306,7 @@ main {
       border-radius: 1rem; }
       main .create-content .create-button:hover {
         background-color: #5e5e5e; }
-      main .create-content .create-button:link, main .create-content .create-buttonvisited {
+      main .create-content .create-button:link, main .create-content .create-button:visited {
         text-decoration: none;
         outline: none; }
   main .login-content {

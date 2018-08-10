@@ -52,6 +52,123 @@ axios.get('../back/model/thread/getThread.php?for=getThreadDetail&id=' + id)
             </div>
             `
 
+
+
+        //回复帖子域
+        let replyForm = document.querySelector('.reply-form')
+        let replyBody = replyForm.querySelector('textarea')
+        let replyFormSubmitButton = replyForm.querySelector('.reply-form-submit-button')
+        //初始化变量，如果回复的是评论则修改
+        let replied_index = 0
+        let to_user_id = data.head_id
+
+
+        //显示回复
+        const replyItems = document.querySelector('.reply-items')
+        const replyLabel = document.querySelector('.reply-label')
+        //获取回复
+        axios.get('../back/model/reply/getReply.php?for=getRepliesByThreadId&thread_id=' + id)
+            .then(response => {
+                let resp = response.data
+                //评论数统计
+                replyLabel.innerHTML = `<h3>最新回复(${resp.length})</h3>`
+
+                let html = ''
+                for (let i in resp) {
+                    html +=
+                        `
+                    <div class="reply-item">
+                    <div class="reply-avatar">
+                        <img src="${resp[i].from_user_avatar}">
+                    </div>
+                    <div class="reply-info">
+                        <div class="reply-header">
+                            <div>
+                                <span class="user-name">${resp[i].from_user_name}</span>
+                                <span class="date">${resp[i].replied_time}</span>
+                            </div>
+                            <div>
+                                <span>
+                                    <a href="#!" class="reply-button" data-rname="${resp[i].from_user_name}" data-rid="${resp[i].from_user_id}" data-index="${resp[i].replied_id}"><i class="fas fa-reply"></i></a>
+                                    ${parseInt(i) + 1}楼
+                                </span>
+                            </div>
+                        </div>
+                        <div class="reply-body">
+                        `
+                    if (resp[i].replied_index != 0) {
+                        html +=
+                            `
+                            <div class="replied-show">
+                                <div class="avatar">
+                                    <img src="${resp[i].to_user_avatar}">
+                                </div>
+                                <div class="name">${resp[i].to_user_name}</div>
+                                <div class="info">${resp[i].to_user_replied}</div>
+                            </div>
+                            `
+                    }
+                    html +=
+                        `
+                            ${resp[i].replied_body}
+                        </div>
+                    </div>
+                </div>
+                    `
+                }
+                replyItems.innerHTML = html
+
+                //监听回复按钮点击事件
+                const replyButton = replyItems.querySelectorAll('.reply-button')
+                replyButton.forEach(button => {
+                    //回复帖子或者留言开关
+                    let toggle = false
+                    button.addEventListener('click', function () {
+                        if (!toggle) {
+                            to_user_id = this.dataset.rid
+                            replied_index = this.dataset.index
+                            replyBody.placeholder = `回复 ${this.dataset.rname}：`
+                            window.location.hash = "#reply-form"
+                            replyBody.focus()
+                            toggle = true
+                        } else {
+                            to_user_id = data.head_id
+                            replied_index = 0
+                            replyBody.placeholder = ''
+                            window.location.hash = "#reply-form"
+                            replyBody.focus()
+                            toggle = false
+                        }
+                    })
+                })
+            })
+            .catch(error => {
+                console.log(error)
+            })
+
+        replyFormSubmitButton.addEventListener('click', function (e) {
+            e.preventDefault()
+            let params = {
+                thread_id: id,
+                replied_body: replyBody.value,
+                replied_index: replied_index,
+                from_user_id: window.user_id,
+                to_user_id: to_user_id
+            }
+            axios.post('../back/model/reply/addReply.php', params)
+                .then(response => {
+                    if (response.data == 'SUCCESS') {
+                        replyBody.value = ''
+                        window.location.reload()
+                    }
+                    else {
+                        alert('回复评论出错，可能未登录或其他原因')
+                    }
+                })
+                .catch(error => {
+                    console.log(error)
+                })
+        })
     })
     .catch(error => {
         console.log(error)

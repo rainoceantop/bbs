@@ -4,11 +4,6 @@ const tagGroupsArea = document.querySelector('.tag-groups-area')
 const tagsArea = document.querySelector('.tags-area')
 
 
-
-
-
-
-
 //在板块域展示板块
 axios.get('../back/model/forum/getForum.php?for=getForumName')
     .then(response => {
