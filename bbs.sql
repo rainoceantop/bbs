@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Aug 09, 2018 at 11:43 AM
+-- Generation Time: Aug 10, 2018 at 11:15 AM
 -- Server version: 10.1.34-MariaDB
 -- PHP Version: 7.2.7
 
@@ -125,7 +125,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `username`, `password`, `name`, `avatar`, `created_at`, `last_online`) VALUES
-(3, 'superAdmin', '123456', '乌托邦', 'imgs/3.jpg', '2018-08-08 13:20:13', '2018-08-09 10:46:31');
+(4, 'helloworld', '123456', '卡西莫多', 'imgs/2.jpg', '2018-08-10 12:02:33', '2018-08-10 17:02:36');
 
 --
 -- Indexes for dumped tables
@@ -142,7 +142,9 @@ ALTER TABLE `forums`
 --
 ALTER TABLE `replies`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `thread_id_ref` (`thread_id`);
+  ADD KEY `thread_id_ref` (`thread_id`),
+  ADD KEY `from_user_id` (`from_user_id`),
+  ADD KEY `to_user_id` (`to_user_id`);
 
 --
 -- Indexes for table `tags`
@@ -190,31 +192,31 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `forums`
 --
 ALTER TABLE `forums`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `replies`
 --
 ALTER TABLE `replies`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT for table `tags`
 --
 ALTER TABLE `tags`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `tag_groups`
 --
 ALTER TABLE `tag_groups`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `threads`
 --
 ALTER TABLE `threads`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `users`
@@ -230,7 +232,9 @@ ALTER TABLE `users`
 -- Constraints for table `replies`
 --
 ALTER TABLE `replies`
-  ADD CONSTRAINT `thread_id_ref` FOREIGN KEY (`thread_id`) REFERENCES `threads` (`id`);
+  ADD CONSTRAINT `replies_ibfk_1` FOREIGN KEY (`from_user_id`) REFERENCES `users` (`id`),
+  ADD CONSTRAINT `replies_ibfk_2` FOREIGN KEY (`to_user_id`) REFERENCES `users` (`id`),
+  ADD CONSTRAINT `thread_id_ref` FOREIGN KEY (`thread_id`) REFERENCES `threads` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `tags`
