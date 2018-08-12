@@ -63,6 +63,7 @@ function fetch_data($stmt, $symbol){
             }
             if($symbol == 'threadTags'){
                 $data['thread_id'] = $row['thread_id'];
+                $data['tag_id'] = $row['id'];
                 $data['tag_name'] = $row['tag_name'];
             }
         array_push($resp, $data);

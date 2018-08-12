@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.2
+-- version 4.8.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Aug 10, 2018 at 11:15 AM
--- Server version: 10.1.34-MariaDB
--- PHP Version: 7.2.7
+-- Generation Time: 2018-08-12 19:36:39
+-- 服务器版本： 10.1.33-MariaDB
+-- PHP Version: 7.2.6
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -25,7 +25,7 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `forums`
+-- 表的结构 `forums`
 --
 
 CREATE TABLE `forums` (
@@ -33,10 +33,18 @@ CREATE TABLE `forums` (
   `forum_name` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- 转存表中的数据 `forums`
+--
+
+INSERT INTO `forums` (`id`, `forum_name`) VALUES
+(7, 'BUG'),
+(8, '哈哈');
+
 -- --------------------------------------------------------
 
 --
--- Table structure for table `replies`
+-- 表的结构 `replies`
 --
 
 CREATE TABLE `replies` (
@@ -49,10 +57,21 @@ CREATE TABLE `replies` (
   `replied_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- 转存表中的数据 `replies`
+--
+
+INSERT INTO `replies` (`id`, `thread_id`, `replied_body`, `replied_index`, `from_user_id`, `to_user_id`, `replied_time`) VALUES
+(25, 5, 'fdsfsdf', 0, 4, 4, '2018-08-12 04:54:39'),
+(26, 5, 'fsdfsdfsdf', 25, 4, 4, '2018-08-12 04:54:46'),
+(32, 5, 'jghjghj', 0, 4, 4, '2018-08-12 23:52:35'),
+(33, 5, 'yreyetyery', 0, 5, 4, '2018-08-13 00:08:16'),
+(34, 5, 'khjkhjk', 0, 5, 4, '2018-08-13 00:09:20');
+
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tags`
+-- 表的结构 `tags`
 --
 
 CREATE TABLE `tags` (
@@ -62,10 +81,21 @@ CREATE TABLE `tags` (
   `tag_name` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- 转存表中的数据 `tags`
+--
+
+INSERT INTO `tags` (`id`, `forum_id`, `tag_group_id`, `tag_name`) VALUES
+(1, 7, 1, 'bug1'),
+(2, 7, 1, 'bug2'),
+(3, 8, 2, '哈哈1'),
+(4, 8, 2, '哈哈2'),
+(5, 7, 3, 'test');
+
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tag_groups`
+-- 表的结构 `tag_groups`
 --
 
 CREATE TABLE `tag_groups` (
@@ -74,10 +104,19 @@ CREATE TABLE `tag_groups` (
   `tag_group_name` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- 转存表中的数据 `tag_groups`
+--
+
+INSERT INTO `tag_groups` (`id`, `forum_id`, `tag_group_name`) VALUES
+(1, 7, 'PHP'),
+(2, 8, '哈哈哈'),
+(3, 7, 'JAVA');
+
 -- --------------------------------------------------------
 
 --
--- Table structure for table `threads`
+-- 表的结构 `threads`
 --
 
 CREATE TABLE `threads` (
@@ -89,14 +128,27 @@ CREATE TABLE `threads` (
   `head_id` int(10) UNSIGNED NOT NULL,
   `thread_created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `last_replied_user` int(10) UNSIGNED NOT NULL DEFAULT '0',
   `thread_is_filed` enum('0','1') NOT NULL DEFAULT '0',
-  `updated_reason` varchar(100) NOT NULL DEFAULT 'none'
+  `updated_reason` varchar(100) NOT NULL DEFAULT 'none',
+  `last_replied_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- 转存表中的数据 `threads`
+--
+
+INSERT INTO `threads` (`id`, `forum_id`, `thread_title`, `thread_body`, `thread_head`, `head_id`, `thread_created_at`, `updated_at`, `last_replied_user`, `thread_is_filed`, `updated_reason`, `last_replied_time`) VALUES
+(5, 7, '价格和价格和', '<p>fsdfsdfsdfsdf</p>', '卡西莫多', 4, '2018-08-12 04:54:33', '2018-08-12 04:54:33', 5, '0', 'none', '2018-08-13 00:09:20'),
+(6, 7, ';jhjgjg', '<p>hjgjjhgj</p>', '不蓝等', 5, '2018-08-13 00:10:43', '2018-08-13 00:10:43', 0, '0', 'none', '2018-08-13 00:10:43'),
+(7, 7, 'u有图', '<p>u有图图</p>', '不蓝等', 5, '2018-08-13 00:21:21', '2018-08-13 00:21:21', 0, '0', 'none', '2018-08-13 00:21:21'),
+(8, 7, 'ouioui', '<p>ouiouio</p>', '不蓝等', 5, '2018-08-13 00:46:55', '2018-08-13 00:46:55', 0, '0', 'none', '2018-08-13 00:46:55'),
+(9, 7, 'u有突然他们', '<p>u他与人</p>', '不蓝等', 5, '2018-08-13 01:04:54', '2018-08-13 01:04:54', 0, '0', 'none', '2018-08-13 01:04:54');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `thread_tag_ref`
+-- 表的结构 `thread_tag_ref`
 --
 
 CREATE TABLE `thread_tag_ref` (
@@ -104,10 +156,21 @@ CREATE TABLE `thread_tag_ref` (
   `tag_id` int(10) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- 转存表中的数据 `thread_tag_ref`
+--
+
+INSERT INTO `thread_tag_ref` (`thread_id`, `tag_id`) VALUES
+(7, 2),
+(8, 1),
+(8, 5),
+(9, 1),
+(9, 5);
+
 -- --------------------------------------------------------
 
 --
--- Table structure for table `users`
+-- 表的结构 `users`
 --
 
 CREATE TABLE `users` (
@@ -121,11 +184,12 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `users`
+-- 转存表中的数据 `users`
 --
 
 INSERT INTO `users` (`id`, `username`, `password`, `name`, `avatar`, `created_at`, `last_online`) VALUES
-(4, 'helloworld', '123456', '卡西莫多', 'imgs/2.jpg', '2018-08-10 12:02:33', '2018-08-10 17:02:36');
+(4, 'helloworld', '123456', '卡西莫多', 'imgs/2.jpg', '2018-08-10 12:02:33', '2018-08-12 23:42:36'),
+(5, 'admin', '123456', '不蓝等', 'imgs/1.jpg', '2018-08-13 00:07:58', '2018-08-13 00:08:11');
 
 --
 -- Indexes for dumped tables
@@ -185,51 +249,51 @@ ALTER TABLE `users`
   ADD UNIQUE KEY `name` (`name`);
 
 --
--- AUTO_INCREMENT for dumped tables
+-- 在导出的表使用AUTO_INCREMENT
 --
 
 --
--- AUTO_INCREMENT for table `forums`
+-- 使用表AUTO_INCREMENT `forums`
 --
 ALTER TABLE `forums`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
--- AUTO_INCREMENT for table `replies`
+-- 使用表AUTO_INCREMENT `replies`
 --
 ALTER TABLE `replies`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
--- AUTO_INCREMENT for table `tags`
+-- 使用表AUTO_INCREMENT `tags`
 --
 ALTER TABLE `tags`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- 使用表AUTO_INCREMENT `tag_groups`
+--
+ALTER TABLE `tag_groups`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT for table `tag_groups`
---
-ALTER TABLE `tag_groups`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
-
---
--- AUTO_INCREMENT for table `threads`
+-- 使用表AUTO_INCREMENT `threads`
 --
 ALTER TABLE `threads`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
--- AUTO_INCREMENT for table `users`
+-- 使用表AUTO_INCREMENT `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
--- Constraints for dumped tables
+-- 限制导出的表
 --
 
 --
--- Constraints for table `replies`
+-- 限制表 `replies`
 --
 ALTER TABLE `replies`
   ADD CONSTRAINT `replies_ibfk_1` FOREIGN KEY (`from_user_id`) REFERENCES `users` (`id`),
@@ -237,7 +301,7 @@ ALTER TABLE `replies`
   ADD CONSTRAINT `thread_id_ref` FOREIGN KEY (`thread_id`) REFERENCES `threads` (`id`) ON DELETE CASCADE;
 
 --
--- Constraints for table `tags`
+-- 限制表 `tags`
 --
 ALTER TABLE `tags`
   ADD CONSTRAINT `ft_fk` FOREIGN KEY (`forum_id`) REFERENCES `tag_groups` (`forum_id`) ON DELETE CASCADE,
@@ -245,20 +309,20 @@ ALTER TABLE `tags`
   ADD CONSTRAINT `ttg_fk` FOREIGN KEY (`tag_group_id`) REFERENCES `tag_groups` (`id`) ON DELETE CASCADE;
 
 --
--- Constraints for table `tag_groups`
+-- 限制表 `tag_groups`
 --
 ALTER TABLE `tag_groups`
   ADD CONSTRAINT `forum_tag_group_fk` FOREIGN KEY (`forum_id`) REFERENCES `forums` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `threads`
+-- 限制表 `threads`
 --
 ALTER TABLE `threads`
   ADD CONSTRAINT `thread_forum_fk` FOREIGN KEY (`forum_id`) REFERENCES `forums` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `thread_user_fk` FOREIGN KEY (`head_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
 
 --
--- Constraints for table `thread_tag_ref`
+-- 限制表 `thread_tag_ref`
 --
 ALTER TABLE `thread_tag_ref`
   ADD CONSTRAINT `t_id_fk` FOREIGN KEY (`thread_id`) REFERENCES `threads` (`id`) ON DELETE CASCADE;

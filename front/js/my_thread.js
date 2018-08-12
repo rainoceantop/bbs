@@ -15,7 +15,7 @@ function getListContent() {
                 for (let i in threads) {
                     let tagHtml = ''
                     for (let j = 0; j < threads[i].tags.length; j++) {
-                        tagHtml += `<span class="tag">${threads[i].tags[j]}</span>`
+                        tagHtml += `<span class="tag"><a href='home.html?tagId=${threads[i].tags[j].id}'>${threads[i].tags[j].name}</a></span>`
                     }
                     html += `
                     

@@ -14,7 +14,7 @@ axios.get('../back/model/thread/getThread.php?for=getThreadDetail&id=' + id)
 
         let tagHtml = ''
         for (let j = 0; j < data.tags.length; j++) {
-            tagHtml += `<span class="tag">${data.tags[j]}</span>`
+            tagHtml += `<span class="tag"><a href='home.html?tagId=${data.tags[j].id}'>${data.tags[j].name}</a></span>`
         }
         //获取板块名
         axios.get('../back/model/forum/getForum.php?for=getForumNameById&id=' + data.forum_id)

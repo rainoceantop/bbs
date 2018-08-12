@@ -19,7 +19,7 @@ axios.get('../back/model/thread/getThread.php?for=getForumThreads&id=' + params.
         for (let i in thread_info) {
             let tagHtml = ''
             for (let j = 0; j < thread_info[i].tags.length; j++) {
-                tagHtml += `<span class="tag">${thread_info[i].tags[j]}</span>`
+                tagHtml += `<span class="tag"><a href='home.html?tagId=${thread_info[i].tags[j].id}'>${thread_info[i].tags[j].name}</a></span>`
             }
             content.innerHTML +=
                 `

@@ -1,5 +1,17 @@
 
-axios.get('../back/model/thread/getThread.php?for=getHomeThreads')
+//获取url的id参数
+let uri = window.location.search
+let params = new URLSearchParams(uri)
+let tagId = params.get('tagId')
+let api_url
+
+if (isNaN(tagId) || tagId == null)
+    api_url = '../back/model/thread/getThread.php?for=getHomeThreads'
+else
+    api_url = '../back/model/thread/getThread.php?for=getHomeThreadsByTagId&&id=' + tagId
+
+
+axios.get(api_url)
     .then(response => {
         console.log(response.data)
         const content = document.querySelector('.content')
@@ -7,7 +19,7 @@ axios.get('../back/model/thread/getThread.php?for=getHomeThreads')
         for (let i in thread_info) {
             let tagHtml = ''
             for (let j = 0; j < thread_info[i].tags.length; j++) {
-                tagHtml += `<span class="tag">${thread_info[i].tags[j]}</span>`
+                tagHtml += `<span class="tag"><a href='home.html?tagId=${thread_info[i].tags[j].id}'>${thread_info[i].tags[j].name}</a></span>`
             }
             content.innerHTML +=
                 `

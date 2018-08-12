@@ -23,6 +23,10 @@ switch($symbol){
         $user_id = $_GET['id'];
         getUserThreads($conn, $user_id);
         break;
+    case "getHomeThreadsByTagId":
+        $tag_id = $_GET['id'];
+        getHomeThreadsByTagId($conn, $tag_id);
+        break;
 }
 
 
@@ -46,17 +50,15 @@ function getUserThreads($conn, $user_id){
     getThreads($conn, $user_id, 'userThreads');
 }
 
+//根据标签id获取帖子
+function getHomeThreadsByTagId($conn, $tag_id){
+    getThreads($conn, $tag_id, 'homtThreadsByTagId');
+}
+
 function getThreads($conn, $param, $symbol){
     $resp = array();
     $data = array();
     $info = array();
-    $replied_user = array(
-        'Austin',
-        '雨果',
-        '亚历山大',
-        '周树人',
-        'David'
-    );
     try{
         $conn -> beginTransaction();
         if($symbol == 'homeThreads'){
@@ -74,6 +76,10 @@ function getThreads($conn, $param, $symbol){
             $sql = 'select * from threads where head_id = :user_id;';
             $stmt = $conn->prepare($sql);
             $stmt->bindParam(':user_id', $param);
+        } else if($symbol == 'homtThreadsByTagId'){
+            $sql = 'select * from threads, thread_tag_ref ttr where ttr.thread_id = threads.id and ttr.tag_id = :tag_id';
+            $stmt = $conn->prepare($sql);
+            $stmt->bindParam(':tag_id', $param);
         }
         $stmt->execute();
         while($row = $stmt->fetch()) {
@@ -90,18 +96,27 @@ function getThreads($conn, $param, $symbol){
                 $info['thread_body'] = $row['thread_body'];
                 $info['views'] = random_int(1, 200000);
             } else {
-                $info['replied_user'] = $replied_user[array_rand($replied_user)];
-                $info['replied_time'] = '2018-07-05 15:12:04';
+                //获取最后回复人的名称和回复时间
+                $sql = 'select name,last_replied_time from threads left join users on threads.id = :thread_id and users.id = threads.last_replied_user;';
+                $s = $conn->prepare($sql);
+                $s->bindParam(':thread_id', $row['id']);
+                $s->execute();
+                $rd = $s->fetch();
+                $info['replied_user'] = $rd[0];
+                $info['replied_time'] = $rd[1];
             }
 
             //获取帖子标签
-            $sql = 'select tag_name from tags, thread_tag_ref ttr where ttr.thread_id = :thread_id and tags.id = ttr.tag_id;';
+            $sql = 'select id, tag_name from tags, thread_tag_ref ttr where ttr.thread_id = :thread_id and tags.id = ttr.tag_id;';
             $s = $conn->prepare($sql);
             $s->bindParam(':thread_id', $row['id']);
             $s->execute();
             $info['tags'] = array();
+            $tag_item = array();
             while($row = $s->fetch()){
-                array_push($info['tags'], $row[0]);
+                $tag_item['id'] = $row['id'];
+                $tag_item['name'] = $row['tag_name'];
+                array_push($info['tags'], $tag_item);
             }
             array_push($data, $info);
         }
