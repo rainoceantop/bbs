@@ -498,6 +498,12 @@ main {
               main .profile-content .list-content .tags-section .tags-area .tags-item .tags-delete-button:hover {
                 cursor: pointer;
                 background-color: red; }
+      main .profile-content .list-content .user-group-list,
+      main .profile-content .list-content .user-list {
+        width: 100%;
+        background-color: #e7efff;
+        margin-bottom: 1rem;
+        padding: 1rem 0; }
 
 .tag-field {
   font-size: 1rem;

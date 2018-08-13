@@ -97,7 +97,7 @@ function getThreads($conn, $param, $symbol){
                 $info['views'] = random_int(1, 200000);
             } else {
                 //获取最后回复人的名称和回复时间
-                $sql = 'select name,last_replied_time from threads left join users on threads.id = :thread_id and users.id = threads.last_replied_user;';
+                $sql = 'select name,last_replied_time from users, threads where users.id = threads.last_replied_user and threads.id = :thread_id';
                 $s = $conn->prepare($sql);
                 $s->bindParam(':thread_id', $row['id']);
                 $s->execute();

@@ -1,35 +1,50 @@
-
-//获取url的id参数
-let uri = window.location.search
-let params = new URLSearchParams(uri)
-let id = params.get('id')
-
-//查询当前id的信息                                  
-axios.get('../back/model/thread/getThread.php?for=getThreadDetail&id=' + id)
+//查看当前用户是否有权查看内容
+axios.get('../back/handler/loginHandler.php?log=2')
     .then(response => {
-        const location = document.querySelector('.location')
-        const content = document.querySelector('.post-content')
-        console.log(response.data)
-        let data = response.data[0][0]
-
-        let tagHtml = ''
-        for (let j = 0; j < data.tags.length; j++) {
-            tagHtml += `<span class="tag"><a href='home.html?tagId=${data.tags[j].id}'>${data.tags[j].name}</a></span>`
-        }
-        //获取板块名
-        axios.get('../back/model/forum/getForum.php?for=getForumNameById&id=' + data.forum_id)
+        axios.get('../back/handler/rightsHandler.php?check=canReadUsers&user_id=' + response.data.id)
             .then(response => {
-                //显示位置
-                location.innerHTML = `<a href='home.html'>首页</a> / <a href='forum.html?forum=${response.data[0]}'>${response.data[1]}</a> / <span>${data.thread_title}</span>`
+                if (!response.data) {
+                    window.location.href = 'home.html'
+                } else {
+                    loadPage()
+                }
             })
-            .catch(error => {
-                console.log(error)
-            })
+            .catch(error => console.log(error))
+    })
+    .catch(error => console.log(error))
+
+function loadPage() {
+    //获取url的id参数
+    let uri = window.location.search
+    let params = new URLSearchParams(uri)
+    let id = params.get('id')
+
+    //查询当前id的信息                                  
+    axios.get('../back/model/thread/getThread.php?for=getThreadDetail&id=' + id)
+        .then(response => {
+            const location = document.querySelector('.location')
+            const content = document.querySelector('.post-content')
+            console.log(response.data)
+            let data = response.data[0][0]
+
+            let tagHtml = ''
+            for (let j = 0; j < data.tags.length; j++) {
+                tagHtml += `<span class="tag"><a href='home.html?tagId=${data.tags[j].id}'>${data.tags[j].name}</a></span>`
+            }
+            //获取板块名
+            axios.get('../back/model/forum/getForum.php?for=getForumNameById&id=' + data.forum_id)
+                .then(response => {
+                    //显示位置
+                    location.innerHTML = `<a href='home.html'>首页</a> / <a href='forum.html?forum=${response.data[0]}'>${response.data[1]}</a> / <span>${data.thread_title}</span>`
+                })
+                .catch(error => {
+                    console.log(error)
+                })
 
 
-        //显示内容信息
-        content.innerHTML =
-            `
+            //显示内容信息
+            content.innerHTML =
+                `
             <div class="post-header">
             <div class="post-title">
                 ${data.thread_title} <span class="tag-field">${tagHtml}</span>
@@ -54,29 +69,29 @@ axios.get('../back/model/thread/getThread.php?for=getThreadDetail&id=' + id)
 
 
 
-        //回复帖子域
-        let replyForm = document.querySelector('.reply-form')
-        let replyBody = replyForm.querySelector('textarea')
-        let replyFormSubmitButton = replyForm.querySelector('.reply-form-submit-button')
-        //初始化变量，如果回复的是评论则修改
-        let replied_index = 0
-        let to_user_id = data.head_id
+            //回复帖子域
+            let replyForm = document.querySelector('.reply-form')
+            let replyBody = replyForm.querySelector('textarea')
+            let replyFormSubmitButton = replyForm.querySelector('.reply-form-submit-button')
+            //初始化变量，如果回复的是评论则修改
+            let replied_index = 0
+            let to_user_id = data.head_id
 
 
-        //显示回复
-        const replyItems = document.querySelector('.reply-items')
-        const replyLabel = document.querySelector('.reply-label')
-        //获取回复
-        axios.get('../back/model/reply/getReply.php?for=getRepliesByThreadId&thread_id=' + id)
-            .then(response => {
-                let resp = response.data
-                //评论数统计
-                replyLabel.innerHTML = `<h3>最新回复(${resp.length})</h3>`
+            //显示回复
+            const replyItems = document.querySelector('.reply-items')
+            const replyLabel = document.querySelector('.reply-label')
+            //获取回复
+            axios.get('../back/model/reply/getReply.php?for=getRepliesByThreadId&thread_id=' + id)
+                .then(response => {
+                    let resp = response.data
+                    //评论数统计
+                    replyLabel.innerHTML = `<h3>最新回复(${resp.length})</h3>`
 
-                let html = ''
-                for (let i in resp) {
-                    html +=
-                        `
+                    let html = ''
+                    for (let i in resp) {
+                        html +=
+                            `
                     <div class="reply-item">
                     <div class="reply-avatar">
                         <img src="${resp[i].from_user_avatar}">
@@ -96,9 +111,9 @@ axios.get('../back/model/thread/getThread.php?for=getThreadDetail&id=' + id)
                         </div>
                         <div class="reply-body">
                         `
-                    if (resp[i].replied_index != 0) {
-                        html +=
-                            `
+                        if (resp[i].replied_index != 0) {
+                            html +=
+                                `
                             <div class="replied-show">
                                 <div class="avatar">
                                     <img src="${resp[i].to_user_avatar}">
@@ -107,69 +122,70 @@ axios.get('../back/model/thread/getThread.php?for=getThreadDetail&id=' + id)
                                 <div class="info">${resp[i].to_user_replied}</div>
                             </div>
                             `
-                    }
-                    html +=
-                        `
+                        }
+                        html +=
+                            `
                             ${resp[i].replied_body}
                         </div>
                     </div>
                 </div>
                     `
-                }
-                replyItems.innerHTML = html
+                    }
+                    replyItems.innerHTML = html
 
-                //监听回复按钮点击事件
-                const replyButton = replyItems.querySelectorAll('.reply-button')
-                replyButton.forEach(button => {
-                    //回复帖子或者留言开关
-                    let toggle = false
-                    button.addEventListener('click', function () {
-                        if (!toggle) {
-                            to_user_id = this.dataset.rid
-                            replied_index = this.dataset.index
-                            replyBody.placeholder = `回复 ${this.dataset.rname}：`
-                            window.location.hash = "#reply-form"
-                            replyBody.focus()
-                            toggle = true
-                        } else {
-                            to_user_id = data.head_id
-                            replied_index = 0
-                            replyBody.placeholder = ''
-                            window.location.hash = "#reply-form"
-                            replyBody.focus()
-                            toggle = false
-                        }
+                    //监听回复按钮点击事件
+                    const replyButton = replyItems.querySelectorAll('.reply-button')
+                    replyButton.forEach(button => {
+                        //回复帖子或者留言开关
+                        let toggle = false
+                        button.addEventListener('click', function () {
+                            if (!toggle) {
+                                to_user_id = this.dataset.rid
+                                replied_index = this.dataset.index
+                                replyBody.placeholder = `回复 ${this.dataset.rname}：`
+                                window.location.hash = "#reply-form"
+                                replyBody.focus()
+                                toggle = true
+                            } else {
+                                to_user_id = data.head_id
+                                replied_index = 0
+                                replyBody.placeholder = ''
+                                window.location.hash = "#reply-form"
+                                replyBody.focus()
+                                toggle = false
+                            }
+                        })
                     })
-                })
-            })
-            .catch(error => {
-                console.log(error)
-            })
-
-        replyFormSubmitButton.addEventListener('click', function (e) {
-            e.preventDefault()
-            let params = {
-                thread_id: id,
-                replied_body: replyBody.value,
-                replied_index: replied_index,
-                from_user_id: window.user_id,
-                to_user_id: to_user_id
-            }
-            axios.post('../back/model/reply/addReply.php', params)
-                .then(response => {
-                    if (response.data == 'SUCCESS') {
-                        replyBody.value = ''
-                        window.location.reload()
-                    }
-                    else {
-                        alert('回复评论出错，可能未登录或其他原因')
-                    }
                 })
                 .catch(error => {
                     console.log(error)
                 })
+
+            replyFormSubmitButton.addEventListener('click', function (e) {
+                e.preventDefault()
+                let params = {
+                    thread_id: id,
+                    replied_body: replyBody.value,
+                    replied_index: replied_index,
+                    from_user_id: window.user_id,
+                    to_user_id: to_user_id
+                }
+                axios.post('../back/model/reply/addReply.php', params)
+                    .then(response => {
+                        if (response.data == 'SUCCESS') {
+                            replyBody.value = ''
+                            window.location.reload()
+                        }
+                        else {
+                            alert('回复评论出错，可能未登录或其他原因')
+                        }
+                    })
+                    .catch(error => {
+                        console.log(error)
+                    })
+            })
         })
-    })
-    .catch(error => {
-        console.log(error)
-    })
+        .catch(error => {
+            console.log(error)
+        })
+}

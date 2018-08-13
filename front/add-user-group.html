@@ -19,11 +19,16 @@
             <section class="profile-list">
             </section>
             <section class="list-content">
-                <form action="../back/model/user/addUser.php" method="POST">
-                    <input type="text" name="username" placeholder="帐号">
-                    <input type="password" name="password" placeholder="密码">
-                    <input type="name" name="user" placeholder="用户名">
-                    <input type="submit" value="添加">
+                <form action="../back/model/user/addUser.php?for=addUserGroup" method="POST">
+                    <input type="text" name="user_group_name" placeholder="用户组名称">
+                    <input type="checkbox" name="rights[]" value="1">查看帖子
+                    <input type="checkbox" name="rights[]" value="2">回复帖子
+                    <input type="checkbox" name="rights[]" value="3">发布帖子
+                    <input type="checkbox" name="rights[]" value="4">查看用户
+                    <input type="checkbox" name="rights[]" value="5">新增用户
+                    <input type="checkbox" name="rights[]" value="6">修改用户
+                    <input type="checkbox" name="rights[]" value="7">删除用户
+                    <input type="submit" value="创建">
                 </form>
             </section>
         </section>

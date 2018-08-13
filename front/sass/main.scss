@@ -537,6 +537,14 @@ main{
                 }
             }
             }
+            //用户标签组样式
+            .user-group-list,
+            .user-list{
+                width: 100%;
+                background-color: darken($color: $secondary-color, $amount: 2);
+                margin-bottom: 1rem;
+                padding: 1rem 0;
+            }
         }
     }
 }

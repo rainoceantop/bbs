@@ -16,7 +16,6 @@ axios.get('../back/handler/loginHandler.php?log=2')
                             const profileAvatar = document.querySelector('.profile-avatar')
                             profileAvatar.innerHTML += `<img class="user-avatar" src="${response.data.avatar}">`
                             profileAvatar.innerHTML += `<p>${response.data.user}</p>`
-
                         })
                         .catch(error => {
                             console.log(error)
