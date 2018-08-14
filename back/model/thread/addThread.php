@@ -41,6 +41,18 @@ foreach($tags as $tag){
     $stmt->bindParam(':tag_id', $tag);
     $stmt->execute();
 }
+
+
+//更新日志
+$log = file_get_contents('../../log/thread.log.json');
+$log = json_decode($log, true);
+$newThreadLog = array(
+    'id' => $thread_id,
+    'amount' => 0
+);
+array_push($log['views'], $newThreadLog);
+$log = json_encode($log, JSON_UNESCAPED_UNICODE);
+file_put_contents('../../log/thread.log.json', $log);
 $conn->commit();
 echo $thread_id;
 

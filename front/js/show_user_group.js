@@ -12,7 +12,6 @@ axios.get('../back/model/user/getUser.php?for=getUserGroups')
         axios.get('../back/model/user/getUser.php?for=getGroupsUsers')
             .then(response => {
                 let user_groups = response.data
-                console.log(response.data)
                 for (let i in groups) {
                     groupList.innerHTML += `<p><a href="#!" data-gid=${groups[i].user_group_id} class="show-group-users">${groups[i].user_group_name}</a></p>`
                 }

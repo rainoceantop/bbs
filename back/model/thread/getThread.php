@@ -52,7 +52,7 @@ function getUserThreads($conn, $user_id){
 
 //根据标签id获取帖子
 function getHomeThreadsByTagId($conn, $tag_id){
-    getThreads($conn, $tag_id, 'homtThreadsByTagId');
+    getThreads($conn, $tag_id, 'homeThreadsByTagId');
 }
 
 function getThreads($conn, $param, $symbol){
@@ -62,10 +62,10 @@ function getThreads($conn, $param, $symbol){
     try{
         $conn -> beginTransaction();
         if($symbol == 'homeThreads'){
-            $sql = 'select * from threads';
+            $sql = "select * from threads where thread_is_filed = '0'";
             $stmt = $conn->prepare($sql);
         } else if($symbol == 'forumThreads'){
-            $sql = 'select * from threads where forum_id = :forum_id';
+            $sql = "select * from threads where forum_id = :forum_id and thread_is_filed = '0'";
             $stmt = $conn->prepare($sql);
             $stmt->bindParam(':forum_id', $param);
         } else if($symbol == 'threadDetail'){
@@ -76,8 +76,8 @@ function getThreads($conn, $param, $symbol){
             $sql = 'select * from threads where head_id = :user_id;';
             $stmt = $conn->prepare($sql);
             $stmt->bindParam(':user_id', $param);
-        } else if($symbol == 'homtThreadsByTagId'){
-            $sql = 'select * from threads, thread_tag_ref ttr where ttr.thread_id = threads.id and ttr.tag_id = :tag_id';
+        } else if($symbol == 'homeThreadsByTagId'){
+            $sql = "select * from threads, thread_tag_ref ttr where ttr.thread_id = threads.id and ttr.tag_id = :tag_id and thread_is_filed = '0'";
             $stmt = $conn->prepare($sql);
             $stmt->bindParam(':tag_id', $param);
         }
@@ -91,6 +91,7 @@ function getThreads($conn, $param, $symbol){
             $info['thread_title'] = $row['thread_title'];
             $info['thread_head'] = $row['thread_head'];
             $info['posted_time'] = $row['thread_created_at'];
+            $info['is_filed'] = $row['thread_is_filed'];
             if($symbol == 'threadDetail'){
                 $info['head_id'] = $row['head_id'];
                 $info['thread_body'] = $row['thread_body'];

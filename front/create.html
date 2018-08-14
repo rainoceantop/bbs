@@ -5,9 +5,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>the bbs</title>
     <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ"
+        crossorigin="anonymous">
+    <title>the bbs</title>
     <script src="../node_modules/axios/dist/axios.min.js"></script>
+    <script src="../node_modules/showdown/dist/showdown.min.js"></script>
     <script src="js/_common/global_variable.js"></script>
 </head>
 
@@ -15,24 +18,28 @@
     <header>
     </header>
     <main>
-        <section class="profile-content">
-            <section class="profile-list">
-            </section>
-            <section class="list-content">
-                <form action="../back/model/user/addUser.php" method="POST">
-                    <input type="text" name="username" placeholder="帐号">
-                    <input type="password" name="password" placeholder="密码">
-                    <input type="name" name="user" placeholder="用户名">
-                    <input type="submit" value="添加">
-                </form>
-            </section>
+        <section class="location">
+
+        </section>
+        <section class="create-content">
+            <form action="../back/addThread.php" method="POST">
+                <input class="title-field" type="text" name="thread_title">
+                <select name="forums" id="forums"></select>
+                <div class="tags-area">
+                </div>
+                <textarea class="body-field" name="thread_body"></textarea>
+            </form>
+            <div class="show-markdown-content-area">
+            </div>
+            <a href="#!" class="create-button">发表</a>
         </section>
     </main>
     <footer>
+
     </footer>
     <script src="js/_common/header.js"></script>
     <script src="js/_common/footer.js"></script>
-    <script src="js/_common/profile_list.js"></script>
+    <script src="js/create.js"></script>
 </body>
 
 </html>

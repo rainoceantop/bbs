@@ -1,9 +1,10 @@
 //查看当前用户是否有权查看内容
 axios.get('../back/handler/loginHandler.php?log=2')
     .then(response => {
-        axios.get('../back/handler/rightsHandler.php?check=canReadUsers&user_id=' + response.data.id)
+        axios.get('../back/handler/rightsHandler.php?check=canReadThread&user_id=' + response.data.id)
             .then(response => {
                 if (!response.data) {
+                    alert('抱歉，您无权访问')
                     window.location.href = 'home.html'
                 } else {
                     loadPage()
@@ -42,6 +43,7 @@ function loadPage() {
                 })
 
 
+
             //显示内容信息
             content.innerHTML =
                 `
@@ -51,7 +53,7 @@ function loadPage() {
             </div>
             <div class="post-info">
                 ${data.thread_head} &sdot; ${data.posted_time} &sdot;
-                <i class="fas fa-eye"></i> ${data.views}
+                <i class="fas fa-eye"></i> <span id="thread-views"></span>
             </div>
             </div>
             <div class="post-body">
@@ -69,6 +71,23 @@ function loadPage() {
 
 
 
+            const viewsArea = content.querySelector('#thread-views')
+            //获取帖子阅读量
+            axios.get('../back/log/thread.log.json')
+                .then(response => {
+                    for (let i in response.data.views) {
+                        if (response.data.views[i].id == id) {
+                            viewsArea.innerHTML = response.data.views[i].amount + 1
+                            break;
+                        }
+                    }
+                })
+                .catch(error => console.log(error))
+            //更新帖子阅读量
+            axios.get('../back/model/thread/updThread.php?for=views&id=' + id)
+                .then(response => console.log(response.data))
+                .catch(error => console.log(error))
+
             //回复帖子域
             let replyForm = document.querySelector('.reply-form')
             let replyBody = replyForm.querySelector('textarea')
@@ -76,6 +95,7 @@ function loadPage() {
             //初始化变量，如果回复的是评论则修改
             let replied_index = 0
             let to_user_id = data.head_id
+            let is_filed = parseInt(data.is_filed)
 
 
             //显示回复
@@ -133,57 +153,76 @@ function loadPage() {
                     }
                     replyItems.innerHTML = html
 
-                    //监听回复按钮点击事件
-                    const replyButton = replyItems.querySelectorAll('.reply-button')
-                    replyButton.forEach(button => {
-                        //回复帖子或者留言开关
-                        let toggle = false
-                        button.addEventListener('click', function () {
-                            if (!toggle) {
-                                to_user_id = this.dataset.rid
-                                replied_index = this.dataset.index
-                                replyBody.placeholder = `回复 ${this.dataset.rname}：`
-                                window.location.hash = "#reply-form"
-                                replyBody.focus()
-                                toggle = true
-                            } else {
-                                to_user_id = data.head_id
-                                replied_index = 0
-                                replyBody.placeholder = ''
-                                window.location.hash = "#reply-form"
-                                replyBody.focus()
-                                toggle = false
-                            }
+                    //如果帖子已经归档，不开放评论
+                    if (is_filed) {
+                        replyForm.innerHTML = ''
+                    } else {
+                        //监听回复按钮点击事件
+                        const replyButton = replyItems.querySelectorAll('.reply-button')
+                        replyButton.forEach(button => {
+                            //回复帖子或者留言开关
+                            let toggle = false
+                            button.addEventListener('click', function () {
+                                if (!toggle) {
+                                    to_user_id = this.dataset.rid
+                                    replied_index = this.dataset.index
+                                    replyBody.placeholder = `回复 ${this.dataset.rname}：`
+                                    window.location.hash = "#reply-form"
+                                    replyBody.focus()
+                                    toggle = true
+                                } else {
+                                    to_user_id = data.head_id
+                                    replied_index = 0
+                                    replyBody.placeholder = ''
+                                    window.location.hash = "#reply-form"
+                                    replyBody.focus()
+                                    toggle = false
+                                }
+                            })
                         })
-                    })
+                    }
                 })
                 .catch(error => {
                     console.log(error)
                 })
 
-            replyFormSubmitButton.addEventListener('click', function (e) {
-                e.preventDefault()
-                let params = {
-                    thread_id: id,
-                    replied_body: replyBody.value,
-                    replied_index: replied_index,
-                    from_user_id: window.user_id,
-                    to_user_id: to_user_id
-                }
-                axios.post('../back/model/reply/addReply.php', params)
-                    .then(response => {
-                        if (response.data == 'SUCCESS') {
-                            replyBody.value = ''
-                            window.location.reload()
-                        }
-                        else {
-                            alert('回复评论出错，可能未登录或其他原因')
-                        }
-                    })
-                    .catch(error => {
-                        console.log(error)
-                    })
-            })
+            //如果帖子没有归档， 监听提交按钮
+            if (!is_filed) {
+                replyFormSubmitButton.addEventListener('click', function (e) {
+                    e.preventDefault()
+                    axios.get('../back/handler/rightsHandler.php?check=canReplyThread&user_id=' + window.user_id)
+                        .then(response => {
+                            if (!response.data) {
+                                alert('抱歉，您无权回复')
+                                return false
+                            } else {
+
+                                let params = {
+                                    thread_id: id,
+                                    replied_body: replyBody.value,
+                                    replied_index: replied_index,
+                                    from_user_id: window.user_id,
+                                    to_user_id: to_user_id
+                                }
+                                axios.post('../back/model/reply/addReply.php', params)
+                                    .then(response => {
+                                        if (response.data == 'SUCCESS') {
+                                            replyBody.value = ''
+                                            window.location.reload()
+                                        }
+                                        else {
+                                            alert('回复评论出错，可能未登录或其他原因')
+                                        }
+                                    })
+                                    .catch(error => {
+                                        console.log(error)
+                                    })
+                            }
+                        })
+                        .catch(error => console.log(error))
+                })
+            }
+
         })
         .catch(error => {
             console.log(error)

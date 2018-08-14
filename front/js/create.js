@@ -1,3 +1,20 @@
+//查看当前用户是否有权查看内容
+axios.get('../back/handler/loginHandler.php?log=2')
+    .then(response => {
+        axios.get('../back/handler/rightsHandler.php?check=canPostThread&user_id=' + response.data.id)
+            .then(response => {
+                console.log(response.data)
+                if (!response.data) {
+                    alert('抱歉，您无权访问')
+                    window.location.href = 'home.html'
+                }
+            })
+            .catch(error => console.log(error))
+    })
+    .catch(error => console.log(error))
+
+
+
 const titleField = document.querySelector('.title-field')
 const forumField = document.querySelector('#forums')
 const tagField = document.querySelector('.tags-area')
