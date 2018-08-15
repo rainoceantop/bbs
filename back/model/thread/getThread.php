@@ -6,7 +6,6 @@ require '../../database/database.php';
 $pdo = new Database();
 $conn = $pdo->connect();
 $symbol = $_GET['for'];
-
 switch($symbol){
     case "getHomeThreads":
         getHomeThreads($conn);

@@ -10,6 +10,7 @@ class Database {
         extract($this->db_config);
         try {
             $this->conn = new PDO($db.":host=".$host.";dbname=".$dbname.";port=".$port, $username, $password);
+            $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
             $this->conn->query("set names utf8");
             return $this->conn;
         } catch (PDOException $e) {

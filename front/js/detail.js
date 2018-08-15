@@ -2,10 +2,10 @@
 axios.get('../back/handler/loginHandler.php?log=2')
     .then(response => {
         //如果不是管理员则确认有没权限
-        if (!response.data.is_admin == '1') {
+        if (response.data.is_admin != '1') {
             axios.get('../back/handler/rightsHandler.php?check=canReadThread&user_id=' + response.data.id)
                 .then(response => {
-                    if (!response.data) {
+                    if (response.data != 1) {
                         alert('抱歉，您无权访问')
                         window.location.href = 'home.html'
                     } else {
@@ -13,6 +13,8 @@ axios.get('../back/handler/loginHandler.php?log=2')
                     }
                 })
                 .catch(error => console.log(error))
+        } else {
+            loadPage()
         }
     })
     .catch(error => console.log(error))
@@ -30,7 +32,6 @@ function loadPage() {
             const content = document.querySelector('.post-content')
             console.log(response.data)
             let data = response.data[0][0]
-
             let tagHtml = ''
             for (let j = 0; j < data.tags.length; j++) {
                 tagHtml += `<span class="tag"><a href='home.html?tagId=${data.tags[j].id}'>${data.tags[j].name}</a></span>`

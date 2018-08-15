@@ -23,11 +23,11 @@
         </section>
         <section class="create-content">
             <form action="../back/addThread.php" method="POST">
-                <input class="title-field" type="text" name="thread_title">
+                <input class="title-field" type="text" name="thread_title" required>
                 <select name="forums" id="forums"></select>
                 <div class="tags-area">
                 </div>
-                <textarea class="body-field" name="thread_body"></textarea>
+                <textarea class="body-field" name="thread_body" required></textarea>
             </form>
             <div class="show-markdown-content-area">
             </div>

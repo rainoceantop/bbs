@@ -3,7 +3,6 @@ require '../../database/database.php';
 $data = file_get_contents('php://input');
 $data = json_decode($data, TRUE);
 
-
 $thread = array();
 $thread['forum_id'] = $data['forum_id'];
 $thread['title'] = $data['thread_title'];
@@ -33,6 +32,7 @@ $stmt->bindParam(':body', $thread['body']);
 $stmt->bindParam(':head', $thread['head']);
 $stmt->bindParam(':user_id', $thread['head_id']);
 $stmt->execute();
+
 //取出返回标签id，给thread_tag_ref
 $thread_id = $conn->lastInsertId();
 $stmt = $conn->prepare($tag_sql);

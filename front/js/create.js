@@ -1,3 +1,28 @@
+
+//获取所有标签组和标签
+let tag_groups, tags = ''
+
+//获取标签组
+axios.get('../back/model/tag/getTag.php?for=getTagGroups')
+    .then(response => {
+        tag_groups = response.data
+        console.log(tag_groups)
+    })
+    .catch(error => {
+        console.log(error)
+    })
+//获取标签
+axios.get('../back/model/tag/getTag.php?for=getTags')
+    .then(response => {
+        tags = response.data
+    })
+    .catch(error => {
+        console.log(error)
+    })
+
+
+
+
 //查看当前用户是否有权发布文章
 axios.get('../back/handler/loginHandler.php?log=2')
     .then(response => {
@@ -6,7 +31,7 @@ axios.get('../back/handler/loginHandler.php?log=2')
             axios.get('../back/handler/rightsHandler.php?check=canPostThread&user_id=' + response.data.id)
                 .then(response => {
                     console.log(response.data)
-                    if (!response.data) {
+                    if (response.data != 1) {
                         alert('抱歉，您无权访问')
                         window.location.href = 'home.html'
                     }
@@ -33,6 +58,22 @@ axios.get('../back/model/forum/getForum.php?for=getForumName')
         for (let forum_id in response.data) {
             forumField.innerHTML += `<option value="${forum_id}">${response.data[forum_id]}</option>`
         }
+        //初始化forum板块，设置默认
+        console.log(forumField.value)
+        let html = ''
+        for (let i in tag_groups) {
+            if (tag_groups[i].forum_id == forumField.value) {
+                html += `<span>${tag_groups[i].tag_group_name}</span>`
+                html += `<select class="tags" name="tags[]">`
+                for (let j in tags) {
+                    if (tags[j].tag_group_id == tag_groups[i].tag_group_id) {
+                        html += `<option value="${tags[j].tag_id}">${tags[j].tag_name}</option>`
+                    }
+                }
+                html += `</select>`
+            }
+        }
+        tagField.innerHTML = html
     })
     .catch(error => {
         console.log(error)
@@ -57,7 +98,6 @@ function postThread(e) {
     tagsArr.forEach(item => {
         tags.push(item.value)
     })
-    console.log(window.is_login)
     //获取用户登录信息
     if (window.is_login) {
         let html = converter.makeHtml(bodyField.value)
@@ -89,28 +129,7 @@ function showMarkdownStyle() {
     showContent.innerHTML = html
 }
 
-//获取所有标签组和标签
 !function () {
-    let tag_groups, tags = ''
-
-    //获取标签组
-    axios.get('../back/model/tag/getTag.php?for=getTagGroups')
-        .then(response => {
-            tag_groups = response.data
-            console.log(tag_groups)
-        })
-        .catch(error => {
-            console.log(error)
-        })
-    //获取标签
-    axios.get('../back/model/tag/getTag.php?for=getTags')
-        .then(response => {
-            tags = response.data
-        })
-        .catch(error => {
-            console.log(error)
-        })
-
     //选择forum板块，显示标签组
     forumField.addEventListener('change', function () {
         let html = ''
