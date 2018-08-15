@@ -24,21 +24,40 @@ switch($symbol){
         $group_id = $_GET['id'];
         getUsersWithin($conn, $group_id);
         break;
+    case 'getUsers':
+        $id = $_GET['id'];
+        getUsers($conn, $id);
+        break;
 }
 
 //根据id查询用户
 function getUserById($conn, $user_id){
-    $sql = 'select name, avatar, created_at, last_online from users where id = :user_id';
+    $sql = 'select name, avatar, created_at, last_online, user_groups from users where id = :user_id';
+    
     $stmt = $conn->prepare($sql);
     $stmt->bindParam(':user_id', $user_id);
     $stmt->execute();
+    $resp = array();
     $info = array();
-
     while($row = $stmt->fetch()){
         $info['user'] = $row['name'];
         $info['avatar'] = $row['avatar'];
         $info['created_at'] = $row['created_at'];
         $info['last_online'] = $row['last_online'];
+
+        //获取用户所属用户组的权限
+        $groups = $row['user_groups'];
+        $groups = json_decode($groups, true);
+        $sql = 'select user_group_name from user_groups where id = :group_id';
+        $s = $conn->prepare($sql);
+        $user_groups = array();
+        foreach($groups as $group){
+            $s->bindParam(':group_id', $group);
+            $s->execute();
+            array_push($user_groups, $s->fetch()[0]);
+        }
+        $info['user_groups'] = implode(',', $user_groups);
+        array_push($resp, $info);
     }
     echo json_encode($info, JSON_UNESCAPED_UNICODE);
 }
@@ -127,4 +146,39 @@ function getUsersWithin($conn, $group_id){
 }catch(PDOException $e){
         echo '出错：'.$e->getMessage();
     }
+}
+
+//获取用户
+function getUsers($conn, $id){
+    $sql = "select id, name, avatar, created_at, last_online, user_groups from users where is_admin = '0' and id != :id";
+    $stmt = $conn->prepare($sql);
+    $stmt->bindParam(':id', $id);
+    $stmt->execute();
+    $resp = array();
+    while($row = $stmt->fetch()){
+        //保存用户信息进数组
+        $info = array(
+            'id' => $row['id'],
+            'name' => $row['name'],
+            'avatar' => $row['avatar'],
+            'created_at' => $row['created_at'],
+            'last_online' => $row['last_online'],
+        );
+        //获取用户所属用户组的权限
+        $groups = $row['user_groups'];
+        $groups = json_decode($groups, true);
+        $sql = 'select user_group_name from user_groups where id = :group_id';
+        $s = $conn->prepare($sql);
+        $user_groups = array();
+        if(!empty($groups)){
+        foreach($groups as $group){
+            $s->bindParam(':group_id', $group);
+            $s->execute();
+            array_push($user_groups, $s->fetch()[0]);
+        }
+        }
+        $info['user_groups'] = implode(',', $user_groups);
+        array_push($resp, $info);
+    }
+    echo json_encode($resp, JSON_UNESCAPED_UNICODE);
 }

@@ -29,7 +29,7 @@ function login($conn){
     $password = $data['password'];
     $message = '';
     
-    $sql = 'select id, username, password, name, avatar from users where username=:username limit 1';
+    $sql = 'select id, username, password, name, avatar, is_admin from users where username=:username limit 1';
     $stmt = $conn->prepare($sql);
     $stmt->bindParam(':username', $username);
     try{
@@ -41,7 +41,7 @@ function login($conn){
                 $_SESSION['id'] = $info['id'];
                 $_SESSION['user'] = $info['name'];
                 $_SESSION['avatar'] = $info['avatar'];
-                
+                $_SESSION['is_admin'] = $info['is_admin'];
                 //更新最后登录时间
                 $sql = 'update users set last_online = now() where users.id = :user_id';
                 $s = $conn->prepare($sql);
@@ -71,6 +71,7 @@ function checkLog(){
         $info['id'] = $_SESSION['id'];
         $info['user'] = $_SESSION['user'];
         $info['avatar'] = $_SESSION['avatar'];
+        $info['is_admin'] = $_SESSION['is_admin'];
     }
     else{
         $info['is_login'] = FALSE;

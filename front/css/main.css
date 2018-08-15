@@ -348,6 +348,13 @@ main {
       main .profile-content .profile-list .profile-items {
         list-style: none;
         line-height: 2rem; }
+        main .profile-content .profile-list .profile-items .add-user-page,
+        main .profile-content .profile-list .profile-items .show-user-page,
+        main .profile-content .profile-list .profile-items .set-tags-page,
+        main .profile-content .profile-list .profile-items .add-user-group-page,
+        main .profile-content .profile-list .profile-items .show-user-group-page {
+          display: none;
+          font-weight: bold; }
         main .profile-content .profile-list .profile-items .profile-item a {
           text-decoration: none; }
           main .profile-content .profile-list .profile-items .profile-item a:hover {
@@ -359,7 +366,7 @@ main {
       width: 85%;
       padding: 1.7rem;
       width: 60%;
-      height: 30rem; }
+      min-height: 30rem; }
       main .profile-content .list-content .thread {
         padding: .3rem;
         height: 5rem;
@@ -396,6 +403,8 @@ main {
       main .profile-content .list-content .tag-groups-set-area,
       main .profile-content .list-content .tags-set-area {
         display: none; }
+      main .profile-content .list-content .user-info {
+        line-height: 3.5rem; }
       main .profile-content .list-content .forums-section {
         margin-bottom: 5rem; }
         main .profile-content .list-content .forums-section .forums-area {
@@ -413,7 +422,8 @@ main {
             main .profile-content .list-content .forums-section .forums-area .forum-item .forum-display-button {
               display: inline;
               text-decoration: none;
-              color: #f1f6ff; }
+              color: #f1f6ff;
+              outline: none; }
               main .profile-content .list-content .forums-section .forums-area .forum-item .forum-display-button:visited, main .profile-content .list-content .forums-section .forums-area .forum-item .forum-display-button:link {
                 color: #f1f6ff; }
             main .profile-content .list-content .forums-section .forums-area .forum-item .forum-delete-button {
@@ -430,6 +440,23 @@ main {
               main .profile-content .list-content .forums-section .forums-area .forum-item .forum-delete-button:hover {
                 cursor: pointer;
                 background-color: red; }
+      main .profile-content .list-content .forum-add-button,
+      main .profile-content .list-content .tag-group-add-button,
+      main .profile-content .list-content .tag-add-button {
+        margin-left: 1rem;
+        text-decoration: none;
+        font-weight: bold;
+        outline: none; }
+        main .profile-content .list-content .forum-add-button:link, main .profile-content .list-content .forum-add-button:visited,
+        main .profile-content .list-content .tag-group-add-button:link,
+        main .profile-content .list-content .tag-group-add-button:visited,
+        main .profile-content .list-content .tag-add-button:link,
+        main .profile-content .list-content .tag-add-button:visited {
+          color: #f1f6ff; }
+        main .profile-content .list-content .forum-add-button:hover,
+        main .profile-content .list-content .tag-group-add-button:hover,
+        main .profile-content .list-content .tag-add-button:hover {
+          color: #0677d3; }
       main .profile-content .list-content .tag-groups-section {
         margin-bottom: 5rem; }
         main .profile-content .list-content .tag-groups-section .tag-groups-area {
@@ -447,7 +474,8 @@ main {
             main .profile-content .list-content .tag-groups-section .tag-groups-area .tag-groups-item .tag-groups-display-button {
               display: inline;
               text-decoration: none;
-              color: #f1f6ff; }
+              color: #f1f6ff;
+              outline: none; }
               main .profile-content .list-content .tag-groups-section .tag-groups-area .tag-groups-item .tag-groups-display-button:visited, main .profile-content .list-content .tag-groups-section .tag-groups-area .tag-groups-item .tag-groups-display-button:link {
                 color: #f1f6ff; }
             main .profile-content .list-content .tag-groups-section .tag-groups-area .tag-groups-item .tag-groups-delete-button {
@@ -481,7 +509,8 @@ main {
             main .profile-content .list-content .tags-section .tags-area .tags-item .tags-display-button {
               display: inline;
               text-decoration: none;
-              color: #f1f6ff; }
+              color: #f1f6ff;
+              outline: none; }
               main .profile-content .list-content .tags-section .tags-area .tags-item .tags-display-button:visited, main .profile-content .list-content .tags-section .tags-area .tags-item .tags-display-button:link {
                 color: #f1f6ff; }
             main .profile-content .list-content .tags-section .tags-area .tags-item .tags-delete-button {
@@ -498,12 +527,109 @@ main {
               main .profile-content .list-content .tags-section .tags-area .tags-item .tags-delete-button:hover {
                 cursor: pointer;
                 background-color: red; }
+      main .profile-content .list-content hr {
+        margin: .5rem 0; }
+      main .profile-content .list-content .add-user-form {
+        padding: 1rem 2rem; }
+        main .profile-content .list-content .add-user-form form input:nth-child(1), main .profile-content .list-content .add-user-form form input:nth-child(2), main .profile-content .list-content .add-user-form form input:nth-child(3) {
+          display: block;
+          width: 100%;
+          margin-bottom: 1rem;
+          border-radius: .5rem;
+          height: 2rem;
+          padding: .2rem .5rem;
+          background-color: #2b2b2b;
+          opacity: .7;
+          color: white;
+          font-size: 1.5rem; }
+        main .profile-content .list-content .add-user-form form button {
+          display: block;
+          width: 100%;
+          border-radius: .5rem;
+          height: 2rem;
+          padding: .2rem .5rem;
+          margin-top: 1rem;
+          background-color: lightgreen;
+          color: #444;
+          font-size: 1rem;
+          font-weight: bold; }
+          main .profile-content .list-content .add-user-form form button:hover {
+            cursor: pointer; }
+      main .profile-content .list-content .add-user-group-form {
+        width: 100%; }
+        main .profile-content .list-content .add-user-group-form form input:nth-child(1) {
+          width: 100%;
+          display: block;
+          margin-bottom: 1rem;
+          border-radius: .5rem;
+          height: 2.5rem;
+          background-color: #2b2b2b;
+          opacity: .7;
+          color: white;
+          font-size: 1.5rem;
+          padding: 0 .3rem; }
+        main .profile-content .list-content .add-user-group-form form button {
+          display: block;
+          width: 100%;
+          border-radius: .5rem;
+          height: 2rem;
+          padding: .2rem .5rem;
+          margin-top: 1rem;
+          background-color: lightgreen;
+          color: #444;
+          font-size: 1rem;
+          font-weight: bold; }
+          main .profile-content .list-content .add-user-group-form form button:hover {
+            cursor: pointer; }
       main .profile-content .list-content .user-group-list,
       main .profile-content .list-content .user-list {
         width: 100%;
-        background-color: #e7efff;
         margin-bottom: 1rem;
         padding: 1rem 0; }
+      main .profile-content .list-content .user-group-list .delete-group-button:hover {
+        cursor: pointer;
+        color: #CE5748; }
+      main .profile-content .list-content .user-group-list .show-group-users:hover {
+        cursor: pointer;
+        color: #4892CE; }
+      main .profile-content .list-content .user-list .add-to-group,
+      main .profile-content .list-content .user-list .rm-from-group {
+        border-radius: .5rem;
+        padding: .3rem 0;
+        color: #f1f6ff;
+        display: block;
+        background-color: #4892CE;
+        margin-bottom: 1rem; }
+        main .profile-content .list-content .user-list .add-to-group:hover,
+        main .profile-content .list-content .user-list .rm-from-group:hover {
+          cursor: pointer; }
+      main .profile-content .list-content .user-list .rm-from-group {
+        background-color: #CE5748; }
+      main .profile-content .list-content .show-users {
+        padding: .2rem .2rem; }
+        main .profile-content .list-content .show-users .user-item {
+          display: flex;
+          flex-flow: row nowrap;
+          justify-content: center;
+          align-items: center;
+          padding: .3rem;
+          margin-bottom: 1rem; }
+          main .profile-content .list-content .show-users .user-item .avatar img {
+            width: 5rem;
+            height: 5rem;
+            border-radius: 2.5rem; }
+          main .profile-content .list-content .show-users .user-item .info {
+            line-height: 2rem;
+            border-left: 1px dotted #444;
+            border-right: 1px dotted #444;
+            margin: 0 1rem; }
+            main .profile-content .list-content .show-users .user-item .info span {
+              margin: .5rem; }
+          main .profile-content .list-content .show-users .user-item .setting {
+            word-break: keep-all; }
+            main .profile-content .list-content .show-users .user-item .setting span:hover {
+              cursor: pointer;
+              color: #f52323; }
 
 .tag-field {
   font-size: 1rem;

@@ -35,6 +35,9 @@ switch($symbol){
     case 'canDeleteUsers':
         canDeleteUsers($conn, $user_id, $user_rights);
         break;    
+    case 'canModifyFT':
+        canDeleteUsers($conn, $user_id, $user_rights);
+        break;    
 }
 
 
@@ -63,6 +66,9 @@ function canModifyUsers($conn, $user_id, $user_rights){
 function canDeleteUsers($conn, $user_id, $user_rights){
     echo in_array(8, $user_rights);
 }
+function canModifyFT($conn, $user_id, $user_rights){
+    echo in_array(9, $user_rights);
+}
 
 //查找用户组
 function getUserInfo($conn, $user_id){
@@ -84,8 +90,11 @@ function getUserRights($conn, $group_arr){
         $stmt->bindParam(':user_group_id', $group_id);
         $stmt->execute();
         $right = $stmt->fetch();
-        //并集用户所属用户组权限（先合并再去重）
-        $rights = array_merge($rights, json_decode($right[0], true));
+        if(!empty($right)){
+            //并集用户所属用户组权限（先合并再去重）
+            $rights = array_merge($rights, json_decode($right[0], true));
+        }
+
     }
     return array_unique($rights);
 }

@@ -1,15 +1,19 @@
-//查看当前用户是否有权查看内容
+//查看当前用户是否有权发布文章
 axios.get('../back/handler/loginHandler.php?log=2')
     .then(response => {
-        axios.get('../back/handler/rightsHandler.php?check=canPostThread&user_id=' + response.data.id)
-            .then(response => {
-                console.log(response.data)
-                if (!response.data) {
-                    alert('抱歉，您无权访问')
-                    window.location.href = 'home.html'
-                }
-            })
-            .catch(error => console.log(error))
+        //如果不是管理员则确认有没权限
+        if (!response.data.is_admin == '1') {
+            axios.get('../back/handler/rightsHandler.php?check=canPostThread&user_id=' + response.data.id)
+                .then(response => {
+                    console.log(response.data)
+                    if (!response.data) {
+                        alert('抱歉，您无权访问')
+                        window.location.href = 'home.html'
+                    }
+                })
+                .catch(error => console.log(error))
+        }
+
     })
     .catch(error => console.log(error))
 

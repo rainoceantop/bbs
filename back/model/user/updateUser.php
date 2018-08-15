@@ -46,7 +46,7 @@ function updateUserGroups($conn, $data, $action){
             $s->bindParam(':user_id', $user);
             $s->execute();
         }
-            echo 'SUCCESS';
+        echo "<script>;alert('操作成功!');location.href='".$_SERVER["HTTP_REFERER"]."'</script>";
     } catch(PDOException $e){
         echo '出错：'.$e->getMessage();
     }

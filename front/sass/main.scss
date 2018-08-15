@@ -382,6 +382,14 @@ main{
             .profile-items{
                 list-style: none;
                 line-height: 2rem;
+                .add-user-page,
+                .show-user-page,
+                .set-tags-page,
+                .add-user-group-page,
+                .show-user-group-page{
+                    display: none;
+                    font-weight: bold;
+                }
                 .profile-item{
                     a{
                         text-decoration: none;
@@ -400,13 +408,17 @@ main{
         .list-content{
             @include transp;
             width: 60%;
-            height: 30rem;
+            min-height: 30rem;
             //我的帖子页样式
             @include threadDisplay;
             .forums-set-area,
             .tag-groups-set-area,
             .tags-set-area{
                 display: none;
+            }
+            //个人资料样式
+            .user-info{
+                line-height: 3.5rem;
             }
             //板块标签页样式
             .forums-section{
@@ -415,41 +427,31 @@ main{
                     color: $primary-color;
                     margin-bottom: 2rem;
                     .forum-item{
-                        position: relative;
-                        display: inline;
-                        padding: .5rem 1rem;
-                        background-color: $primary-color;
-                        color: $secondary-color;
-                        font-weight: bold;
-                        margin-left: 1rem;
-                        border-radius: 1rem;
+                        @include item;
                     .forum-display-button{
-                            display: inline;
-                            text-decoration: none;
-                            color: $secondary-color;
-                            &:visited,
-                            &:link{
-                                color: $secondary-color;
-                            }
+                        @include displayButton;
                     }
                     .forum-delete-button{
-                        visibility: hidden;
-                        background-color: $secondary-color;
-                        color: $primary-color;
-                        position: absolute;
-                        right: 0;
-                        bottom: 1rem;
-                        width: 1rem;
-                        height: 1rem;
-                        padding: .1rem;
-                        border-radius: 1rem;
-                        &:hover{
-                            cursor: pointer;
-                            background-color: red;
-                        }
+                        @include deleteButton;
                     }
                     }
                 }
+            }
+            //板块，标签组，标签添加按钮样式
+            .forum-add-button,
+            .tag-group-add-button,
+            .tag-add-button{
+                margin-left: 1rem;
+                text-decoration: none;
+                font-weight: bold;
+                &:link,
+                &:visited{
+                    color: $secondary-color;
+                }
+                &:hover{
+                    color: rgb(6, 119, 211);
+                }
+                outline: none;
             }
             //标签组标签页样式
             .tag-groups-section{
@@ -458,38 +460,12 @@ main{
                     color: $primary-color;
                     margin-bottom: 2rem;
                     .tag-groups-item{
-                        position: relative;
-                        display: inline;
-                        padding: .5rem 1rem;
-                        background-color: $primary-color;
-                        color: $secondary-color;
-                        font-weight: bold;
-                        margin-left: 1rem;
-                        border-radius: 1rem;
+                        @include item;
                     .tag-groups-display-button{
-                            display: inline;
-                            text-decoration: none;
-                            color: $secondary-color;
-                            &:visited,
-                            &:link{
-                                color: $secondary-color;
-                            }
+                        @include displayButton;
                     }
                     .tag-groups-delete-button{
-                        visibility: hidden;
-                        background-color: $secondary-color;
-                        color: $primary-color;
-                        position: absolute;
-                        right: 0;
-                        bottom: 1rem;
-                        width: 1rem;
-                        height: 1rem;
-                        padding: .1rem;
-                        border-radius: 1rem;
-                        &:hover{
-                            cursor: pointer;
-                            background-color: red;
-                        }
+                        @include deleteButton;
                     }
                     }
                 }
@@ -501,49 +477,167 @@ main{
                 color: $primary-color;
                 margin-bottom: 2rem;
                 .tags-item{
-                    position: relative;
-                    display: inline;
-                    padding: .5rem 1rem;
-                    background-color: $primary-color;
-                    color: $secondary-color;
-                    font-weight: bold;
-                    margin-left: 1rem;
-                    border-radius: 1rem;
+                    @include item;
                 .tags-display-button{
-                        display: inline;
-                        text-decoration: none;
-                        color: $secondary-color;
-                        &:visited,
-                        &:link{
-                            color: $secondary-color;
-                        }
+                    @include displayButton;
                 }
                 .tags-delete-button{
-                    visibility: hidden;
-                    background-color: $secondary-color;
-                    color: $primary-color;
-                    position: absolute;
-                    right: 0;
-                    bottom: 1rem;
-                    width: 1rem;
-                    height: 1rem;
-                    padding: .1rem;
-                    border-radius: 1rem;
-                    &:hover{
-                        cursor: pointer;
-                        background-color: red;
+                    @include deleteButton;
+                }
+                }
+            }
+            }
+            hr{
+                margin: .5rem 0;
+            }
+            //添加用户样式
+            .add-user-form{
+                padding: 1rem 2rem;
+                form{
+                    input{
+                        &:nth-child(1),
+                        &:nth-child(2),
+                        &:nth-child(3),{
+                            display: block;
+                            width: 100%;
+                            margin-bottom: 1rem;
+                            border-radius: .5rem;
+                            height: 2rem;;
+                            padding: .2rem .5rem;
+                            background-color: darken($color: $primary-color, $amount: 10);
+                            opacity: .7;
+                            color: lighten($secondary-color, 10);
+                            font-size: 1.5rem;
+                        }
+                    }
+                    button{
+                        display: block;
+                        width: 100%;
+                        border-radius: .5rem;
+                        height: 2rem;;
+                        padding: .2rem .5rem;
+                        margin-top: 1rem;
+                        background-color: lightgreen;
+                        color: $primary-color;
+                        font-size: 1rem;
+                        font-weight: bold;
+                        &:hover{
+                            cursor: pointer;
+                        }
                     }
                 }
+            }
+            //添加用户组样式
+            .add-user-group-form{
+                width: 100%;
+                form{
+                    input{
+                        &:nth-child(1){
+                            width: 100%;
+                            display: block;
+                            margin-bottom: 1rem;
+                            border-radius: .5rem;
+                            height: 2.5rem;
+                            background-color: darken($color: $primary-color, $amount: 10);
+                            opacity: .7;
+                            color: lighten($secondary-color, 10);
+                            font-size: 1.5rem;
+                            padding: 0 .3rem;
+                        }
+                    }
+                    button{
+                        display: block;
+                        width: 100%;
+                        border-radius: .5rem;
+                        height: 2rem;;
+                        padding: .2rem .5rem;
+                        margin-top: 1rem;
+                        background-color: lightgreen;
+                        color: $primary-color;
+                        font-size: 1rem;
+                        font-weight: bold;
+                        &:hover{
+                            cursor: pointer;
+                        }
+                    }
                 }
             }
-            }
+
             //用户标签组样式
             .user-group-list,
             .user-list{
                 width: 100%;
-                background-color: darken($color: $secondary-color, $amount: 2);
                 margin-bottom: 1rem;
                 padding: 1rem 0;
+            }
+            .user-group-list{
+                .delete-group-button{
+                    &:hover{
+                        cursor: pointer;
+                        color: #CE5748;
+                    }
+                }
+                    .show-group-users{
+                        &:hover{
+                            cursor: pointer;
+                            color: #4892CE;
+                        }
+                    }
+            }
+            .user-list{
+                .add-to-group,
+                .rm-from-group{
+                    border-radius: .5rem;
+                    padding: .3rem 0;
+                    color: $secondary-color;
+                    display:block;
+                    background-color:#4892CE;
+                    margin-bottom: 1rem;
+                    &:hover{
+                        cursor: pointer;
+                    }
+                }
+                .rm-from-group{
+                    background-color:#CE5748;
+                }
+            }
+
+            //查看用户样式
+            .show-users{
+                padding: .2rem .2rem;
+                .user-item{
+                    display: flex;
+                    flex-flow: row nowrap;
+                    justify-content: center;
+                    align-items: center;
+                    padding: .3rem;
+                    margin-bottom: 1rem;
+                    .avatar{
+                        img{
+                            width: 5rem;
+                            height: 5rem;
+                            border-radius: 2.5rem;
+                        }
+                    }
+                    .info{
+                        line-height: 2rem;
+                        border-left: 1px dotted $primary-color;
+                        border-right: 1px dotted $primary-color;
+                        margin: 0 1rem;
+                        span{
+                            margin: .5rem;
+                        }
+                    }
+                    .setting{
+                        word-break: keep-all;
+                        span{
+                            &:hover{
+                                cursor: pointer;
+                                color: rgb(245, 35, 35);
+                            }
+                        }
+                    }
+                }
             }
         }
     }

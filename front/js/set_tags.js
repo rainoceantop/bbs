@@ -15,7 +15,7 @@ axios.get('../back/model/forum/getForum.php?for=getForumName')
             <span class="forum-delete-button" data-forumid=${i}>X</span>
             </div>
             `
-        html += `<a class='forum-add-button' href='#!'>添加forum</a>`
+        html += `<a class='forum-add-button' href='#!'>添加板块</a>`
         forumArea.innerHTML = html
 
         //监听添加forum按钮

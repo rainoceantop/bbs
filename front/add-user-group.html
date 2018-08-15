@@ -19,17 +19,22 @@
             <section class="profile-list">
             </section>
             <section class="list-content">
-                <form action="../back/model/user/addUser.php?for=addUserGroup" method="POST">
-                    <input type="text" name="user_group_name" placeholder="用户组名称">
-                    <input type="checkbox" name="rights[]" value="1">查看帖子
-                    <input type="checkbox" name="rights[]" value="2">回复帖子
-                    <input type="checkbox" name="rights[]" value="3">发布帖子
-                    <input type="checkbox" name="rights[]" value="4">查看用户
-                    <input type="checkbox" name="rights[]" value="5">新增用户
-                    <input type="checkbox" name="rights[]" value="6">修改用户
-                    <input type="checkbox" name="rights[]" value="7">删除用户
-                    <input type="submit" value="创建">
-                </form>
+                <div class="add-user-group-form">
+                    <form action="../back/model/user/addUser.php?for=addUserGroup" method="POST">
+                        <input type="text" name="user_group_name" placeholder="用户组名称" required>
+                        <input type="checkbox" name="rights[]" value="1">查看帖子
+                        <input type="checkbox" name="rights[]" value="2">回复帖子
+                        <input type="checkbox" name="rights[]" value="3">发布帖子
+                        <input type="checkbox" name="rights[]" value="4">编辑帖子
+                        <input type="checkbox" name="rights[]" value="5">查看用户
+                        <input type="checkbox" name="rights[]" value="6">新增用户
+                        <input type="checkbox" name="rights[]" value="7">修改用户
+                        <input type="checkbox" name="rights[]" value="8">删除用户
+                        <input type="checkbox" name="rights[]" value="9">板块标签
+                        <button type="submit">创建</button>
+                    </form>
+                </div>
+
             </section>
         </section>
     </main>

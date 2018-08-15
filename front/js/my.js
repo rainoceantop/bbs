@@ -1,5 +1,4 @@
-const listContent = document.querySelector('.list-content')
-
+const userInfoArea = document.querySelector('.user-info')
 
 setTimeout(getListContent, 500)
 function getListContent() {
@@ -15,8 +14,9 @@ function getListContent() {
                     <p><span>名称：</span>${userInfo.user}</p>
                     <p><span>创建时间：</span>${userInfo.created_at}</p>
                     <p><span>最后登录：</span>${userInfo.last_online}</p>
+                    <p><span>用户组：</span>${userInfo.user_groups}</p>
                     `
-                listContent.innerHTML = html
+                userInfoArea.innerHTML = html
             })
             .catch(error => {
                 console.log(error)
