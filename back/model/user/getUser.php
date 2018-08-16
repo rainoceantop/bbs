@@ -1,14 +1,19 @@
 <?php
 require '../../database/database.php';
+require '../../utils/timeToHuman.php';
 
+//数据库
 $pdo = new Database();
 $conn = $pdo->connect();
+//时间
+$t = new TimeToHuman();
+
 $symbol = $_GET['for'];
 
 switch($symbol){
     case 'getUserById':
         $user_id = $_GET['id'];
-        getUserById($conn, $user_id);
+        getUserById($conn, $user_id, $t);
         break;
     case 'getUserGroups':
         getUserGroups($conn);
@@ -26,12 +31,12 @@ switch($symbol){
         break;
     case 'getUsers':
         $id = $_GET['id'];
-        getUsers($conn, $id);
+        getUsers($conn, $id, $t);
         break;
 }
 
 //根据id查询用户
-function getUserById($conn, $user_id){
+function getUserById($conn, $user_id, $t){
     $sql = 'select name, avatar, created_at, last_online, user_groups from users where id = :user_id';
     
     $stmt = $conn->prepare($sql);
@@ -42,8 +47,8 @@ function getUserById($conn, $user_id){
     while($row = $stmt->fetch()){
         $info['user'] = $row['name'];
         $info['avatar'] = $row['avatar'];
-        $info['created_at'] = $row['created_at'];
-        $info['last_online'] = $row['last_online'];
+        $info['created_at'] = $t->init($row['created_at'])->onlyDate();
+        $info['last_online'] = $t->init($row['last_online'])->onlyDate();
 
         //获取用户所属用户组的权限
         $groups = $row['user_groups'];
@@ -149,7 +154,7 @@ function getUsersWithin($conn, $group_id){
 }
 
 //获取用户
-function getUsers($conn, $id){
+function getUsers($conn, $id, $t){
     $sql = "select id, name, avatar, created_at, last_online, user_groups from users where is_admin = '0' and id != :id";
     $stmt = $conn->prepare($sql);
     $stmt->bindParam(':id', $id);
@@ -161,8 +166,8 @@ function getUsers($conn, $id){
             'id' => $row['id'],
             'name' => $row['name'],
             'avatar' => $row['avatar'],
-            'created_at' => $row['created_at'],
-            'last_online' => $row['last_online'],
+            'created_at' => $t->init($row['created_at'])->onlyDate(),
+            'last_online' => $t->init($row['last_online'])->onlyDate()
         );
         //获取用户所属用户组的权限
         $groups = $row['user_groups'];

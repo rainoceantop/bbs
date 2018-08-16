@@ -96,11 +96,20 @@ header{
             overflow: hidden;
         }
         &-branding{
+            img{
+                &:hover{
+                    cursor: pointer;
+                    opacity: .8;
+                }
+            }
             background-color: darken($color: $primary-color, $amount: 10);
             transform: translate3d(0, 100%, 0);
             @include easeOut;
             &.show{
                 transform: translate3d(0, 0, 0);
+            }
+            .change-avatar{
+                
             }
         }
         &-nav{
@@ -643,13 +652,26 @@ main{
     }
 }
 .tag-field{
-    font-size: 1rem;
+    font-size: .7rem;
     padding: .3rem 1rem;
     .tag{
         background-color: $primary-color;
         color: $secondary-color;
         padding: .3rem 1rem;
         margin-right: 1rem;
+        border-radius: .5rem;
+        a{
+            color:$secondary-color;
+            text-decoration: none;
+            &:link,
+            &:visited{
+                color: $secondary-color;
+            }
+        }
+
+        &:hover{
+            background-color: lighten($color: $primary-color, $amount: 15)
+        }
     }
 }
 // 页脚样式

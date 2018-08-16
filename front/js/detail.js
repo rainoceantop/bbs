@@ -14,12 +14,12 @@ axios.get('../back/handler/loginHandler.php?log=2')
                 })
                 .catch(error => console.log(error))
         } else {
-            loadPage()
+            loadPage(true)
         }
     })
     .catch(error => console.log(error))
 
-function loadPage() {
+function loadPage(is_admin = false) {
     //获取url的id参数
     let uri = window.location.search
     let params = new URLSearchParams(uri)
@@ -109,6 +109,7 @@ function loadPage() {
             axios.get('../back/model/reply/getReply.php?for=getRepliesByThreadId&thread_id=' + id)
                 .then(response => {
                     let resp = response.data
+                    console.log(resp)
                     //评论数统计
                     replyLabel.innerHTML = `<h3>最新回复(${resp.length})</h3>`
 
@@ -196,7 +197,7 @@ function loadPage() {
                     e.preventDefault()
                     axios.get('../back/handler/rightsHandler.php?check=canReplyThread&user_id=' + window.user_id)
                         .then(response => {
-                            if (!response.data) {
+                            if (response.data != 1 && !is_admin) {
                                 alert('抱歉，您无权回复')
                                 return false
                             } else {

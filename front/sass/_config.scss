@@ -91,8 +91,23 @@ $secondary-color: rgb(241, 246, 255);
             margin-left: 1rem;
             .thread-title{
                 text-decoration: none;
+                &:link,
+                &:visited{
+                    color: darken($color: $primary-color, $amount: 15)
+                }
                 &:hover{
                     text-decoration: underline;
+                }
+                float: left;
+            }
+            //我的帖子的两个按钮的样式
+            .edit-file{
+                a{
+                    text-decoration: none;
+                    &:link,
+                    &:visited{
+                        color: darken($secondary-color, 10);
+                    }
                 }
             }
             .thread-footer{

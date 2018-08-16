@@ -1,20 +1,24 @@
 <?php
 require '../../database/database.php';
+require '../../utils/timeToHuman.php';
 
+//数据库
 $pdo = new Database();
 $conn = $pdo->connect();
+//时间
+$t = new TimeToHuman();
 
 $symbol = $_GET['for'];
 
 switch($symbol){
     case 'getRepliesByThreadId':
     $thread_id = $_GET['thread_id'];
-    getRepliesByThreadId($conn, $thread_id);
+    getRepliesByThreadId($conn, $thread_id, $t);
     break;
 }
 
 
-function getRepliesByThreadId($conn, $thread_id){
+function getRepliesByThreadId($conn, $thread_id, $t){
     $info = array();
     $resp = array();
     //获取帖子的评论
@@ -30,7 +34,8 @@ function getRepliesByThreadId($conn, $thread_id){
         $info['from_user_id'] = $row['from_user_id'];
         $info['to_user_id'] = $row['to_user_id'];
         $info['replied_index'] = $row['replied_index'];
-        $info['replied_time'] = $row['replied_time'];
+        //格式化时间
+        $info['replied_time'] = $t->init($row['replied_time'])->format();
         //获取fromuserid信息
         $sql = 'select name, avatar from users where id = :user_id';
         $s = $conn->prepare($sql);

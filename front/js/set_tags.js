@@ -1,3 +1,27 @@
+let can_modify
+
+//获取用户是否有权修改标签
+axios.get('../back/handler/loginHandler.php?log=2')
+    .then(response => {
+        //如果不是管理员则确认有没权限
+        if (response.data.is_admin != '1') {
+            axios.get('../back/handler/rightsHandler.php?check=canModifyFT&user_id=' + response.data.id)
+                .then(response => {
+                    if (response.data == 1) {
+                        can_modify = true
+                    } else {
+                        can_modify = false
+                    }
+                })
+                .catch(error => console.log(error))
+        } else {
+            can_modify = true
+        }
+    })
+    .catch(error => console.log(error))
+
+
+
 //获取板块，标签组，标签的dom节点
 const forumArea = document.querySelector('.forums-area')
 const tagGroupsArea = document.querySelector('.tag-groups-area')
@@ -75,12 +99,14 @@ axios.get('../back/model/forum/getForum.php?for=getForumName')
         //板块删除按钮
         const forumItems = document.querySelectorAll('.forum-item')
         forumItems.forEach(item => {
-            item.addEventListener('mouseover', function () {
-                item.lastElementChild.style.visibility = 'visible'
-            })
-            item.addEventListener('mouseout', function () {
-                item.lastElementChild.style.visibility = 'hidden'
-            })
+            if (can_modify) {
+                item.addEventListener('mouseover', function () {
+                    item.lastElementChild.style.visibility = 'visible'
+                })
+                item.addEventListener('mouseout', function () {
+                    item.lastElementChild.style.visibility = 'hidden'
+                })
+            }
             //监听删除板块按钮点击事件
             const forumDeleteButton = item.lastElementChild
             forumDeleteButton.addEventListener('click', function () {
@@ -160,12 +186,14 @@ axios.get('../back/model/forum/getForum.php?for=getForumName')
 
                 const tagGroupItems = document.querySelectorAll('.tag-groups-item')
                 tagGroupItems.forEach(item => {
-                    item.addEventListener('mouseover', function () {
-                        item.lastElementChild.style.visibility = 'visible'
-                    })
-                    item.addEventListener('mouseout', function () {
-                        item.lastElementChild.style.visibility = 'hidden'
-                    })
+                    if (can_modify) {
+                        item.addEventListener('mouseover', function () {
+                            item.lastElementChild.style.visibility = 'visible'
+                        })
+                        item.addEventListener('mouseout', function () {
+                            item.lastElementChild.style.visibility = 'hidden'
+                        })
+                    }
                     //监听标签组删除按钮点击事件
                     const tagGroupDeleteButton = item.lastElementChild
                     tagGroupDeleteButton.addEventListener('click', function () {
@@ -248,12 +276,14 @@ axios.get('../back/model/forum/getForum.php?for=getForumName')
 
                         const tagsItems = document.querySelectorAll('.tags-item')
                         tagsItems.forEach(item => {
-                            item.addEventListener('mouseover', function () {
-                                item.lastElementChild.style.visibility = 'visible'
-                            })
-                            item.addEventListener('mouseout', function () {
-                                item.lastElementChild.style.visibility = 'hidden'
-                            })
+                            if (can_modify) {
+                                item.addEventListener('mouseover', function () {
+                                    item.lastElementChild.style.visibility = 'visible'
+                                })
+                                item.addEventListener('mouseout', function () {
+                                    item.lastElementChild.style.visibility = 'hidden'
+                                })
+                            }
                             //监听标签组删除按钮点击事件
                             const tagDeleteButton = item.lastElementChild
                             tagDeleteButton.addEventListener('click', function () {

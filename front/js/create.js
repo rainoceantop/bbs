@@ -27,12 +27,12 @@ axios.get('../back/model/tag/getTag.php?for=getTags')
 axios.get('../back/handler/loginHandler.php?log=2')
     .then(response => {
         //如果不是管理员则确认有没权限
-        if (!response.data.is_admin == '1') {
+        if (response.data.is_admin != '1') {
             axios.get('../back/handler/rightsHandler.php?check=canPostThread&user_id=' + response.data.id)
                 .then(response => {
                     console.log(response.data)
                     if (response.data != 1) {
-                        alert('抱歉，您无权访问')
+                        alert('抱歉，您无权发表文章')
                         window.location.href = 'home.html'
                     }
                 })

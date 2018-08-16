@@ -62,8 +62,26 @@ axios.get('_part/header.html')
                 user.classList.remove('user-out')
                 user.classList.add('user-in')
                 logAction.innerHTML = `<a href='#!'>注销</a>`
-                user.innerHTML = `<a href='my.html'>${window.user}</a>`
-                branding.innerHTML = `<img src="${window.user_avatar}" alt="" width="100px" height="100px" />`
+                user.innerHTML = `<a href='my.html'>个人资料</a>`
+                branding.innerHTML =
+                    `
+
+                    <img src="${window.user_avatar}" alt="" width="100px" height="100px" />
+                    <form id="change-avatar-form" action="../back/model/user/updateUser.php?for=avatar&id=${window.user_id}" method="POST" enctype="multipart/form-data">
+                        <input style="display:none" type="file" name="avatar" class="change-avatar">
+                    </form>
+                    <p style="color:white;font-weight:bold;">${window.user}</p>
+                `
+                //监听鼠标经过头像
+                const avatar = branding.querySelector('img')
+                const changeAvatar = branding.querySelector('.change-avatar')
+                const changeAvatarForm = branding.querySelector('#change-avatar-form')
+                avatar.addEventListener('click', function () {
+                    changeAvatar.click()
+                })
+                changeAvatar.addEventListener('change', function () {
+                    changeAvatarForm.submit()
+                })
                 logAction.addEventListener('click', function () {
                     axios.get('../back/handler/loginHandler.php?log=1')
                         .then(response => {
@@ -75,8 +93,11 @@ axios.get('_part/header.html')
                             logAction.innerHTML = `<a href="login.html">登录</a>`
                         })
                 })
+
             }
         }
+
+        branding
 
     })
     .catch(error => {

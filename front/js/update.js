@@ -1,4 +1,4 @@
-//查看当前用户是否有权查看内容
+//查看当前用户是否有权编辑
 axios.get('../back/handler/loginHandler.php?log=2')
     .then(response => {
         //如果不是管理员则确认有没权限
@@ -6,7 +6,7 @@ axios.get('../back/handler/loginHandler.php?log=2')
             axios.get('../back/handler/rightsHandler.php?check=canEditThread&user_id=' + response.data.id)
                 .then(response => {
                     console.log(response.data)
-                    if (!response.data) {
+                    if (response.data != 1) {
                         alert('抱歉，您无权编辑')
                         window.location.href = 'home.html'
                     }

@@ -32,10 +32,14 @@ function getListContent() {
                     <img src="${threads[i].avatar}" alt="">
                 </div>
                 <div class="info">
+                    <div class="title-tags">
                     <a href="detail.html?id=${threads[i].thread_id}" class="thread-title">${threads[i].thread_title}</a>
-                    <a href='update.html?id=${threads[i].thread_id}'>编辑</a>
-                    <span class="is-file-display">${is_file_msg}</span>
                     <span class="tag-field">${tagHtml}</span>
+                    </div>
+                    <div class="edit-file">
+                        <a href='update.html?id=${threads[i].thread_id}'>编辑</a>
+                        <span class="is-file-display">${is_file_msg}</span>
+                    </div>
                     <div class="thread-footer">
                         <span class="head-name">
                         ${threads[i].thread_head}

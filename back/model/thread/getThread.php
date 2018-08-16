@@ -1,60 +1,66 @@
 <?php
 session_start();
 require '../../database/database.php';
+require '../../utils/timeToHuman.php';
 
-
+//数据库
 $pdo = new Database();
 $conn = $pdo->connect();
+//时间
+$t = new TimeToHuman();
+
 $symbol = $_GET['for'];
+
+
 switch($symbol){
     case "getHomeThreads":
-        getHomeThreads($conn);
+        getHomeThreads($conn, $t);
         break;
     case "getForumThreads":
         $forum_id = $_GET['id'];
-        getForumThreads($conn, $forum_id);
+        getForumThreads($conn, $forum_id, $t);
         break;
     case "getThreadDetail":
         $thread_id = $_GET['id'];
-        getThreadDetail($conn, $thread_id);
+        getThreadDetail($conn, $thread_id, $t);
         break;
     case "getUserThreads":
         $user_id = $_GET['id'];
-        getUserThreads($conn, $user_id);
+        getUserThreads($conn, $user_id, $t);
         break;
     case "getHomeThreadsByTagId":
         $tag_id = $_GET['id'];
-        getHomeThreadsByTagId($conn, $tag_id);
+        getHomeThreadsByTagId($conn, $tag_id, $t);
         break;
 }
 
 
 //获取首页帖子
-function getHomeThreads($conn){
-    getThreads($conn, NULL, 'homeThreads');
+function getHomeThreads($conn, $t){
+    getThreads($conn, NULL, 'homeThreads', $t);
 }
 
 //获取forum页帖子
-function getForumThreads($conn, $forum_id){
-    getThreads($conn, $forum_id, 'forumThreads');
+function getForumThreads($conn, $forum_id, $t){
+    getThreads($conn, $forum_id, 'forumThreads', $t);
 }
 
 //获取帖子详情
-function getThreadDetail($conn, $thread_id){
-    getThreads($conn, $thread_id, 'threadDetail');
+function getThreadDetail($conn, $thread_id, $t){
+    getThreads($conn, $thread_id, 'threadDetail', $t);
 }
 
 //获取用户帖子
-function getUserThreads($conn, $user_id){
-    getThreads($conn, $user_id, 'userThreads');
+function getUserThreads($conn, $user_id, $t){
+    getThreads($conn, $user_id, 'userThreads', $t);
 }
 
 //根据标签id获取帖子
-function getHomeThreadsByTagId($conn, $tag_id){
-    getThreads($conn, $tag_id, 'homeThreadsByTagId');
+function getHomeThreadsByTagId($conn, $tag_id, $t){
+    getThreads($conn, $tag_id, 'homeThreadsByTagId', $t);
 }
 
-function getThreads($conn, $param, $symbol){
+function getThreads($conn, $param, $symbol, $t){
     $resp = array();
     $data = array();
     $info = array();
@@ -89,7 +95,9 @@ function getThreads($conn, $param, $symbol){
             $info['avatar'] = $avatar->fetch()[0];
             $info['thread_title'] = $row['thread_title'];
             $info['thread_head'] = $row['thread_head'];
-            $info['posted_time'] = $row['thread_created_at'];
+            //格式化时间
+            $info['posted_time'] = $t->init($row['thread_created_at'])->format();
+
             $info['is_filed'] = $row['thread_is_filed'];
             if($symbol == 'threadDetail'){
                 $info['head_id'] = $row['head_id'];
@@ -102,8 +110,13 @@ function getThreads($conn, $param, $symbol){
                 $s->bindParam(':thread_id', $row['id']);
                 $s->execute();
                 $rd = $s->fetch();
-                $info['replied_user'] = $rd[0];
-                $info['replied_time'] = $rd[1];
+                if(!empty($rd)){
+                    $info['replied_user'] = $rd[0];
+                    $info['replied_time'] = $t->init($rd[1])->format();
+                } else {
+                    $info['replied_user'] = '无';
+                    $info['replied_time'] = '';
+                }
             }
 
             //获取帖子标签
