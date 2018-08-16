@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Aug 15, 2018 at 11:15 AM
+-- Generation Time: Aug 16, 2018 at 12:24 PM
 -- Server version: 10.1.34-MariaDB
 -- PHP Version: 7.2.7
 
@@ -32,6 +32,13 @@ CREATE TABLE `forums` (
   `id` int(10) UNSIGNED NOT NULL,
   `forum_name` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `forums`
+--
+
+INSERT INTO `forums` (`id`, `forum_name`) VALUES
+(9, '灌水');
 
 -- --------------------------------------------------------
 
@@ -88,6 +95,14 @@ CREATE TABLE `tags` (
   `tag_name` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `tags`
+--
+
+INSERT INTO `tags` (`id`, `forum_id`, `tag_group_id`, `tag_name`) VALUES
+(6, 9, 4, '一连小兵'),
+(7, 9, 5, '二连小兵');
+
 -- --------------------------------------------------------
 
 --
@@ -99,6 +114,14 @@ CREATE TABLE `tag_groups` (
   `forum_id` int(10) UNSIGNED NOT NULL,
   `tag_group_name` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `tag_groups`
+--
+
+INSERT INTO `tag_groups` (`id`, `forum_id`, `tag_group_name`) VALUES
+(4, 9, '灌水一连'),
+(5, 9, '灌水二连');
 
 -- --------------------------------------------------------
 
@@ -155,7 +178,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `username`, `password`, `name`, `avatar`, `created_at`, `last_online`, `user_groups`, `is_admin`) VALUES
-(20, 'admin', '123456', '哈哈，我每逢', 'imgs/3.jpg', '2018-08-13 17:22:53', '2018-08-15 16:54:17', '[]', '1');
+(20, 'admin', '123456', '卡西莫多', 'imgs/u=4072882502,3663770559&fm=27&gp=0.jpg', '2018-08-13 17:22:53', '2018-08-16 18:12:32', '[]', '1');
 
 -- --------------------------------------------------------
 
@@ -168,6 +191,14 @@ CREATE TABLE `user_groups` (
   `user_group_name` varchar(30) NOT NULL,
   `rights` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `user_groups`
+--
+
+INSERT INTO `user_groups` (`id`, `user_group_name`, `rights`) VALUES
+(13, '曾上爱差', '[\"1\",\"3\"]'),
+(14, '和规范化', '[\"2\",\"4\"]');
 
 --
 -- Indexes for dumped tables
@@ -246,13 +277,13 @@ ALTER TABLE `user_groups`
 -- AUTO_INCREMENT for table `forums`
 --
 ALTER TABLE `forums`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `replies`
 --
 ALTER TABLE `replies`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `rights`
@@ -264,31 +295,31 @@ ALTER TABLE `rights`
 -- AUTO_INCREMENT for table `tags`
 --
 ALTER TABLE `tags`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `tag_groups`
 --
 ALTER TABLE `tag_groups`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `threads`
 --
 ALTER TABLE `threads`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
 
 --
 -- AUTO_INCREMENT for table `user_groups`
 --
 ALTER TABLE `user_groups`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- Constraints for dumped tables
