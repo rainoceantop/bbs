@@ -65,7 +65,9 @@ function loadPage(is_admin = false) {
             </div>
             <div class="post-footer">
                 <div class="like">
-                    <i class="far fa-star"></i> Like it
+                    <span id="thread-collect">
+                    <i class="far fa-star"></i>收藏
+                    </span>
                 </div>
                 <div class="avatar">
                     <img src="${data.avatar}" alt="">
@@ -76,6 +78,7 @@ function loadPage(is_admin = false) {
 
 
             const viewsArea = content.querySelector('#thread-views')
+            const collectArea = content.querySelector('#thread-collect')
             //获取帖子阅读量
             axios.get('../back/log/thread.log.json')
                 .then(response => {
@@ -91,6 +94,30 @@ function loadPage(is_admin = false) {
             axios.get('../back/model/thread/updThread.php?for=views&id=' + id)
                 .then(response => console.log(response.data))
                 .catch(error => console.log(error))
+
+            //查看用户是否已收藏
+            axios.get(`../back/model/user/getUser.php?for=isCollected&uid=${window.user_id}&tid=${id}`)
+                .then(response => {
+                    if (response.data)
+                        collectArea.innerHTML = '<i class="fas fa-star"></i>已收藏'
+                })
+                .catch(error => console.log(error))
+
+            //n监听帖子收藏
+            collectArea.addEventListener('click', function () {
+                console.log('--------')
+                axios.get(`../back/model/user/updateUser.php?uid=${window.user_id}&tid=${id}&for=updateUserCollections&action=add`)
+                    .then(response => {
+                        if (response.data == 'ADDED') {
+                            collectArea.innerHTML = '<i class="fas fa-star"></i>已收藏'
+                        } else if (response.data == 'REMOVED') {
+                            collectArea.innerHTML = '<i class="far fa-star"></i>收藏'
+                        } else {
+                            alert('出错')
+                        }
+                    })
+                    .catch(error => console.log(error))
+            })
 
             //回复帖子域
             let replyForm = document.querySelector('.reply-form')
@@ -112,11 +139,14 @@ function loadPage(is_admin = false) {
                     console.log(resp)
                     //评论数统计
                     replyLabel.innerHTML = `<h3>最新回复(${resp.length})</h3>`
-
                     let html = ''
-                    for (let i in resp) {
-                        html +=
-                            `
+
+                    if (resp.length == 0)
+                        html = '<div style="text-align:center;"><p>暂无回复</p></div>'
+                    else {
+                        for (let i in resp) {
+                            html +=
+                                `
                     <div class="reply-item">
                     <div class="reply-avatar">
                         <img src="${resp[i].from_user_avatar}">
@@ -136,9 +166,9 @@ function loadPage(is_admin = false) {
                         </div>
                         <div class="reply-body">
                         `
-                        if (resp[i].replied_index != 0) {
-                            html +=
-                                `
+                            if (resp[i].replied_index != 0) {
+                                html +=
+                                    `
                             <div class="replied-show">
                                 <div class="avatar">
                                     <img src="${resp[i].to_user_avatar}">
@@ -147,15 +177,17 @@ function loadPage(is_admin = false) {
                                 <div class="info">${resp[i].to_user_replied}</div>
                             </div>
                             `
-                        }
-                        html +=
-                            `
+                            }
+                            html +=
+                                `
                             ${resp[i].replied_body}
                         </div>
                     </div>
                 </div>
                     `
+                        }
                     }
+
                     replyItems.innerHTML = html
 
                     //如果帖子已经归档，不开放评论
@@ -178,7 +210,7 @@ function loadPage(is_admin = false) {
                                 } else {
                                     to_user_id = data.head_id
                                     replied_index = 0
-                                    replyBody.placeholder = ''
+                                    replyBody.placeholder = '回复 帖子：'
                                     window.location.hash = "#reply-form"
                                     replyBody.focus()
                                     toggle = false
@@ -194,37 +226,45 @@ function loadPage(is_admin = false) {
             //如果帖子没有归档， 监听提交按钮
             if (!is_filed) {
                 replyFormSubmitButton.addEventListener('click', function (e) {
+                    let body = replyBody.value
+                    //表达式中的/g是全局匹配
+                    body = body.replace(/(^\s*)|(\s*$)/g, '')
                     e.preventDefault()
-                    axios.get('../back/handler/rightsHandler.php?check=canReplyThread&user_id=' + window.user_id)
-                        .then(response => {
-                            if (response.data != 1 && !is_admin) {
-                                alert('抱歉，您无权回复')
-                                return false
-                            } else {
+                    if (body.length >= 3) {
+                        axios.get('../back/handler/rightsHandler.php?check=canReplyThread&user_id=' + window.user_id)
+                            .then(response => {
+                                if (response.data != 1 && !is_admin) {
+                                    alert('抱歉，您无权回复')
+                                    return false
+                                } else {
 
-                                let params = {
-                                    thread_id: id,
-                                    replied_body: replyBody.value,
-                                    replied_index: replied_index,
-                                    from_user_id: window.user_id,
-                                    to_user_id: to_user_id
+                                    let params = {
+                                        thread_id: id,
+                                        replied_body: replyBody.value,
+                                        replied_index: replied_index,
+                                        from_user_id: window.user_id,
+                                        to_user_id: to_user_id
+                                    }
+                                    axios.post('../back/model/reply/addReply.php', params)
+                                        .then(response => {
+                                            if (response.data == 'SUCCESS') {
+                                                replyBody.value = ''
+                                                window.location.reload()
+                                            }
+                                            else {
+                                                alert('回复评论出错，可能未登录或其他原因')
+                                            }
+                                        })
+                                        .catch(error => {
+                                            console.log(error)
+                                        })
                                 }
-                                axios.post('../back/model/reply/addReply.php', params)
-                                    .then(response => {
-                                        if (response.data == 'SUCCESS') {
-                                            replyBody.value = ''
-                                            window.location.reload()
-                                        }
-                                        else {
-                                            alert('回复评论出错，可能未登录或其他原因')
-                                        }
-                                    })
-                                    .catch(error => {
-                                        console.log(error)
-                                    })
-                            }
-                        })
-                        .catch(error => console.log(error))
+                            })
+                            .catch(error => console.log(error))
+                    } else {
+                        alert('请输入至少三个字符')
+                    }
+
                 })
             }
 

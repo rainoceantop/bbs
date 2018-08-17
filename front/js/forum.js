@@ -22,7 +22,7 @@ axios.get('../back/model/thread/getThread.php?for=getForumThreads&id=' + params.
         let total_pages = Math.ceil(total_rows / rows_per_page)
         if (total_rows > rows_per_page) {
             for (let i = 1; i <= total_pages; i++) {
-                pageLink.innerHTML += `<a href="#!" style="color:white;" class="to-page" data-start=${(i - 1) * rows_per_page}> ${i} </a>`
+                pageLink.innerHTML += `<a href="#!" style="color:white;margin:0 .5rem;text-decoration: none;outline:none;" class="to-page" data-start=${(i - 1) * rows_per_page}> ${i} </a>`
             }
         }
 
@@ -55,24 +55,34 @@ axios.get('../back/model/thread/getThread.php?for=getForumThreads&id=' + params.
                     <img src="${thread_info[i].avatar}" alt="">
                 </div>
                 <div class="info">
+                    <div class="title-tag">
                     <a href="detail.html?id=${thread_info[i].thread_id}" class="thread-title">${thread_info[i].thread_title}</a>
                     <span class="tag-field">${tagHtml}</span>
+                    </div>
                     <div class="thread-footer">
-                        <span class="head-name">
-                        ${thread_info[i].thread_head}
-                        </span>
-                        <span class="posted-time">
-                        ${thread_info[i].posted_time}
-                        </span>
-                        <span class="arrow">
-                            <i class="fas fa-angle-double-left"></i>
-                        </span>
-                        <span class="last-replied">
-                        ${thread_info[i].replied_user}
-                        </span>
-                        <span class="replied-time">
-                        ${thread_info[i].replied_time}
-                        </span>
+                        <div class="footer-left">                        
+                            <span class="head-name">
+                            ${thread_info[i].thread_head}
+                            </span>
+                            <span class="posted-time">
+                            ${thread_info[i].posted_time}
+                            </span>
+                            <span class="arrow">
+                                <i class="fas fa-angle-double-left"></i>
+                            </span>
+                            <span class="last-replied">
+                            ${thread_info[i].replied_user}
+                            </span>
+                            <span class="replied-time">
+                            ${thread_info[i].replied_time}
+                            </span>
+                        </div>
+                        <div class="footer-right">
+                            <span class="replies">
+                            <i class="far fa-comment"></i>
+                            ${thread_info[i].replies}
+                            </span>
+                        </div>
                     </div>
                 </div>
                 </div>

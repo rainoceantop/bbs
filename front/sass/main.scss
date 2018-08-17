@@ -86,12 +86,13 @@ header{
         }
         &-branding,
         &-nav{
+            position: fixed;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             float: left;
-            width: 50%;
+            width: 50vw;
             height: 100vh;
             overflow: hidden;
         }
@@ -102,17 +103,18 @@ header{
                     opacity: .8;
                 }
             }
+            left: 0;
+            top: 0;
             background-color: darken($color: $primary-color, $amount: 10);
             transform: translate3d(0, 100%, 0);
             @include easeOut;
             &.show{
                 transform: translate3d(0, 0, 0);
             }
-            .change-avatar{
-                
-            }
         }
         &-nav{
+            left: 50vw;
+            top: 0;
             background-color: darken($color: $primary-color, $amount: 5);
             transform: translate3d(0, -100%, 0);
             @include easeOut;
@@ -151,10 +153,29 @@ main{
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    //搜索框
+    .search{
+        @include transp;
+        margin-bottom: 1rem;
+        .search-input{
+            @include fieldUnderline;
+            padding: 0;
+            font-size: 1.3rem;
+            margin-bottom: 0;
+            border-bottom-style: none;
+        }
+    }
     //位置样式
     .location{
         @include transp;
         margin-bottom: 1rem;
+        a{
+            color: $secondary-color;
+            text-decoration: none;
+            &:hover{
+                text-decoration: underline;
+            }
+        }
     }
     // 首页样式
     .content{
@@ -364,6 +385,18 @@ main{
         @include transp;
         .login-username, .login-password{
             @include fieldUnderline;
+        }
+        .login-button{
+            background-color: $primary-color;
+            color: $secondary-color;
+            padding: .8rem 2rem;
+            font-size: 1.3rem;
+            font-weight: bold;
+            border-radius: .5rem;
+            border: 0;
+            &:hover{
+                cursor: pointer;
+            }
         }
     }
     //profile样式
@@ -617,7 +650,7 @@ main{
                 .user-item{
                     display: flex;
                     flex-flow: row nowrap;
-                    justify-content: center;
+                    justify-content: space-between;
                     align-items: center;
                     padding: .3rem;
                     margin-bottom: 1rem;
@@ -630,8 +663,6 @@ main{
                     }
                     .info{
                         line-height: 2rem;
-                        border-left: 1px dotted $primary-color;
-                        border-right: 1px dotted $primary-color;
                         margin: 0 1rem;
                         span{
                             margin: .5rem;
@@ -642,7 +673,12 @@ main{
                         span{
                             &:hover{
                                 cursor: pointer;
-                                color: rgb(245, 35, 35);
+                                &:nth-child(1){
+                                    color: greenyellow;
+                                }
+                                &:nth-child(2){
+                                    color: rgb(238, 92, 73);
+                                }
                             }
                         }
                     }

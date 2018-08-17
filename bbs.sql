@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Aug 16, 2018 at 12:24 PM
+-- Generation Time: Aug 17, 2018 at 11:28 AM
 -- Server version: 10.1.34-MariaDB
 -- PHP Version: 7.2.7
 
@@ -38,7 +38,7 @@ CREATE TABLE `forums` (
 --
 
 INSERT INTO `forums` (`id`, `forum_name`) VALUES
-(9, '灌水');
+(11, '灌水');
 
 -- --------------------------------------------------------
 
@@ -100,8 +100,10 @@ CREATE TABLE `tags` (
 --
 
 INSERT INTO `tags` (`id`, `forum_id`, `tag_group_id`, `tag_name`) VALUES
-(6, 9, 4, '一连小兵'),
-(7, 9, 5, '二连小兵');
+(9, 11, 6, '水军1号'),
+(10, 11, 6, '水军2号'),
+(11, 11, 7, '水军5号'),
+(12, 11, 7, '水军8号');
 
 -- --------------------------------------------------------
 
@@ -120,8 +122,8 @@ CREATE TABLE `tag_groups` (
 --
 
 INSERT INTO `tag_groups` (`id`, `forum_id`, `tag_group_name`) VALUES
-(4, 9, '灌水一连'),
-(5, 9, '灌水二连');
+(6, 11, '灌水一连'),
+(7, 11, '灌水二连');
 
 -- --------------------------------------------------------
 
@@ -170,6 +172,7 @@ CREATE TABLE `users` (
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `last_online` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `user_groups` varchar(100) NOT NULL DEFAULT '[]',
+  `collections` varchar(1000) NOT NULL DEFAULT '[]',
   `is_admin` enum('0','1') NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -177,8 +180,8 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `username`, `password`, `name`, `avatar`, `created_at`, `last_online`, `user_groups`, `is_admin`) VALUES
-(20, 'admin', '123456', '卡西莫多', 'imgs/u=4072882502,3663770559&fm=27&gp=0.jpg', '2018-08-13 17:22:53', '2018-08-16 18:12:32', '[]', '1');
+INSERT INTO `users` (`id`, `username`, `password`, `name`, `avatar`, `created_at`, `last_online`, `user_groups`, `collections`, `is_admin`) VALUES
+(26, 'helloworld', '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92', '卡系莫多', 'imgs/5.jpg', '2018-08-17 17:23:06', '2018-08-17 17:24:08', '[]', '[]', '1');
 
 -- --------------------------------------------------------
 
@@ -191,14 +194,6 @@ CREATE TABLE `user_groups` (
   `user_group_name` varchar(30) NOT NULL,
   `rights` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `user_groups`
---
-
-INSERT INTO `user_groups` (`id`, `user_group_name`, `rights`) VALUES
-(13, '曾上爱差', '[\"1\",\"3\"]'),
-(14, '和规范化', '[\"2\",\"4\"]');
 
 --
 -- Indexes for dumped tables
@@ -277,13 +272,13 @@ ALTER TABLE `user_groups`
 -- AUTO_INCREMENT for table `forums`
 --
 ALTER TABLE `forums`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `replies`
 --
 ALTER TABLE `replies`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `rights`
@@ -295,31 +290,31 @@ ALTER TABLE `rights`
 -- AUTO_INCREMENT for table `tags`
 --
 ALTER TABLE `tags`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `tag_groups`
 --
 ALTER TABLE `tag_groups`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `threads`
 --
 ALTER TABLE `threads`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT for table `user_groups`
 --
 ALTER TABLE `user_groups`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- Constraints for dumped tables

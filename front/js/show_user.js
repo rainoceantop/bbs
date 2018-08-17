@@ -14,22 +14,22 @@ axios.get('../back/handler/loginHandler.php?log=2')
                         axios.get('../back/handler/rightsHandler.php?check=canDeleteUsers&user_id=' + response.data.id)
                             .then(response => {
                                 if (response.data == 1)
-                                    loadPage(true, user_id)
+                                    loadPage(true, user_id, false)
                                 else
-                                    loadPage(false, user_id)
+                                    loadPage(false, user_id, false)
                             })
                             .catch(error => console.log(error))
                     }
                 })
                 .catch(error => console.log(error))
         } else {
-            loadPage(true, user_id)
+            loadPage(true, user_id, true)
         }
     })
     .catch(error => console.log(error))
 
 
-function loadPage(can_delete, user_id) {
+function loadPage(can_delete, user_id, is_admin) {
 
     const showUsers = document.querySelector('.show-users')
 
@@ -58,7 +58,13 @@ function loadPage(can_delete, user_id) {
                         </p>
                     </div>
                     <div class="setting">
-                        <span class="delete-user-button" data-user_id=${users[i].id} data-user_name=${users[i].name}>删除</span>
+                    `
+                    if (is_admin) {
+                        html += `<span class="admin-user-button" data-user_id=${users[i].id} data-user_name=${users[i].name}><i class="fas fa-key" title="升级管理员"></i>升级</span>`
+                    }
+                    html +=
+                        `
+                        <span class="delete-user-button" data-user_id=${users[i].id} data-user_name=${users[i].name}><i class="fas fa-ban" title="删除用户"></i>删除</span>
                     </div>
                     </div>
                     `
@@ -70,9 +76,10 @@ function loadPage(can_delete, user_id) {
             showUsers.innerHTML = html
             console.log('can delete:' + can_delete)
             const deleteUserButton = showUsers.querySelectorAll('.delete-user-button')
+            const adminUserButton = showUsers.querySelectorAll('.admin-user-button')
+            //监听用户删除
             deleteUserButton.forEach(item => {
                 item.addEventListener('click', function () {
-
                     if (can_delete) {
                         if (confirm(`确定删除id编号：${item.dataset.user_id}，名称为 "${item.dataset.user_name}" 的用户吗？`)) {
                             axios.get(`../back/model/user/delUser.php?for=deleteUser&id=${item.dataset.user_id}`)
@@ -84,6 +91,19 @@ function loadPage(can_delete, user_id) {
                         }
                     } else {
                         alert('你无权删除用户')
+                    }
+                })
+            })
+            //监听用户升级管理员
+            adminUserButton.forEach(item => {
+                item.addEventListener('click', function () {
+                    if (confirm(`确定将id编号：${item.dataset.user_id}，名称为 "${item.dataset.user_name}" 的用户升级为管理员吗？`)) {
+                        axios.get(`../back/model/user/updateUser.php?for=adminUser&id=${item.dataset.user_id}`)
+                            .then(response => {
+                                alert(response.data)
+                                item.parentElement.parentElement.style.display = 'none'
+                            })
+                            .catch(error => console.log(error))
                     }
                 })
             })

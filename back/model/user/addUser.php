@@ -34,11 +34,12 @@ function addUser($conn, $user){
     $sql = 'insert into users(username, password, name, user_groups) value(:username, :password, :name, :user_groups)';
     
     $user_groups = json_encode($user['user_groups']);
+    $password = hash("sha256", $user['password']);
 
     try{
     $stmt = $conn->prepare($sql);
     $stmt->bindParam(':username', $user['username']);
-    $stmt->bindParam(':password', $user['password']);
+    $stmt->bindParam(':password', $password);
     $stmt->bindParam(':name', $user['name']);
     $stmt->bindParam(':user_groups', $user_groups);
     $stmt->execute();

@@ -22,7 +22,7 @@ loginBtn.addEventListener('click', function () {
                     window.location.href = 'home.html'
                 }, 200)
             } else {
-                console.log('失败')
+                alert('登录失败， 帐号或密码错误')
             }
             console.log(response)
         })

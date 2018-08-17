@@ -36,7 +36,7 @@ function login($conn){
         $stmt->execute();
         if($stmt->rowCount()){
             $info = $stmt->fetch();
-            if($info['password'] == $password){
+            if($info['password'] == hash("sha256",$password)){
                 $message = 'SUCCESS';
                 $_SESSION['id'] = $info['id'];
                 $_SESSION['user'] = $info['name'];

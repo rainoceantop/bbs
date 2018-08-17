@@ -33,6 +33,11 @@ switch($symbol){
         $id = $_GET['id'];
         getUsers($conn, $id, $t);
         break;
+    case 'isCollected':
+        $uid = $_GET['uid'];
+        $tid = $_GET['tid'];
+        isCollected($conn, $uid, $tid);
+        break;
 }
 
 //根据id查询用户
@@ -186,4 +191,14 @@ function getUsers($conn, $id, $t){
         array_push($resp, $info);
     }
     echo json_encode($resp, JSON_UNESCAPED_UNICODE);
+}
+
+//查看是否收藏帖子
+function isCollected($conn, $uid, $tid){
+    $sql = 'select collections from users where id = :uid';
+    $stmt = $conn->prepare($sql);
+    $stmt->bindParam(':uid', $uid);
+    $stmt->execute();
+    $user_c = json_decode($stmt->fetch()[0], true);
+    echo in_array($tid, $user_c);
 }

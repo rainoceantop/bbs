@@ -20,6 +20,7 @@ $thread = array(
     'reason' => $data['updated_reason']
 );
 
+//更新帖子
 $sql = 'update threads set thread_title=:title, thread_body=:body, updated_reason=:reason, updated_at = now() where id = :id';
 try{
     $stmt = $conn->prepare($sql);
@@ -33,6 +34,7 @@ try{
     echo '出错：'.$e->getMessage();
 }
 }
+//更新归档
 else if($symbol == 'file'){
     $thread_id = $_GET['thread_id'];
     $sql = "update threads set thread_is_filed = '1' where id = :thread_id";
@@ -45,6 +47,7 @@ else if($symbol == 'file'){
         echo 'ERROR:'.$e->getMessage();
     }
 }
+//更新阅读量
 else if($symbol == 'views'){
     $id = $_GET['id'];
     $log = file_get_contents('../../log/thread.log.json');

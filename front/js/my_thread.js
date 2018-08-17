@@ -41,6 +41,7 @@ function getListContent() {
                         <span class="is-file-display">${is_file_msg}</span>
                     </div>
                     <div class="thread-footer">
+                        <div class="footer-left">
                         <span class="head-name">
                         ${threads[i].thread_head}
                         </span>
@@ -56,6 +57,13 @@ function getListContent() {
                         <span class="replied-time">
                         ${threads[i].replied_time}
                         </span>
+                        </div>
+                        <div class="footer-right">
+                            <span class="replies">
+                            <i class="far fa-comment"></i>
+                            ${threads[i].replies}
+                            </span>
+                        </div>
                     </div>
                 </div>
                 </div>`

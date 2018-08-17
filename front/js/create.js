@@ -92,35 +92,44 @@ createButton.addEventListener('click', postThread)
 //发表文章
 function postThread(e) {
     e.preventDefault()
-    //获取标签
-    let tagsArr = document.querySelectorAll('.tags')
-    let tags = []
-    tagsArr.forEach(item => {
-        tags.push(item.value)
-    })
-    //获取用户登录信息
-    if (window.is_login) {
-        let html = converter.makeHtml(bodyField.value)
-        let params = {
-            thread_title: titleField.value,
-            forum_id: forumField.value,
-            thread_body: html,
-            thread_head: window.user,
-            user_id: window.user_id,
-            tags: tags
+    let title = titleField.value
+    let forum = forumField.value
+
+    title = title.replace(/(^\s*)|(\s*$)/g, '')
+    forum = forum.replace(/(^\s*)|(\s*$)/g, '')
+
+    if (title.length > 3 && forum.length > 3) {
+        //获取标签
+        let tagsArr = document.querySelectorAll('.tags')
+        let tags = []
+        tagsArr.forEach(item => {
+            tags.push(item.value)
+        })
+        //获取用户登录信息
+        if (window.is_login) {
+            let html = converter.makeHtml(bodyField.value)
+            let params = {
+                thread_title: titleField.value,
+                forum_id: forumField.value,
+                thread_body: html,
+                thread_head: window.user,
+                user_id: window.user_id,
+                tags: tags
+            }
+            axios.post('../back/model/thread/addThread.php', params)
+                .then(response => {
+                    window.location.href = `detail.html?id=${response.data}`
+                })
+                .catch(error => {
+                    console.log(error)
+                })
+
+        } else {
+            window.location.href = 'login.html'
         }
-        axios.post('../back/model/thread/addThread.php', params)
-            .then(response => {
-                window.location.href = `detail.html?id=${response.data}`
-            })
-            .catch(error => {
-                console.log(error)
-            })
-
     } else {
-        window.location.href = 'login.html'
+        alert('请至少输入三个以上字符')
     }
-
 }
 
 //显示markdown转换后的样式

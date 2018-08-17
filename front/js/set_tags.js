@@ -1,4 +1,4 @@
-let can_modify
+let can_modify = false
 
 //获取用户是否有权修改标签
 axios.get('../back/handler/loginHandler.php?log=2')
@@ -99,6 +99,7 @@ axios.get('../back/model/forum/getForum.php?for=getForumName')
         //板块删除按钮
         const forumItems = document.querySelectorAll('.forum-item')
         forumItems.forEach(item => {
+            console.log(can_modify)
             if (can_modify) {
                 item.addEventListener('mouseover', function () {
                     item.lastElementChild.style.visibility = 'visible'

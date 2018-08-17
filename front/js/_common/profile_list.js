@@ -41,6 +41,7 @@ axios.get('../back/handler/loginHandler.php?log=2')
                         //判断用户是否可查看用户（组）
                         axios.get('../back/handler/rightsHandler.php?check=canReadUsers&user_id=' + status.id)
                             .then(response => {
+                                console.log(response.data)
                                 if (response.data) {
                                     showUserPage.style.display = 'block'
                                     showUserGroupPage.style.display = 'block'

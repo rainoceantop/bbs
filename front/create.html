@@ -18,16 +18,13 @@
     <header>
     </header>
     <main>
-        <section class="location">
-
-        </section>
         <section class="create-content">
             <form action="../back/addThread.php" method="POST">
-                <input class="title-field" type="text" name="thread_title" required>
+                <input class="title-field" type="text" name="thread_title" required placeholder="标题">
                 <select name="forums" id="forums"></select>
                 <div class="tags-area">
                 </div>
-                <textarea class="body-field" name="thread_body" required></textarea>
+                <textarea class="body-field" name="thread_body" required placeholder="内容，支持markdown"></textarea>
             </form>
             <div class="show-markdown-content-area">
             </div>

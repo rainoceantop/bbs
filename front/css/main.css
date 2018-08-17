@@ -61,15 +61,18 @@ header {
     header .menu.show {
       visibility: visible; }
     header .menu-branding, header .menu-nav {
+      position: fixed;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       float: left;
-      width: 50%;
+      width: 50vw;
       height: 100vh;
       overflow: hidden; }
     header .menu-branding {
+      left: 0;
+      top: 0;
       background-color: #2b2b2b;
       transform: translate3d(0, 100%, 0);
       transition: all 0.5s ease-out; }
@@ -79,6 +82,8 @@ header {
       header .menu-branding.show {
         transform: translate3d(0, 0, 0); }
     header .menu-nav {
+      left: 50vw;
+      top: 0;
       background-color: #373737;
       transform: translate3d(0, -100%, 0);
       transition: all 0.5s ease-out; }
@@ -108,15 +113,40 @@ main {
   flex-direction: column;
   justify-content: center;
   align-items: center; }
+  main .search {
+    background-color: rgba(241, 246, 255, 0.4);
+    width: 70%;
+    padding: 1.5rem;
+    margin-bottom: 1rem; }
+    main .search .search-input {
+      border-top-style: none;
+      border-left-style: none;
+      border-right-style: none;
+      background-color: transparent;
+      border-bottom: 3px solid yellow;
+      width: 100%;
+      margin-bottom: 1.5rem;
+      padding: 1rem 0;
+      color: white;
+      font-size: 1.5rem;
+      padding: 0;
+      font-size: 1.3rem;
+      margin-bottom: 0;
+      border-bottom-style: none; }
   main .location {
     background-color: rgba(241, 246, 255, 0.4);
-    width: 85%;
-    padding: 1.7rem;
+    width: 70%;
+    padding: 1.5rem;
     margin-bottom: 1rem; }
+    main .location a {
+      color: #f1f6ff;
+      text-decoration: none; }
+      main .location a:hover {
+        text-decoration: underline; }
   main .content {
     background-color: rgba(241, 246, 255, 0.4);
-    width: 85%;
-    padding: 1.7rem; }
+    width: 70%;
+    padding: 1.5rem; }
     main .content .thread {
       padding: .3rem;
       height: 5rem;
@@ -133,6 +163,7 @@ main {
         height: 4.2rem;
         border-radius: 2.5rem; }
       main .content .thread .info {
+        width: 100%;
         color: #444;
         font-weight: bold;
         display: flex;
@@ -153,13 +184,17 @@ main {
             color: #bed5ff; }
         main .content .thread .info .thread-footer {
           color: #f1f6ff;
-          font-size: .9rem; }
+          font-size: .9rem;
+          width: 100%;
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between; }
           main .content .thread .info .thread-footer span {
             margin-right: .7rem; }
   main .post-content {
     background-color: rgba(241, 246, 255, 0.4);
-    width: 85%;
-    padding: 1.7rem; }
+    width: 70%;
+    padding: 1.5rem; }
     main .post-content .post-header {
       color: #444;
       margin-bottom: 1.6rem; }
@@ -193,8 +228,8 @@ main {
         border-radius: 3rem; }
   main .reply-content {
     background-color: rgba(241, 246, 255, 0.4);
-    width: 85%;
-    padding: 1.7rem;
+    width: 70%;
+    padding: 1.5rem;
     margin-top: 1rem; }
     main .reply-content .reply-label {
       padding: .5rem 0;
@@ -206,10 +241,10 @@ main {
       background-color: transparent;
       border-bottom: 3px solid yellow;
       width: 100%;
-      margin-bottom: 1.7rem;
+      margin-bottom: 1.5rem;
       padding: 1rem 0;
       color: white;
-      font-size: 1.7rem;
+      font-size: 1.5rem;
       height: 2rem;
       resize: vertical; }
     main .reply-content .reply-list .reply-items {
@@ -276,8 +311,8 @@ main {
           color: #f1f6ff; }
   main .create-content {
     background-color: rgba(241, 246, 255, 0.4);
-    width: 85%;
-    padding: 1.7rem; }
+    width: 70%;
+    padding: 1.5rem; }
     main .create-content form {
       padding: 1rem; }
       main .create-content form .title-field, main .create-content form .body-field {
@@ -287,10 +322,10 @@ main {
         background-color: transparent;
         border-bottom: 3px solid yellow;
         width: 100%;
-        margin-bottom: 1.7rem;
+        margin-bottom: 1.5rem;
         padding: 1rem 0;
         color: white;
-        font-size: 1.7rem; }
+        font-size: 1.5rem; }
       main .create-content form .body-field {
         font-size: 1.1rem;
         min-height: 18rem;
@@ -321,8 +356,8 @@ main {
         outline: none; }
   main .login-content {
     background-color: rgba(241, 246, 255, 0.4);
-    width: 85%;
-    padding: 1.7rem; }
+    width: 70%;
+    padding: 1.5rem; }
     main .login-content .login-username, main .login-content .login-password {
       border-top-style: none;
       border-left-style: none;
@@ -330,10 +365,20 @@ main {
       background-color: transparent;
       border-bottom: 3px solid yellow;
       width: 100%;
-      margin-bottom: 1.7rem;
+      margin-bottom: 1.5rem;
       padding: 1rem 0;
       color: white;
-      font-size: 1.7rem; }
+      font-size: 1.5rem; }
+    main .login-content .login-button {
+      background-color: #444;
+      color: #f1f6ff;
+      padding: .8rem 2rem;
+      font-size: 1.3rem;
+      font-weight: bold;
+      border-radius: .5rem;
+      border: 0; }
+      main .login-content .login-button:hover {
+        cursor: pointer; }
   main .profile-content {
     width: 85%;
     display: flex;
@@ -342,8 +387,8 @@ main {
     text-align: center; }
     main .profile-content .profile-list {
       background-color: rgba(241, 246, 255, 0.4);
-      width: 85%;
-      padding: 1.7rem;
+      width: 70%;
+      padding: 1.5rem;
       width: 25%;
       height: 30rem;
       margin-right: 3rem;
@@ -373,8 +418,8 @@ main {
             color: #f1f6ff; }
     main .profile-content .list-content {
       background-color: rgba(241, 246, 255, 0.4);
-      width: 85%;
-      padding: 1.7rem;
+      width: 70%;
+      padding: 1.5rem;
       width: 60%;
       min-height: 30rem; }
       main .profile-content .list-content .thread {
@@ -393,6 +438,7 @@ main {
           height: 4.2rem;
           border-radius: 2.5rem; }
         main .profile-content .list-content .thread .info {
+          width: 100%;
           color: #444;
           font-weight: bold;
           display: flex;
@@ -413,7 +459,11 @@ main {
               color: #bed5ff; }
           main .profile-content .list-content .thread .info .thread-footer {
             color: #f1f6ff;
-            font-size: .9rem; }
+            font-size: .9rem;
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between; }
             main .profile-content .list-content .thread .info .thread-footer span {
               margin-right: .7rem; }
       main .profile-content .list-content .forums-set-area,
@@ -627,7 +677,7 @@ main {
         main .profile-content .list-content .show-users .user-item {
           display: flex;
           flex-flow: row nowrap;
-          justify-content: center;
+          justify-content: space-between;
           align-items: center;
           padding: .3rem;
           margin-bottom: 1rem; }
@@ -637,16 +687,17 @@ main {
             border-radius: 2.5rem; }
           main .profile-content .list-content .show-users .user-item .info {
             line-height: 2rem;
-            border-left: 1px dotted #444;
-            border-right: 1px dotted #444;
             margin: 0 1rem; }
             main .profile-content .list-content .show-users .user-item .info span {
               margin: .5rem; }
           main .profile-content .list-content .show-users .user-item .setting {
             word-break: keep-all; }
             main .profile-content .list-content .show-users .user-item .setting span:hover {
-              cursor: pointer;
-              color: #f52323; }
+              cursor: pointer; }
+              main .profile-content .list-content .show-users .user-item .setting span:hover:nth-child(1) {
+                color: greenyellow; }
+              main .profile-content .list-content .show-users .user-item .setting span:hover:nth-child(2) {
+                color: #ee5c49; }
 
 .tag-field {
   font-size: .7rem;

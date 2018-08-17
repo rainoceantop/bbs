@@ -22,6 +22,7 @@ let uri = window.location.search
 let params = new URLSearchParams(uri)
 let id = params.get('id')
 
+
 //本页面不换class，采用和create一样的样式
 const updateContent = document.querySelector('.create-content')
 
@@ -29,8 +30,12 @@ const updateContent = document.querySelector('.create-content')
 axios.get('../back/model/thread/getThread.php?for=getThreadDetail&id=' + id)
     .then(response => {
         console.log(response.data)
-
         let data = response.data[0][0]
+
+        if (data.head_id != window.user_id) {
+            alert('你不是这个帖子的负责人，无法编辑')
+            window.history.go(-1)
+        }
 
         let is_filed = parseInt(data.is_filed)
 

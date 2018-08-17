@@ -36,7 +36,7 @@ switch($symbol){
         canDeleteUsers($conn, $user_id, $user_rights);
         break;    
     case 'canModifyFT':
-        canDeleteUsers($conn, $user_id, $user_rights);
+        canModifyFT($conn, $user_id, $user_rights);
         break;    
 }
 
